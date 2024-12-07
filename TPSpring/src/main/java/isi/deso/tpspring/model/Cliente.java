@@ -9,6 +9,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 import java.util.ArrayList;
@@ -43,6 +45,7 @@ public class Cliente implements PedidoObserver {
     private String direccion;
     @OneToOne
     private Coordenada coordenadas;
+    @OneToMany(mappedBy = "cliente")
     private ArrayList<Pedido> pedidos;
     @Column(name = "costo_por_hora")
     private boolean activo;
