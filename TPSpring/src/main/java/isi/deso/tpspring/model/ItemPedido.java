@@ -9,6 +9,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
@@ -23,13 +24,16 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "coordenada")
-public class Coordenada {
+@Table(name = "item_pedido")
+public class ItemPedido {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    @Column(name = "lat")
-    private double lat;
-    @Column(name = "lng")
-    private double lng;
+    @Column(name = "cantidad")
+    private int cantidad;
+    @OneToOne
+    private ItemMenu item;
+    @OneToOne
+    private Pedido pedido;
+   
 }

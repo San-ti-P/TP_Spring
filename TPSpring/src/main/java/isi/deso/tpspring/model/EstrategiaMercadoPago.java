@@ -25,12 +25,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Entity
 @Table(name = "estrategia_mercado_pago")
-@SequenceGenerator(name = "est_mp_seq", sequenceName = "est_mp_seq", allocationSize = 1)
-public class EstrategiaMercadoPago implements EstrategiaDePago{
+public class EstrategiaMercadoPago extends EstrategiaDePago{
     
-    @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "est_mp_seq")
-    private int id;
     @Column(name = "alias")
     private String alias;
     private static final double RECARGO = 1.04;

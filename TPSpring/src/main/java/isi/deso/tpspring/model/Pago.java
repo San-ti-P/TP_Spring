@@ -10,9 +10,9 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
-import java.util.ArrayList;
+//import java.util.ArrayList;
 import java.util.Date;
-import java.util.Scanner;
+//import java.util.Scanner;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -22,12 +22,11 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Entity
 @Table(name = "pago")
-@SequenceGenerator(name = "pago_seq", sequenceName = "pago_seq", allocationSize = 1)
 public class Pago {
     
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "pago_seq")
-    private int id; 
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id; 
     @Column(name = "fecha")
     private Date fecha;
     @Column(name = "monto_final")
@@ -39,7 +38,6 @@ public class Pago {
     @JoinColumn(name = "estrategia_de_pago_id")    
     private EstrategiaDePago estrategia;
 
-    public Pago(){ }
     
     public Pago(Date fecha, Pedido pedido, EstrategiaDePago estrategia){
         this.fecha = fecha;
@@ -64,17 +62,17 @@ public class Pago {
     }
 */
 
-    public void setPedido(Pedido pedido) {
-        this.pedido = pedido;
-        this.montoFinal = estrategia.precioFinal(pedido.getPrecio());
-    }
-    
-    public EstrategiaDePago getEstrategia() {
-        return estrategia;
-    }
-
-    public void setEstrategia(EstrategiaDePago estrategia) {
-        this.estrategia = estrategia;
-    }
+//    public void setPedido(Pedido pedido) {
+//        this.pedido = pedido;
+//        this.montoFinal = estrategia.precioFinal(pedido.getPrecio());
+//    }
+//    
+//    public EstrategiaDePago getEstrategia() {
+//        return estrategia;
+//    }
+//
+//    public void setEstrategia(EstrategiaDePago estrategia) {
+//        this.estrategia = estrategia;
+//    }
     
 }

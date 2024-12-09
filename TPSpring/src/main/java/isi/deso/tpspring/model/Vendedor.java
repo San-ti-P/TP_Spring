@@ -5,6 +5,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 import java.util.ArrayList;
@@ -21,11 +23,10 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Entity
 @Table(name = "vendedor")
-@SequenceGenerator(name = "vendedor_seq", sequenceName = "vendedor_seq", allocationSize = 1)
 public class Vendedor {
     final static private double RADIOTIERRA = 6378.0;
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "vendedor_seq")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     @Column(name = "nombre")
     private String nombre;
@@ -33,21 +34,16 @@ public class Vendedor {
     private String direccion;
     @OneToOne
     private Coordenada coordenadas;
-    private TreeSet<ItemMenu> menu;
-    private TreeSet<Pedido> pedidos;
-
-    public Vendedor(){
-        menu = new TreeSet<ItemMenu>();
-        pedidos = new TreeSet<Pedido>();
-    }
+    @OneToMany(mappedBy = "vendedor")
+    private TreeSet<ItemMenu> menu = new TreeSet<>();
+    @OneToMany(mappedBy = "vendedor")
+    private TreeSet<Pedido> pedidos = new TreeSet<>();
 
     public Vendedor(int id, String nombre, String direccion, Coordenada coordenadas) {
         this.id = id;
         this.nombre = nombre;
         this.direccion = direccion;
         this.coordenadas = coordenadas;
-        menu = new TreeSet<ItemMenu>();
-        pedidos = new TreeSet<Pedido>();
     }
     /*
     public int getId() {
@@ -112,7 +108,7 @@ public class Vendedor {
     
     public ArrayList<Bebida> listaBebidas(){
         Iterator<ItemMenu> i = menu.iterator();
-        ArrayList<Bebida> bebidas = new ArrayList<Bebida>();
+        ArrayList<Bebida> bebidas = new ArrayList<>();
         while(i.hasNext()){
             ItemMenu item = i.next();
             if(item.esBebida()){
@@ -124,7 +120,7 @@ public class Vendedor {
     
     public ArrayList<Bebida> listaBebidasSinAlcohol(){
         Iterator<ItemMenu> i = menu.iterator();
-        ArrayList<Bebida> bebidas = new ArrayList<Bebida>();
+        ArrayList<Bebida> bebidas = new ArrayList<>();
         while(i.hasNext()){
             ItemMenu item = i.next();
             if(item.esBebida()){
@@ -139,7 +135,7 @@ public class Vendedor {
     
     public ArrayList<Plato> listaComidas(){
         Iterator<ItemMenu> i = menu.iterator();
-        ArrayList<Plato> platos = new ArrayList<Plato>();
+        ArrayList<Plato> platos = new ArrayList<>();
         while(i.hasNext()){
             ItemMenu item = i.next();
             if(item.esComida()){
@@ -151,7 +147,7 @@ public class Vendedor {
     
     public ArrayList<Plato> listaComidasVeganas(){
         Iterator<ItemMenu> i = menu.iterator();
-        ArrayList<Plato> platos = new ArrayList<Plato>();
+        ArrayList<Plato> platos = new ArrayList<>();
         while(i.hasNext()){
             ItemMenu item = i.next();
             if(item.esComida()){
@@ -165,7 +161,7 @@ public class Vendedor {
     }
     public ArrayList<Pedido> pedidosPorEstado(EstadoPedido estado){
         Iterator<Pedido> i = pedidos.iterator();
-        ArrayList<Pedido> subPedidos = new ArrayList<Pedido>();
+        ArrayList<Pedido> subPedidos = new ArrayList<>();
         while(i.hasNext()){
             Pedido p = i.next();
             if (p.getEstado() == estado){
@@ -175,10 +171,10 @@ public class Vendedor {
         return subPedidos;
     }
     
-    @Override
-    public String toString() {
-        return this.nombre;
-    }
+//    @Override
+//    public String toString() {
+//        return this.nombre;
+//    }
 /*
     public boolean equals(Object o){
         Vendedor otro = (Vendedor) o;
@@ -188,6 +184,6 @@ public class Vendedor {
             coordenadas.getLat() == otro.getCoordenadas().getLat() &&
             coordenadas.getLng() == otro.getCoordenadas().getLng();
     }
+*/
 }
 
-*/

@@ -25,11 +25,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Entity
 @Table(name = "estrategia_transferencia")
-@SequenceGenerator(name = "est_transf_seq", sequenceName = "est_transf_seq", allocationSize = 1)
-public class EstrategiaTransferencia implements EstrategiaDePago {
-    @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "est_transf_seq")
-    private int id;
+public class EstrategiaTransferencia extends EstrategiaDePago {
+    
     @Column(name = "cuit")
     private String cuit;
     @Column(name = "cbu")

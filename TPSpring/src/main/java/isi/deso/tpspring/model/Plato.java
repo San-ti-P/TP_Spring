@@ -24,9 +24,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Entity
 @Table(name = "item_menu")
-@SequenceGenerator(name = "item_menu_seq", sequenceName = "item_menu_seq", allocationSize = 1)
 
-public class Plato extends ItemMenu implements Comparable<ItemMenu>{
+public class Plato extends ItemMenu{
 
     private static final double FACTOR_ENVASE = 1.1;
     @Column(name = "calorias")
@@ -151,19 +150,15 @@ public class Plato extends ItemMenu implements Comparable<ItemMenu>{
     }
 
     
-    @Override
-    public String toString() {
-        return "[Id=" + id + ", nombre=" + nombre + ']';
-    }
-    
-   /* @Override
-    public int compareTo(ItemMenu item) {
-        return this.id - item.getId();
-    }
-    
+//    @Override
+//    public String toString() {
+//        return "[Id=" + id + ", nombre=" + nombre + ']';
+//    }
+//    
+    /*
     public boolean equals(Object o){
         ItemMenu otro = (ItemMenu) o;
         return id == otro.getId();
     }
-}
 */
+}

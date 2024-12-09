@@ -29,12 +29,11 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Entity
 @Table(name = "cliente")
-@SequenceGenerator(name = "cliente_seq", sequenceName = "cliente_seq", allocationSize = 1)
 public class Cliente implements PedidoObserver {
     
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "cliente_seq")
-    private int id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
     @Column(name = "nombre")
     private String nombre;
     @Column(name = "cuit")
@@ -61,7 +60,7 @@ public class Cliente implements PedidoObserver {
         this.email = email;
         this.direccion = direccion;
         this.coordenadas = coordenadas;
-        this.pedidos = new ArrayList<Pedido>();
+        this.pedidos = new ArrayList<>();
         this.activo = true;
     }
 
@@ -170,14 +169,14 @@ public class Cliente implements PedidoObserver {
                 return; 
             }
             Pago pago = new Pago(new Date(), p, e);
-            (new PagoSQL()).agregarPago(pago, entradaMetodoPago);
+            //(new PagoSQL()).agregarPago(pago, entradaMetodoPago);
             p.setPago(pago);
         }
     }
-    @Override
-    public String toString() {
-        return this.nombre;
-    }
+//    @Override
+//    public String toString() {
+//        return this.nombre;
+//    }
 
 //    @Override
 //    public boolean equals(Object o){

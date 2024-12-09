@@ -7,11 +7,14 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Scanner;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -22,15 +25,15 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Entity
 @Table(name = "pedido")
-@SequenceGenerator(name = "pedido_seq", sequenceName = "pedido_seq", allocationSize = 1)
 public class Pedido implements Observable, Comparable<Pedido> {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "pedido_seq")
-    private int id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
     @ManyToOne
     @JoinColumn(name = "cliente_id")
     private Cliente cliente;
+    @OneToMany(mappedBy = "pedido")
     private ArrayList<ItemPedido> items;
     @ManyToOne
     @JoinColumn(name = "vendedor_id")
@@ -148,14 +151,15 @@ public class Pedido implements Observable, Comparable<Pedido> {
             i.next().update(this); 
         }
     }
-   /* 
+    
     @Override
     public int compareTo(Pedido p) {
         return this.id - p.getId();
     }
-    
+    /*
     @Override
     public boolean equals(Object o){
         Pedido otro = (Pedido) o;
         return id == otro.getId();
     }*/
+}

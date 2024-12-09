@@ -21,7 +21,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Entity
 @Table(name = "bebida")
-public class Bebida extends ItemMenu implements Comparable<ItemMenu>{
+public class Bebida extends ItemMenu{
     private static final double FACTOR_ALCOHOLICA = 0.99;
     private static final double FACTOR_ANALCOHOLICA = 1.04;
     private static final double FACTOR_ENVASE = 1.2;
@@ -142,15 +142,11 @@ public class Bebida extends ItemMenu implements Comparable<ItemMenu>{
             return false;
         }
     }
-    @Override
-    public int compareTo(ItemMenu item) {
-        return this.id - item.getId();
-    }
     
-    @Override
-    public String toString() {
-        return "[Id=" + id + ", nombre=" + nombre + ']';
-    }
+//    @Override
+//    public String toString() {
+//        return "[Id=" + id + ", nombre=" + nombre + ']';
+//    }
     
 //    public boolean equals(Object o){
 //        ItemMenu otro = (ItemMenu) o;

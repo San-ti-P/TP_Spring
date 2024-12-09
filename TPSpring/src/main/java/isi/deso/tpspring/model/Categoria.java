@@ -25,14 +25,12 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Entity
 @Table(name = "categoria")
-@SequenceGenerator(name = "categoria_seq", sequenceName = "categoria_seq", allocationSize = 1)
 public class Categoria {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "categoria_seq")
-    private int id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
     @Column(name = "descripcion")
     private String descripcion;
-    @OneToOne(mappedBy = "categoria")
     private TipoItem tipoItem;
     
 //    public Categoria(int id, String desc, TipoItem tipo){
