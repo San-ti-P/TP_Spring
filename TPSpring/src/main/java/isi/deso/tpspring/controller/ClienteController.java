@@ -42,11 +42,9 @@ public class ClienteController {
         coordenadas.setLat(clienteDTO.getLat());
         coordenadas.setLng(clienteDTO.getLng());
 
-        // Establece la relación entre cliente y coordenadas si corresponde
         cliente.setCoordenadas(coordenadas);
-
-        // Guarda las entidades en la base de datos
         servicio.saveCliente(cliente);
+
         return "redirect:/clientes";
     }
     

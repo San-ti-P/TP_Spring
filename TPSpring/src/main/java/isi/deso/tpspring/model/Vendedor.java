@@ -10,6 +10,7 @@ import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 import java.util.TreeSet;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -31,10 +32,20 @@ public class Vendedor {
     private String direccion;
     @OneToOne
     private Coordenada coordenadas;
+
+
+//    @OneToMany(mappedBy = "vendedor")
+//    private TreeSet<ItemMenu> menu = new TreeSet<>();
+//    @OneToMany(mappedBy = "vendedor")
+//    private TreeSet<Pedido> pedidos = new TreeSet<>();
+
     @OneToMany(mappedBy = "vendedor")
-    private TreeSet<ItemMenu> menu = new TreeSet<>();
+    private List<ItemMenu> menu = new ArrayList<>();
+
     @OneToMany(mappedBy = "vendedor")
-    private TreeSet<Pedido> pedidos = new TreeSet<>();
+    private List<Pedido> pedidos = new ArrayList<>();
+
+
 
     public Vendedor(int id, String nombre, String direccion, Coordenada coordenadas) {
         this.id = id;
@@ -183,4 +194,3 @@ public class Vendedor {
     }
 */
 }
-

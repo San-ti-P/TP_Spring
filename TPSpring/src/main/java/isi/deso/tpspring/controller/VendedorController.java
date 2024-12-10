@@ -1,13 +1,16 @@
 package isi.deso.tpspring.controller;
 
+import isi.deso.tpspring.dto.VendedorDTO;
+import isi.deso.tpspring.model.Coordenada;
 import isi.deso.tpspring.model.Vendedor;
 import isi.deso.tpspring.service.VendedorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-@RestController
+@Controller
 public class VendedorController {
 
     @Autowired
@@ -20,7 +23,18 @@ public class VendedorController {
     }
 
     @PostMapping("/vendedores")
-    public String saveVendedor(@ModelAttribute("vendedor") Vendedor vendedor){
+    public String saveVendedor(@ModelAttribute("vendedor") VendedorDTO vendedorDTO){
+
+        Vendedor vendedor = new Vendedor();
+        vendedor.setNombre(vendedorDTO.getNombre());
+        vendedor.setDireccion(vendedorDTO.getDireccion());
+
+        Coordenada coordenadas = new Coordenada();
+        coordenadas.setLat(vendedorDTO.getLat());
+        coordenadas.setLng(vendedorDTO.getLng());
+
+        vendedor.setCoordenadas(coordenadas);
+
         servicio.saveVendedor(vendedor);
         return "redirect:/vendedores";
     }
@@ -44,5 +58,13 @@ public class VendedorController {
             return ResponseEntity.notFound().build();
         }
         return ResponseEntity.ok(v);
+    }
+
+    @GetMapping("/vendedores/nuevo")
+    public String newClienteForm(Model modelo){
+        VendedorDTO vendedorDTO = new VendedorDTO();
+        modelo.addAttribute("vendedorDTO", vendedorDTO);
+        //modelo.addAttribute("coordenadas", coordenadas);
+        return "nuevo_vendedor_form";
     }
 }

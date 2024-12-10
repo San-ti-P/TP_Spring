@@ -7,11 +7,11 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class ClienteDTO {
+
+public class VendedorDTO {
     private String nombre;
+    private String apellido;
     private String direccion;
-    private String cuit;
-    private String email;
     private Double lat;
     private Double lng;
 }
