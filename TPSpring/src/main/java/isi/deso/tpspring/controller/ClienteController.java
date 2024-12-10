@@ -4,9 +4,12 @@
  */
 package isi.deso.tpspring.controller;
 
+import isi.deso.tpspring.dto.ClienteDTO;
 import isi.deso.tpspring.model.Cliente;
+import isi.deso.tpspring.model.Coordenada;
 import isi.deso.tpspring.service.ClienteService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,7 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
  *
  * @author santi
  */
-@RestController
+@Controller
 public class ClienteController {
     @Autowired
     private ClienteService servicio;
@@ -32,7 +35,21 @@ public class ClienteController {
     }
     
     @PostMapping("/clientes")
-    public String saveCliente(@ModelAttribute("cliente") Cliente cliente){
+    public String saveCliente(@ModelAttribute("cliente") ClienteDTO clienteDTO){
+        Cliente cliente = new Cliente();
+        cliente.setNombre(clienteDTO.getNombre());
+        cliente.setDireccion(clienteDTO.getDireccion());
+        cliente.setCuit(clienteDTO.getCuit());
+        cliente.setEmail(clienteDTO.getEmail());
+
+        Coordenada coordenadas = new Coordenada();
+        coordenadas.setLat(clienteDTO.getLat());
+        coordenadas.setLng(clienteDTO.getLng());
+
+        // Establece la relación entre cliente y coordenadas si corresponde
+        cliente.setCoordenadas(coordenadas);
+
+        // Guarda las entidades en la base de datos
         servicio.saveCliente(cliente);
         return "redirect:/clientes";
     }
@@ -47,5 +64,14 @@ public class ClienteController {
     public String deleteCliente(@PathVariable Integer id){
         servicio.deleteCliente(id);
         return "redirect:/clientes";
+    }
+    
+    //Obtención de formularios
+    @GetMapping("/clientes/nuevo")
+    public String newClienteForm(Model modelo){
+        ClienteDTO clienteDTO = new ClienteDTO();
+        modelo.addAttribute("clienteDTO", clienteDTO);
+        //modelo.addAttribute("coordenadas", coordenadas);
+        return "nuevo_cliente_form";
     }
 }
