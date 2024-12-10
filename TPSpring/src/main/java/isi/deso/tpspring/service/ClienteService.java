@@ -13,5 +13,7 @@ import java.util.List;
  */
 public interface ClienteService {
     public List<Cliente> listAllClientes();
-    
+    public Cliente saveCliente(Cliente cliente);
+    public Cliente updateCliente(Cliente cliente);
+    public void deleteCliente(Integer id);
 }
