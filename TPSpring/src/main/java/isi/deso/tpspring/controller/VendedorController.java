@@ -52,7 +52,7 @@ public class VendedorController {
     }
 
     @GetMapping("/vendedores/{id}")
-    public ResponseEntity<Vendedor> getByIdVendedor(@PathVariable int id) {
+    public ResponseEntity<Vendedor> getByIdVendedor(@PathVariable Integer id) {
         Vendedor v = servicio.getByIdVendedor(id);
         if (v == null) {
             return ResponseEntity.notFound().build();

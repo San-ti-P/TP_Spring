@@ -71,7 +71,7 @@ public class ClienteController {
     }
     
     @GetMapping("/clientes/{id}")
-    public ResponseEntity<Cliente> getByIdCliente(@PathVariable int id) {
+    public ResponseEntity<Cliente> getByIdCliente(@PathVariable Integer id) {
         Cliente c = servicio.getByIdCliente(id);
         if (c == null) {
             return ResponseEntity.notFound().build();
