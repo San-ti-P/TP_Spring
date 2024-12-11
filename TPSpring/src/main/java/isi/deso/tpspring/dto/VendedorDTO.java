@@ -10,7 +10,6 @@ import lombok.NoArgsConstructor;
 
 public class VendedorDTO {
     private String nombre;
-    private String apellido;
     private String direccion;
     private Double lat;
     private Double lng;

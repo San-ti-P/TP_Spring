@@ -10,7 +10,8 @@
 <div th:replace="navbar :: navbar"></div>
 <div class="container">
     <div>
-        <h3>Listado de Vendedores</h3>
+        <br>
+        <h3 class="text-center">Listado de Vendedores</h3>
     </div>
     <div class="row">
         <div class="col-lg-3">
@@ -30,6 +31,7 @@
         </thead>
         <tbody>
         <tr th:each="vendedor : ${vendedores}">
+<!--            paso vendedores desde el controlador-->
             <td th:text="${vendedor.id}"></td>
             <td th:text="${vendedor.nombre}"></td>
             <td th:text="${vendedor.direccion}"></td>
@@ -37,7 +39,7 @@
                 <a th:href="@{/vendedor/{id}/menu(id=${vendedor.id})}" class="btn btn-info">Menu</a>
             </td>
             <td>
-                <a th:href="@{/vendedores/{id}/editar(id=${vendedor.id})}" class="btn btn-info">Editar</a>
+                <a th:href="@{/vendedores/editar/{id}(id=${vendedor.id})}" class="btn btn-info">Editar</a>
                 <a th:href="@{/vendedores/{id}(id=${vendedor.id})}" class="btn btn-danger">Eliminar</a>
             </td>
         </tr>
