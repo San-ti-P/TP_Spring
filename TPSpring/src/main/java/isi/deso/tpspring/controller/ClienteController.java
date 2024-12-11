@@ -48,9 +48,20 @@ public class ClienteController {
         return "redirect:/clientes";
     }
     
-    @PutMapping("/clientes")
-    public String updateCliente(@ModelAttribute("cliente") Cliente cliente){
-        servicio.updateCliente(cliente);
+    @PutMapping("/clientes/{id}")
+    public String updateCliente(@PathVariable Integer id, @ModelAttribute("cliente") Cliente cliente, Model modelo){
+        Cliente c_existente = servicio.getByIdCliente(id);
+        c_existente.setId(id);
+        c_existente.setNombre(cliente.getNombre());
+        c_existente.setDireccion(cliente.getDireccion());
+
+        Coordenada coordenadas = c_existente.getCoordenadas();
+        coordenadas.setLat(cliente.getCoordenadas().getLat());
+        coordenadas.setLng(cliente.getCoordenadas().getLng());
+
+        c_existente.setCoordenadas(coordenadas);
+
+        servicio.updateCliente(c_existente);
         return "redirect:/clientes";
     }
     
