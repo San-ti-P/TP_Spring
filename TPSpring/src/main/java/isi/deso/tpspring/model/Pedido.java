@@ -1,15 +1,7 @@
 package isi.deso.tpspring.model;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.OneToOne;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
+
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -39,9 +31,13 @@ public class Pedido implements Observable, Comparable<Pedido> {
     @JoinColumn(name = "pago_id")
     private Pago pago;
     //Que onda como seria la union con un enun averiguar
+    @Enumerated(EnumType.STRING)
+    @Column(name = "estado")
     private EstadoPedido estado;
+    
     @Column(name = "precio")
     private double precio = 0;
+    
     //REVISAR ESTO
     private ArrayList<PedidoObserver> observadores = new ArrayList<>();
 

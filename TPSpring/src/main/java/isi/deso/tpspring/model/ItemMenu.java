@@ -32,7 +32,7 @@ public abstract class ItemMenu implements Comparable<ItemMenu>{
     protected String descripcion;
     @Column(name = "precio")
     protected float precio;
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "categoria_id")
     protected Categoria categoria;
     @Column(name = "apto_vegano")
