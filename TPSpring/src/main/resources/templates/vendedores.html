@@ -13,30 +13,37 @@
         <br>
         <h3 class="text-center">Listado de Vendedores</h3>
     </div>
-    <div class="row">
+
+    <div class="row align-items-center mb-3">
         <div class="col-lg-3">
-            <a th:href="@{/vendedores/nuevo}" class="btn btn-primary btn-sm mb3">Agregar Vendedor</a>
+            <a th:href="@{/vendedores/nuevo}" class="btn btn-primary btn-sm">Agregar Vendedor</a>
+        </div>
+        <div class="col-lg-9 text-end">
+            <form class="form-inline d-inline-flex" onsubmit="return false;">
+                <label for="palabraClave" class="me-2"></label>
+                <input type="text" name="palabraClave" class="form-control" id="palabraClave"
+                       placeholder="Buscador" oninput="filtrarTabla()">
+            </form>
         </div>
     </div>
-    <br>
+
     <table class="table table-striped">
         <thead>
         <tr>
             <th>ID</th>
             <th>Nombre</th>
             <th>Dirección</th>
-            <th>Menu</th>
+            <th>Menú</th>
             <th>Acciones</th>
         </tr>
         </thead>
-        <tbody>
+        <tbody id="tablaVendedores">
         <tr th:each="vendedor : ${vendedores}">
-<!--            paso vendedores desde el controlador-->
             <td th:text="${vendedor.id}"></td>
             <td th:text="${vendedor.nombre}"></td>
             <td th:text="${vendedor.direccion}"></td>
             <td>
-                <a th:href="@{/vendedor/{id}/menu(id=${vendedor.id})}" class="btn btn-info">Menu</a>
+                <a th:href="@{/vendedor/{id}/menu(id=${vendedor.id})}" class="btn btn-info">Menú</a>
             </td>
             <td>
                 <a th:href="@{/vendedores/editar/{id}(id=${vendedor.id})}" class="btn btn-info">Editar</a>
@@ -46,5 +53,37 @@
         </tbody>
     </table>
 </div>
+
+<script>
+    /**
+     * Filtra la tabla de vendedores en tiempo real según el valor ingresado en el campo de búsqueda.
+     */
+    function filtrarTabla() {
+        // Obtiene el valor del buscador y lo convierte a minúsculas para comparación.
+        const inputBusqueda = document.getElementById('palabraClave').value.toLowerCase();
+        // Obtiene la tabla y sus filas.
+        const tabla = document.getElementById('tablaVendedores');
+        const filas = tabla.getElementsByTagName('tr');
+
+        // Itera sobre las filas de la tabla para filtrar los resultados.
+        for (let i = 0; i < filas.length; i++) {
+            const celdas = filas[i].getElementsByTagName('td');
+            let textoFila = "";
+
+            // Concatena el texto de todas las celdas en una sola cadena para facilitar la búsqueda.
+            for (let j = 0; j < celdas.length; j++) {
+                textoFila += celdas[j].textContent.toLowerCase();
+            }
+
+            // Muestra u oculta la fila según si contiene el texto buscado.
+            if (textoFila.includes(inputBusqueda)) {
+                filas[i].style.display = "";
+            } else {
+                filas[i].style.display = "none";
+            }
+        }
+    }
+</script>
+
 </body>
 </html>

@@ -50,18 +50,6 @@ public class VendedorController {
         return "editar_vendedor";
     }
 
-//    @PostMapping("/vendedores/{id}")
-//    public String updateVendedor(@PathVariable Integer id, @ModelAttribute("vendedor") Vendedor vendedor, Model modelo)  {
-//        Vendedor v_existente = servicio.getByIdVendedor(id);
-//        v_existente.setId(id);
-//        v_existente.setNombre(vendedor.getNombre());
-//        v_existente.setDireccion(vendedor.getDireccion());
-//        v_existente.setCoordenadas(new Coordenada(id_coordenada_actual, vendedor.getCoordenadas().getLat(), vendedor.getCoordenadas().getLng()));
-//
-//        servicio.updateVendedor(v_existente);
-//        return "redirect:/vendedores";
-//    }
-
     @PostMapping("/vendedores/{id}")
     public String updateVendedor(@PathVariable Integer id, @ModelAttribute("vendedor") Vendedor vendedor, Model modelo) {
         Vendedor v_existente = servicio.getByIdVendedor(id);

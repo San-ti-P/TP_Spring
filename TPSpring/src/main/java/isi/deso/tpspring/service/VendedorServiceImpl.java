@@ -18,6 +18,7 @@ public class VendedorServiceImpl implements VendedorService{
     @Autowired
     private CoordenadaRepository coordenadaRepositorio;
 
+
     @Override
     public List<Vendedor> getAllVendedores() {
         return repositorio.findAll();
