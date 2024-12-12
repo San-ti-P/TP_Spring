@@ -27,4 +27,9 @@ public class ItemPedidoServiceImpl implements ItemPedidoService{
     public List<ItemPedido> getItemsByVendedor(Integer vendedorId) {
         return repositorio.findByVendedorId(vendedorId);
     }
+
+    @Override
+    public ItemPedido getItemById(Integer id) {
+        return repositorio.findById(id).orElse(null);
+    }
 }
