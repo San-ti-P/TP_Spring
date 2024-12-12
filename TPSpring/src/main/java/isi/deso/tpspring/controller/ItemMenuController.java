@@ -37,6 +37,8 @@ public class ItemMenuController {
     public String newItemMenuForm(Model model) {
         ItemMenuDTO itemMenuDTO = new ItemMenuDTO();
         model.addAttribute("itemMenu", itemMenuDTO);
+        model.addAttribute("categorias", categoriaService.getAllCategorias());
+        model.addAttribute("vendedores", vendedorService.getAllVendedores());
         return "nuevo_itemMenu_form";
     }
 
@@ -62,12 +64,8 @@ public class ItemMenuController {
         itemMenu.setDescripcion(itemMenuDTO.getDescripcion());
         itemMenu.setPrecio(itemMenuDTO.getPrecio());
         itemMenu.setAptoVegano(itemMenuDTO.isAptoVegano());
-
-        Categoria categoria = categoriaService.getCategoriaById(itemMenuDTO.getCategoriaId());
-        itemMenu.setCategoria(categoria);
-
-        Vendedor vendedor = vendedorService.getByIdVendedor(itemMenuDTO.getVendedorId());
-        itemMenu.setVendedor(vendedor);
+        itemMenu.setCategoria(categoriaService.getCategoriaById(itemMenuDTO.getCategoriaId()));
+        itemMenu.setVendedor(vendedorService.getByIdVendedor(itemMenuDTO.getVendedorId()));
 
         itemMenuService.createItemMenu(itemMenu);
         return "redirect:/items-menu";
@@ -79,33 +77,55 @@ public class ItemMenuController {
         if (itemMenu == null) {
             return "redirect:/items-menu";
         }
-        model.addAttribute("itemMenu", itemMenu);
-        return "editar_itemMenu_form";
+        ItemMenuDTO itemMenuDTO = new ItemMenuDTO();
+        itemMenuDTO.setId(itemMenu.getId());
+        itemMenuDTO.setNombre(itemMenu.getNombre());
+        itemMenuDTO.setDescripcion(itemMenu.getDescripcion());
+        itemMenuDTO.setPrecio(itemMenu.getPrecio());
+        itemMenuDTO.setAptoVegano(itemMenu.isAptoVegano());
+        itemMenuDTO.setCategoriaId(itemMenu.getCategoria().getId());
+        itemMenuDTO.setVendedorId(itemMenu.getVendedor().getId());
+        if (itemMenu instanceof Plato) {
+            Plato plato = (Plato) itemMenu;
+            itemMenuDTO.setTipo(TipoItem.PLATO);
+            itemMenuDTO.setCalorias(plato.getCalorias());
+            itemMenuDTO.setAptoCeliaco(plato.isAptoCeliaco());
+            itemMenuDTO.setPeso(plato.getPeso());
+        } else if (itemMenu instanceof Bebida) {
+            Bebida bebida = (Bebida) itemMenu;
+            itemMenuDTO.setTipo(TipoItem.BEBIDA);
+            itemMenuDTO.setGraduacionAlcoholica(bebida.getGraduacionAlcoholica());
+            itemMenuDTO.setTamanio(bebida.getTamanio());
+        }
+        model.addAttribute("itemMenu", itemMenuDTO);
+        model.addAttribute("categorias", categoriaService.getAllCategorias());
+        model.addAttribute("vendedores", vendedorService.getAllVendedores());
+        return "editar_itemMenu";
     }
 
     @PostMapping("/items-menu/{id}")
-    public String updateItemMenu(@PathVariable Integer id, @ModelAttribute("itemMenu") ItemMenu itemMenu) {
+    public String updateItemMenu(@PathVariable Integer id, @ModelAttribute("itemMenuDTO") ItemMenuDTO itemMenuDTO, Model model) {
         ItemMenu existingItemMenu = itemMenuService.getItemMenuById(id);
         if (existingItemMenu == null) {
             return "redirect:/items-menu";
         }
 
-        existingItemMenu.setNombre(itemMenu.getNombre());
-        existingItemMenu.setDescripcion(itemMenu.getDescripcion());
-        existingItemMenu.setPrecio(itemMenu.getPrecio());
-        existingItemMenu.setAptoVegano(itemMenu.isAptoVegano());
-        existingItemMenu.setCategoria(itemMenu.getCategoria());
-        existingItemMenu.setVendedor(itemMenu.getVendedor());
+        existingItemMenu.setNombre(itemMenuDTO.getNombre());
+        existingItemMenu.setDescripcion(itemMenuDTO.getDescripcion());
+        existingItemMenu.setPrecio(itemMenuDTO.getPrecio());
+        existingItemMenu.setAptoVegano(itemMenuDTO.isAptoVegano());
+        existingItemMenu.setCategoria(categoriaService.getCategoriaById(itemMenuDTO.getCategoriaId()));
+        existingItemMenu.setVendedor(vendedorService.getByIdVendedor(itemMenuDTO.getVendedorId()));
 
-        if (itemMenu instanceof Plato) {
-            Plato plato = (Plato) itemMenu;
-            ((Plato) existingItemMenu).setCalorias(plato.getCalorias());
-            ((Plato) existingItemMenu).setAptoCeliaco(plato.isAptoCeliaco());
-            ((Plato) existingItemMenu).setPeso(plato.getPeso());
-        } else if (itemMenu instanceof Bebida) {
-            Bebida bebida = (Bebida) itemMenu;
-            ((Bebida) existingItemMenu).setGraduacionAlcoholica(bebida.getGraduacionAlcoholica());
-            ((Bebida) existingItemMenu).setTamanio(bebida.getTamanio());
+        if (existingItemMenu instanceof Plato) {
+            Plato plato = (Plato) existingItemMenu;
+            plato.setCalorias(itemMenuDTO.getCalorias());
+            plato.setAptoCeliaco(itemMenuDTO.isAptoCeliaco());
+            plato.setPeso(itemMenuDTO.getPeso());
+        } else if (existingItemMenu instanceof Bebida) {
+            Bebida bebida = (Bebida) existingItemMenu;
+            bebida.setGraduacionAlcoholica(itemMenuDTO.getGraduacionAlcoholica());
+            bebida.setTamanio(itemMenuDTO.getTamanio());
         }
 
         itemMenuService.updateItemMenu(existingItemMenu);
