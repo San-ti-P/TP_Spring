@@ -1,77 +1,67 @@
 package isi.deso.tpspring.controller;
 
 import isi.deso.tpspring.dto.PedidoDTO;
-import isi.deso.tpspring.model.Coordenada;
-import isi.deso.tpspring.model.Cliente;
-import isi.deso.tpspring.model.Vendedor;
-import isi.deso.tpspring.model.Pedido;
+import isi.deso.tpspring.model.*;
+import isi.deso.tpspring.service.ClienteService;
+import isi.deso.tpspring.service.ItemPedidoService;
 import isi.deso.tpspring.service.PedidoService;
+import isi.deso.tpspring.service.VendedorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @Controller
 public class PedidoController {
     @Autowired
-    private PedidoService servicio;
+    private PedidoService pedidoService;
+
+    @Autowired
+    private ClienteService clienteService;
+
+    @Autowired
+    private VendedorService vendedorService;
+
+    @Autowired
+    private ItemPedidoService itemPedidoService;
 
     @GetMapping("/pedidos")
-    public String listPedidos(Model modelo){
-        modelo.addAttribute("pedidos", servicio.getAllPedidos());
+    public String listPedidos(Model modelo) {
+        modelo.addAttribute("pedidos", pedidoService.getAllPedidos());
         return "pedidos";
     }
 
     @GetMapping("/pedidos/nuevo")
-    public String newClienteForm(Model modelo){
+    public String newPedidoForm(@RequestParam(value = "vendedorId", required = false) Integer vendedorId, Model modelo) {
         PedidoDTO pedidoDTO = new PedidoDTO();
+        List<Cliente> clientes = clienteService.getAllClientes();
+        List<Vendedor> vendedores = vendedorService.getAllVendedores();
+        List<ItemMenu> items = vendedorService.getItemsMenuByVendedor(vendedorId);
+
         modelo.addAttribute("pedidoDTO", pedidoDTO);
-        return "nuevo_vendedor_form";
+        modelo.addAttribute("clientes", clientes);
+        modelo.addAttribute("vendedores", vendedores);
+        modelo.addAttribute("items", items);
+        modelo.addAttribute("selectedVendedorId", vendedorId);
+        return "nuevo_pedido_form";
     }
-//
-//    @PostMapping("/vendedores")
-//    public String saveVendedor(@ModelAttribute("vendedorDTO") VendedorDTO vendedorDTO){
-//
-//        Vendedor vendedor = new Vendedor();
-//        vendedor.setNombre(vendedorDTO.getNombre());
-//        vendedor.setDireccion(vendedorDTO.getDireccion());
-//
-//        Coordenada coordenadas = new Coordenada();
-//        coordenadas.setLat(vendedorDTO.getLat());
-//        coordenadas.setLng(vendedorDTO.getLng());
-//        vendedor.setCoordenadas(coordenadas);
-//
-//        servicio.saveVendedor(vendedor);
-//        return "redirect:/vendedores";
-//    }
-//
-//    @GetMapping("/vendedores/editar/{id}")
-//    public String formularioEditar(@PathVariable Integer id, Model modelo) {
-//        modelo.addAttribute("vendedor", servicio.getByIdVendedor(id));
-//        return "editar_vendedor";
-//    }
-//
-//    @PostMapping("/vendedores/{id}")
-//    public String updateVendedor(@PathVariable Integer id, @ModelAttribute("vendedor") Vendedor vendedor, Model modelo) {
-//        Vendedor v_existente = servicio.getByIdVendedor(id);
-//        v_existente.setId(id);
-//        v_existente.setNombre(vendedor.getNombre());
-//        v_existente.setDireccion(vendedor.getDireccion());
-//
-//        Coordenada coordenadas = v_existente.getCoordenadas();
-//        coordenadas.setLat(vendedor.getCoordenadas().getLat());
-//        coordenadas.setLng(vendedor.getCoordenadas().getLng());
-//
-//        v_existente.setCoordenadas(coordenadas);
-//
-//        servicio.updateVendedor(v_existente);
-//        return "redirect:/vendedores";
-//    }
-//
-//    @GetMapping("/vendedores/{id}")
-//    public String deleteVendedor(@PathVariable Integer id) {
-//        servicio.deleteVendedor(id);
-//        return "redirect:/vendedores";
-//    }
+
+    @PostMapping("/pedidos")
+    public String savePedido(@ModelAttribute PedidoDTO pedidoDTO) throws VendedoresDistintosException {
+        Pedido pedido = new Pedido();
+        pedido.setCliente(pedidoDTO.getCliente());
+        pedido.setVendedor(pedidoDTO.getVendedor());
+            if (pedidoDTO.getItems().isEmpty()) {
+                return "redirect:/menu";
+            }
+        pedido.setItems(pedidoDTO.getItems());
+        pedido.setPrecio(pedidoDTO.getItems().stream()
+                .mapToDouble(item -> item.getItem().getPrecio() * item.getCantidad())
+                .sum());
+        pedidoService.savePedido(pedido);
+        return "redirect:/pedidos";
+    }
 
 }

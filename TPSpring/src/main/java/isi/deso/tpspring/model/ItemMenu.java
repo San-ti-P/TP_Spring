@@ -26,17 +26,23 @@ public abstract class ItemMenu implements Comparable<ItemMenu>{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     protected Integer id;
+
     @Column(name = "nombre")
     protected String nombre;
+
     @Column(name = "descripcion")
     protected String descripcion;
+
     @Column(name = "precio")
     protected float precio;
+
     @ManyToOne
     @JoinColumn(name = "categoria_id")
     protected Categoria categoria;
+
     @Column(name = "apto_vegano")
     protected boolean aptoVegano;
+
     @ManyToOne
     @JoinColumn(name = "vendedor_id")
     protected Vendedor vendedor;
@@ -45,7 +51,20 @@ public abstract class ItemMenu implements Comparable<ItemMenu>{
     public abstract boolean esComida();
     public abstract boolean esBebida();
     public abstract boolean aptoVegano();
-    
+
+    @Override
+    public String toString() {
+        return "ItemMenu{" +
+                "id=" + id +
+                ", nombre='" + nombre + '\'' +
+                ", descripcion='" + descripcion + '\'' +
+                ", precio=" + precio +
+                ", categoria=" + categoria.getDescripcion() +
+                ", aptoVegano=" + aptoVegano +
+                ", vendedor=" + vendedor.getNombre() +
+                '}';
+    }
+
     @Override
     public int compareTo(ItemMenu item) {
         return this.id - item.getId();
