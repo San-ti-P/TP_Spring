@@ -14,7 +14,7 @@ public class PagoServiceImpl implements PagoService{
     PagoRepository repositorio;
 
     @Autowired
-    PedidoRepository pedidoRepository;
+    PedidoRepository repositorioPedido;
 
     @Override
     public List<Pago> getAllPagos() {
@@ -31,9 +31,8 @@ public class PagoServiceImpl implements PagoService{
         Pedido pedido = p.getPedido();
 
         if (pedido != null) {
-            pedidoRepository.save(pedido);
+            repositorioPedido.save(pedido);
         }
-
         return repositorio.save(p);
     }
 
@@ -42,7 +41,7 @@ public class PagoServiceImpl implements PagoService{
         Pedido pedido = p.getPedido();
 
         if (pedido != null) {
-            pedidoRepository.save(pedido);
+            repositorioPedido.save(pedido);
         }
         return repositorio.save(p);
     }
