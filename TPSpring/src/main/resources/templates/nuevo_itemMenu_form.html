@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Crear Item del Menú</title>
@@ -35,12 +34,40 @@
                             <input type="checkbox" name="aptoVegano" th:field="*{aptoVegano}" class="form-check-input">
                         </div>
                         <div class="form-group">
-                            <label>Categoría:</label>
-                            <input type="text" name="categoriaId" th:field="*{categoriaId}" class="form-control" required>
+                            <label>Categoría ID:</label>
+                            <input type="number" name="categoriaId" th:field="*{categoriaId}" class="form-control" required>
                         </div>
                         <div class="form-group">
-                            <label>Vendedor:</label>
-                            <input type="text" name="vendedorId" th:field="*{vendedorId}" class="form-control" required>
+                            <label>Vendedor ID:</label>
+                            <input type="number" name="vendedorId" th:field="*{vendedorId}" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Tipo de Item:</label>
+                            <select name="tipo" th:field="*{tipo}" class="form-control" required>
+                                <option value="" disabled selected>Seleccione el tipo</option>
+                                <option th:value="PLATO">Plato</option>
+                                <option th:value="BEBIDA">Bebida</option>
+                            </select>
+                        </div>
+                        <div class="form-group" th:if="${itemMenu.tipo == 'PLATO'}">
+                            <label>Calorías:</label>
+                            <input type="number" name="calorias" th:field="*{calorias}" class="form-control">
+                        </div>
+                        <div class="form-group" th:if="${itemMenu.tipo == 'PLATO'}">
+                            <label>Apto Celíaco:</label>
+                            <input type="checkbox" name="aptoCeliaco" th:field="*{aptoCeliaco}" class="form-check-input">
+                        </div>
+                        <div class="form-group" th:if="${itemMenu.tipo == 'PLATO'}">
+                            <label>Peso:</label>
+                            <input type="number" step="0.01" name="peso" th:field="*{peso}" class="form-control">
+                        </div>
+                        <div class="form-group" th:if="${itemMenu.tipo == 'BEBIDA'}">
+                            <label>Graduación Alcohólica:</label>
+                            <input type="number" step="0.01" name="graduacionAlcoholica" th:field="*{graduacionAlcoholica}" class="form-control">
+                        </div>
+                        <div class="form-group" th:if="${itemMenu.tipo == 'BEBIDA'}">
+                            <label>Tamaño:</label>
+                            <input type="number" name="tamanio" th:field="*{tamanio}" class="form-control">
                         </div>
                         <br>
                         <div class="box-footer d-flex justify-content-end">

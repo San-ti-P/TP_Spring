@@ -7,7 +7,9 @@ import isi.deso.tpspring.model.ItemMenu;
 import isi.deso.tpspring.model.Plato;
 import isi.deso.tpspring.model.TipoItem;
 import isi.deso.tpspring.model.Vendedor;
+import isi.deso.tpspring.service.CategoriaService;
 import isi.deso.tpspring.service.ItemMenuService;
+import isi.deso.tpspring.service.VendedorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,6 +20,12 @@ public class ItemMenuController {
 
     @Autowired
     private ItemMenuService itemMenuService;
+
+    @Autowired
+    private CategoriaService categoriaService;
+
+    @Autowired
+    private VendedorService vendedorService;
 
     @GetMapping("/items-menu")
     public String listItemsMenu(Model model) {
@@ -55,12 +63,10 @@ public class ItemMenuController {
         itemMenu.setPrecio(itemMenuDTO.getPrecio());
         itemMenu.setAptoVegano(itemMenuDTO.isAptoVegano());
 
-        Categoria categoria = new Categoria();
-        categoria.setId(itemMenuDTO.getCategoriaId());
+        Categoria categoria = categoriaService.getCategoriaById(itemMenuDTO.getCategoriaId());
         itemMenu.setCategoria(categoria);
 
-        Vendedor vendedor = new Vendedor();
-        vendedor.setId(itemMenuDTO.getVendedorId());
+        Vendedor vendedor = vendedorService.getByIdVendedor(itemMenuDTO.getVendedorId());
         itemMenu.setVendedor(vendedor);
 
         itemMenuService.createItemMenu(itemMenu);
