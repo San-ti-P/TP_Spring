@@ -61,4 +61,28 @@ public class PedidoServiceImpl implements PedidoService{
     public void deletePedido(Integer id) {
         repositorio.deleteById(id);
     }
+
+
+//    @Override
+//    public Pedido savePedido(Pedido p) {
+//        double subtotal = p.getItems().stream()
+//                .mapToDouble(item -> item.getItem().getPrecio() * item.getCantidad())
+//                .sum();
+//        double precioFinal = subtotal + p.getPago().getEstrategiaDePago().precioFinal(subtotal);
+//        p.setPrecio(precioFinal);
+//
+//        return repositorio.save(p);
+//    }
+//
+//    @Override
+//    public Pedido updatePedido(Pedido p) {
+//        double subtotal = p.getItems().stream()
+//                .mapToDouble(item -> item.getItem().getPrecio() * item.getCantidad())
+//                .sum();
+//        double precioFinal = subtotal + p.getPago().getEstrategiaDePago().precioFinal(subtotal);
+//        p.setPrecio(precioFinal);
+//
+//        return repositorio.save(p);
+//    }
+
 }

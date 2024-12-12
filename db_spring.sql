@@ -374,27 +374,27 @@ INSERT INTO estrategia_transferencia (id, cbu, cuit) VALUES
 
 
 -- Insert Data for Pedidos without pago_id
-INSERT INTO pedido (id, cliente_id, vendedor_id, precio, estado, observadores) VALUES 
-(1, 1, 1, 3200.00, 'EN_PREPARACION', NULL), -- Roberto Sánchez, El Buen Sabor
-(2, 2, 2, 2700.00, 'ENTREGADO', NULL), -- Laura Díaz, Sabor a Hogar
-(3, 3, 3, 2050.00, 'RECIBIDO', NULL), -- Miguel Ruiz, Delicias del Chef
-(4, 4, 4, 3450.00, 'EN_PREPARACION', NULL), -- Sofía López, La Cocina de Abuela
-(5, 5, 5, 3000.00, 'ENTREGADO', NULL), -- Diego Morales, Sabores del Mundo
-(6, 6, 6, 2500.00, 'RECIBIDO', NULL), -- Elena Pérez, El Rincón Gourmet
-(7, 7, 7, 2800.00, 'EN_PREPARACION', NULL), -- Fernando García, Fusión de Sabores
-(8, 8, 8, 3100.00, 'ENTREGADO', NULL), -- Patricia Torres, La Esquina del Sabor
-(9, 9, 9, 2900.00, 'RECIBIDO', NULL), -- Andrés Gómez, El Sabor de Casa
-(10, 10, 10, 3300.00, 'EN_PREPARACION', NULL), -- Claudia Fernández, Gusto y Tradición
-(11, 11, 1, 1500.00, 'RECIBIDO', NULL), -- María González, El Buen Sabor
-(12, 12, 2, 1800.00, 'EN_PREPARACION', NULL), -- Juan Pérez, Sabor a Hogar
-(13, 13, 3, 2200.00, 'ENTREGADO', NULL), -- Ana Rodríguez, Delicias del Chef
-(14, 14, 4, 2600.00, 'RECIBIDO', NULL), -- Carlos Fernández, La Cocina de Abuela
-(15, 15, 5, 2400.00, 'EN_PREPARACION', NULL), -- Lucía Martínez, Sabores del Mundo
-(16, 16, 6, 2000.00, 'ENTREGADO', NULL), -- Pedro Sánchez, El Rincón Gourmet
-(17, 17, 7, 2700.00, 'RECIBIDO', NULL), -- Laura Gómez, Fusión de Sabores
-(18, 18, 8, 3100.00, 'EN_PREPARACION', NULL), -- Jorge Díaz, La Esquina del Sabor
-(19, 19, 9, 2900.00, 'ENTREGADO', NULL), -- Sofía Sanchez, El Sabor de Casa
-(20, 20, 10, 3300.00, 'RECIBIDO', NULL); -- Diego Rios, Gusto y Tradición
+INSERT INTO pedido (id, cliente_id, vendedor_id, precio, estado) VALUES 
+(1, 1, 1, 3200.00, 'EN_PREPARACION'), -- Roberto Sánchez, El Buen Sabor
+(2, 2, 2, 2700.00, 'ENTREGADO'), -- Laura Díaz, Sabor a Hogar
+(3, 3, 3, 2050.00, 'RECIBIDO'), -- Miguel Ruiz, Delicias del Chef
+(4, 4, 4, 3450.00, 'EN_PREPARACION'), -- Sofía López, La Cocina de Abuela
+(5, 5, 5, 3000.00, 'ENTREGADO'), -- Diego Morales, Sabores del Mundo
+(6, 6, 6, 2500.00, 'RECIBIDO'), -- Elena Pérez, El Rincón Gourmet
+(7, 7, 7, 2800.00, 'EN_PREPARACION'), -- Fernando García, Fusión de Sabores
+(8, 8, 8, 3100.00, 'ENTREGADO'), -- Patricia Torres, La Esquina del Sabor
+(9, 9, 9, 2900.00, 'RECIBIDO'), -- Andrés Gómez, El Sabor de Casa
+(10, 10, 10, 3300.00, 'EN_PREPARACION'), -- Claudia Fernández, Gusto y Tradición
+(11, 11, 1, 1500.00, 'RECIBIDO'), -- María González, El Buen Sabor
+(12, 12, 2, 1800.00, 'EN_PREPARACION'), -- Juan Pérez, Sabor a Hogar
+(13, 13, 3, 2200.00, 'ENTREGADO'), -- Ana Rodríguez, Delicias del Chef
+(14, 14, 4, 2600.00, 'RECIBIDO'), -- Carlos Fernández, La Cocina de Abuela
+(15, 15, 5, 2400.00, 'EN_PREPARACION'), -- Lucía Martínez, Sabores del Mundo
+(16, 16, 6, 2000.00, 'ENTREGADO'), -- Pedro Sánchez, El Rincón Gourmet
+(17, 17, 7, 2700.00, 'RECIBIDO'), -- Laura Gómez, Fusión de Sabores
+(18, 18, 8, 3100.00, 'EN_PREPARACION'), -- Jorge Díaz, La Esquina del Sabor
+(19, 19, 9, 2900.00, 'ENTREGADO'), -- Sofía Sanchez, El Sabor de Casa
+(20, 20, 10, 3300.00, 'RECIBIDO'); -- Diego Rios, Gusto y Tradición
 
 -- Insert Data for Pagos
 INSERT INTO pago (id, pedido_id, monto_final, fecha, estrategia_de_pago_id) VALUES 

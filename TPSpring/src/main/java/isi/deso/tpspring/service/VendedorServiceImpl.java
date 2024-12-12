@@ -3,6 +3,7 @@ package isi.deso.tpspring.service;
 import isi.deso.tpspring.dao.CoordenadaRepository;
 import isi.deso.tpspring.dao.VendedorRepository;
 import isi.deso.tpspring.model.Coordenada;
+import isi.deso.tpspring.model.ItemMenu;
 import isi.deso.tpspring.model.Vendedor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -50,5 +51,12 @@ public class VendedorServiceImpl implements VendedorService{
     @Override
     public void deleteVendedor(Integer id) {
         repositorio.deleteById(id);
+    }
+
+
+    public List<ItemMenu> getItemsMenuByVendedor(Integer vendedorId) {
+        Vendedor vendedor = repositorio.findById(vendedorId)
+                .orElseThrow(() -> new RuntimeException("Vendedor no encontrado"));
+        return vendedor.getMenu();
     }
 }

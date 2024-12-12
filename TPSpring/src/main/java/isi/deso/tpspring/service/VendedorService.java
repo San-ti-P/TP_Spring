@@ -1,5 +1,6 @@
 package isi.deso.tpspring.service;
 
+import isi.deso.tpspring.model.ItemMenu;
 import isi.deso.tpspring.model.Vendedor;
 import java.util.List;
 
@@ -9,4 +10,5 @@ public interface VendedorService {
     public Vendedor saveVendedor(Vendedor v);
     public Vendedor updateVendedor(Vendedor v);
     public void deleteVendedor(Integer id);
+    public List<ItemMenu> getItemsMenuByVendedor(Integer vendedorId);
 }
