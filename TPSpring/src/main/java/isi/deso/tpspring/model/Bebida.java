@@ -31,7 +31,10 @@ public class Bebida extends ItemMenu{
     private float graduacionAlcoholica;
     @Column(name = "tamaño")
     private int tamanio;
-
+    @Override
+    public float getPrecio() {
+        return this.precio;
+    }
 //    public Bebida(int id, String nombre, String descripcion, float precio, Categoria categoria, float graduacion, int tam, boolean aptoVegano, Vendedor vendedor){
 //        this.id = id;
 //        this.nombre = nombre;

@@ -12,6 +12,11 @@ public class ItemPedidoServiceImpl implements ItemPedidoService{
 
     @Autowired
     ItemPedidoRepository repositorio;
+    
+    @Override
+    public ItemPedido getByIdItemPedido(Integer id) {
+        return repositorio.findById(id).orElse(null);
+    }
 
     @Override
     public List<ItemPedido> getAllItems() {

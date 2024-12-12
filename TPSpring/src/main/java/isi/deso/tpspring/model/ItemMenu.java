@@ -72,7 +72,7 @@ public abstract class ItemMenu implements Comparable<ItemMenu>{
 //    public abstract int getId();    
 //    public abstract String getNombre();
 //    public abstract String getDescripcion();
-//    public abstract float getPrecio();
+      public abstract float getPrecio();
 //    public abstract Categoria getCategoria();
 //    public abstract boolean getAptoVegano();
 //    public abstract Vendedor getVendedor();

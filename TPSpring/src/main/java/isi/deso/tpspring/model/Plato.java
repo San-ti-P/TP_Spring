@@ -56,4 +56,9 @@ public class Plato extends ItemMenu{
         return aptoVegano;
     }
 
+    @Override
+    public float getPrecio() {
+        return this.precio;
+    }
+
 }
