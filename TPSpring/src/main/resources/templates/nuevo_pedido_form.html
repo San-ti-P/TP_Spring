@@ -46,16 +46,30 @@
         <div class="mb-3">
             <label class="form-label">Items</label>
             <div>
+
+<!--                <div class="row mb-2 item-row" th:each="item : ${items}">-->
+<!--                    <div class="col-md-1">-->
+<!--                        <input type="checkbox" class="item-checkbox" th:field="*{items}" th:value="${item.id}" onchange="updateTotal()">-->
+<!--                    </div>-->
+<!--                    <div class="col-md-5" th:text="${item.nombre}"></div>-->
+<!--                    <div class="col-md-2">-->
+<!--                        <input type="number" class="form-control item-cantidad" min="1" value="1" onchange="updateTotal()">-->
+<!--                    </div>-->
+<!--                    <div class="col-md-2 text-end item-precio" th:text="${item.precio}"></div>-->
+<!--                </div>-->
+
                 <div class="row mb-2 item-row" th:each="item : ${items}">
                     <div class="col-md-1">
-                        <input type="checkbox" class="item-checkbox" th:field="*{items}" th:value="${item.id}" onchange="updateTotal()">
+                        <input type="checkbox" class="item-checkbox" name="selectedItems" th:value="${item.id}" onchange="updateTotal()">
                     </div>
                     <div class="col-md-5" th:text="${item.nombre}"></div>
                     <div class="col-md-2">
-                        <input type="number" class="form-control item-cantidad" min="1" value="1" onchange="updateTotal()">
+                        <input type="number" class="form-control item-cantidad" name="itemQuantities" min="1" value="1" onchange="updateTotal()">
                     </div>
                     <div class="col-md-2 text-end item-precio" th:text="${item.precio}"></div>
                 </div>
+
+
             </div>
         </div>
         <div class="mb-3">

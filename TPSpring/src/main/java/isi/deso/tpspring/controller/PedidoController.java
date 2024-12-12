@@ -70,6 +70,9 @@ public class PedidoController {
         Pedido pedido = new Pedido();
         pedido.setCliente(pedidoDTO.getCliente());
         pedido.setVendedor(pedidoDTO.getVendedor());
+        if (pedidoDTO.getItems().isEmpty()) {
+            return "redirect:/menu";
+        }
         pedido.setItems(pedidoDTO.getItems());
         pedido.setPrecio(pedidoDTO.getItems().stream()
                 .mapToDouble(item -> item.getItem().getPrecio() * item.getCantidad())

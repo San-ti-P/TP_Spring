@@ -17,7 +17,7 @@ public class PedidoDTO {
     private Integer id;
     private Cliente cliente;
     private Vendedor vendedor;
-    private ArrayList<ItemPedido> items;
+    private ArrayList<ItemPedido> items = new ArrayList<>();
     private Pago pago;
     private double precio; // Subtotal + porcentaje de la estrategia de pago
 }
