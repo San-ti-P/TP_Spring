@@ -26,12 +26,12 @@ public class Bebida extends ItemMenu{
     private static final double FACTOR_ALCOHOLICA = 0.99;
     private static final double FACTOR_ANALCOHOLICA = 1.04;
     private static final double FACTOR_ENVASE = 1.2;
-    
+
     @Column(name = "graduacion_alcoholica")
     private float graduacionAlcoholica;
     @Column(name = "tamaño")
-    private int tamaño;
-    
+    private int tamanio;
+
 //    public Bebida(int id, String nombre, String descripcion, float precio, Categoria categoria, float graduacion, int tam, boolean aptoVegano, Vendedor vendedor){
 //        this.id = id;
 //        this.nombre = nombre;
@@ -43,8 +43,8 @@ public class Bebida extends ItemMenu{
 //        graduacionAlcoholica = graduacion;
 //        tamaño = tam;
 //    }
-    
-//    @Override
+
+    //    @Override
 //    public int getId() {
 //        return id;
 //    }
@@ -78,7 +78,7 @@ public class Bebida extends ItemMenu{
 //    public Vendedor getVendedor(){
 //        return vendedor;
 //    }
-//    
+//
 //    @Override
 //    public void setId(int id) {
 //        this.id = id;
@@ -98,7 +98,7 @@ public class Bebida extends ItemMenu{
 //    @Override
 //    public void setCategoria(Categoria categoria) {
 //        this.categoria = categoria;
-//    }  
+//    }
 //    @Override
 //    public void setAptoVegano(boolean aptoVegano) {
 //        this.aptoVegano = aptoVegano;
@@ -116,10 +116,10 @@ public class Bebida extends ItemMenu{
     @Override
     public float peso(){
         if(this.esAlcoholica()){
-            return (float)(tamaño*FACTOR_ALCOHOLICA*FACTOR_ENVASE);
+            return (float)(tamanio*FACTOR_ALCOHOLICA*FACTOR_ENVASE);
         }
         else{
-            return (float)(tamaño*FACTOR_ANALCOHOLICA*FACTOR_ENVASE);
+            return (float)(tamanio*FACTOR_ANALCOHOLICA*FACTOR_ENVASE);
         }
     }
     @Override
@@ -134,21 +134,16 @@ public class Bebida extends ItemMenu{
     public boolean aptoVegano(){
         return aptoVegano;
     };
-    
+
     public boolean esAlcoholica(){
-        if(graduacionAlcoholica > 0){
-            return true;
-        }
-        else{
-            return false;
-        }
+        return graduacionAlcoholica > 0;
     }
-    
+
 //    @Override
 //    public String toString() {
 //        return "[Id=" + id + ", nombre=" + nombre + ']';
 //    }
-    
+
 //    public boolean equals(Object o){
 //        ItemMenu otro = (ItemMenu) o;
 //        return id == otro.getId();
