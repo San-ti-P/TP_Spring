@@ -6,6 +6,7 @@ import isi.deso.tpspring.service.ClienteService;
 import isi.deso.tpspring.service.ItemPedidoService;
 import isi.deso.tpspring.service.PedidoService;
 import isi.deso.tpspring.service.VendedorService;
+import java.util.ArrayList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -51,13 +52,16 @@ public class PedidoController {
     @PostMapping("/pedidos")
     public String savePedido(@ModelAttribute PedidoDTO pedidoDTO) throws VendedoresDistintosException {
         Pedido pedido = new Pedido();
-        pedido.setCliente(pedidoDTO.getCliente());
-        pedido.setVendedor(pedidoDTO.getVendedor());
-            if (pedidoDTO.getItems().isEmpty()) {
-                return "redirect:/menu";
-            }
-        pedido.setItems(pedidoDTO.getItems());
-        pedido.setPrecio(pedidoDTO.getItems().stream()
+        System.out.println("HOLAAAAAA");
+        pedido.setCliente(clienteService.getByIdCliente(pedidoDTO.getCliente()));
+        pedido.setVendedor(vendedorService.getByIdVendedor(pedidoDTO.getVendedor()));
+        List<ItemPedido> items = new ArrayList<>();
+        for (Integer i : pedidoDTO.getItems()){
+            System.out.println("Id item: "+i);
+            items.add(itemPedidoService.getByIdItemPedido(i));
+        }
+        pedido.setItems(items);
+        pedido.setPrecio(items.stream()
                 .mapToDouble(item -> item.getItem().getPrecio() * item.getCantidad())
                 .sum());
         pedidoService.savePedido(pedido);

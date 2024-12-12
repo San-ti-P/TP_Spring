@@ -15,9 +15,13 @@ import java.util.ArrayList;
 @AllArgsConstructor
 public class PedidoDTO {
     private Integer id;
-    private Cliente cliente;
-    private Vendedor vendedor;
-    private ArrayList<ItemPedido> items = new ArrayList<>();
+    private Integer cliente;
+    private Integer vendedor;
+    private ArrayList<ItemPedido> items;
     private Pago pago;
     private double precio; // Subtotal + porcentaje de la estrategia de pago
+    
+    public ArrayList<ItemPedido> getItems(){
+        return items;
+    }
 }
