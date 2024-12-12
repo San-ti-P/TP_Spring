@@ -32,4 +32,9 @@ public class ItemPedidoServiceImpl implements ItemPedidoService{
     public ItemPedido getItemById(Integer id) {
         return repositorio.findById(id).orElse(null);
     }
+    
+    @Override
+    public ItemPedido saveItemPedido(ItemPedido ip) {
+        return repositorio.save(ip);
+    }
 }

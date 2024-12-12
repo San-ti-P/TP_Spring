@@ -10,12 +10,9 @@
             const items = document.querySelectorAll('.item-row');
             let total = 0;
             items.forEach(row => {
-                const checkbox = row.querySelector('.item-checkbox');
-                if (checkbox.checked) {
                     const cantidad = row.querySelector('.item-cantidad').value;
                     const precio = parseFloat(row.querySelector('.item-precio').innerText);
                     total += cantidad * precio;
-                }
             });
             document.getElementById('total').value = total.toFixed(2);
         }
@@ -37,7 +34,7 @@
     </form>
     <form method="post" th:action="@{/pedidos}" th:object="${pedidoDTO}">
         <input type="hidden" id="vendedor" name="vendedor" th:value="${selectedVendedorId}">
-        <div class="mb-3">
+<!--        <div class="mb-3">
             <label for="cliente" class="form-label">Cliente</label>
             <select id="cliente" name="cliente" class="form-select" th:field="*{cliente}">
                 <option value="" disabled selected>Seleccione un cliente</option>
@@ -59,17 +56,6 @@
                     <div class="col-md-2 text-end item-precio" th:text="${item.precio}"></div>
                 </div>
 
-<!--                <div class="row mb-2 item-row" th:each="item : ${items}">
-                    <div class="col-md-1">
-                        <input type="checkbox" class="item-checkbox" name="selectedItems" th:value="${item.id}" onchange="updateTotal()">
-                    </div>
-                    <div class="col-md-5" th:text="${item.nombre}"></div>
-                    <div class="col-md-2">
-                        <input type="number" class="form-control item-cantidad" name="itemQuantities" min="1" value="1" onchange="updateTotal()">
-                    </div>
-                    <div class="col-md-2 text-end item-precio" th:text="${item.precio}"></div>
-                </div>-->
-
 
             </div>
         </div>
@@ -77,8 +63,56 @@
             <label for="total" class="form-label">Total</label>
             <input id="total" name="total" class="form-control" readonly type="text">
         </div>
-        <button type="submit" class="btn btn-primary">Guardar</button>
-    </form>
+        <button type="submit" class="btn btn-primary">Guardar</button>-->
+        
+        <div class="mb-3">
+        <label for="cliente" class="form-label">Cliente</label>
+        <select id="cliente" name="cliente.id" class="form-select" th:field="*{cliente.id}">
+            <option value="" disabled selected>Seleccione un cliente</option>
+            <option th:each="cliente : ${clientes}" th:value="${cliente.id}" th:text="${cliente.nombre}"></option>
+        </select>
+    </div>
+
+    <!-- Lista de Items -->
+    <div class="mb-3">
+        <label class="form-label">Items</label>
+        <div th:each="itemPedido, iterStat : ${pedidoDTO.items}" class="row mb-2 item-row">
+            <!-- Campo oculto Checkbox -->
+            <!--<input type="hidden" th:field="*{items[__${iterStat.index}__].item.id}" th:value="off">-->
+
+            <!-- Checkbox para seleccionar el item -->
+<!--            <div class="col-md-1">
+                <input type="checkbox" 
+                       class="item-checkbox" 
+                       th:field="*{items[__${iterStat.index}__].item.id}" 
+                       th:value="${itemPedido.item.id}" 
+                       onchange="updateTotal()">
+            </div>-->
+            <input type="hidden" th:field="*{items[__${iterStat.index}__].item}" th:value="${itemPedido.item}">
+            <!-- Nombre del Item -->
+            <div class="col-md-5" th:text="${itemPedido.nombre}"></div>
+            <!-- Cantidad -->
+            <div class="col-md-3">
+                <input type="number" 
+                       class="form-control item-cantidad" 
+                       th:field="*{items[__${iterStat.index}__].cantidad}" 
+                       min="0" 
+                       value="1" 
+                       onchange="updateTotal()">
+            </div>
+            <!-- Precio -->
+            <div class="col-md-2 text-end item-precio" th:text="${itemPedido.precio}"></div>
+        </div>
+    </div>
+
+    <!-- Total -->
+    <div class="mb-3">
+        <label for="total" class="form-label">Total</label>
+        <input id="total" name="total" class="form-control" readonly type="text" th:value="${pedidoDTO.total}">
+    </div>
+
+    <button type="submit" class="btn btn-primary">Guardar</button>
+</form>
 </div>
 </body>
 </html>
