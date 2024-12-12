@@ -6,4 +6,5 @@ import java.util.List;
 public interface ItemPedidoService {
     List<ItemPedido> getAllItems();
     List<ItemPedido> getItemsByVendedor(Integer vendedorId);
+    ItemPedido getItemById(Integer id);
 }

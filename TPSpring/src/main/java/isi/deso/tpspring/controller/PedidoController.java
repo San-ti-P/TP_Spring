@@ -33,28 +33,12 @@ public class PedidoController {
         return "pedidos";
     }
 
-//    @GetMapping("/pedidos/nuevo")
-//    public String newPedidoForm(Model modelo) {
-//        PedidoDTO pedidoDTO = new PedidoDTO();
-//        List<Cliente> clientes = clienteService.getAllClientes();
-//        List<Vendedor> vendedores = vendedorService.getAllVendedores();
-//        List<ItemPedido> items = itemPedidoService.getAllItems();
-//
-//        modelo.addAttribute("pedidoDTO", pedidoDTO);
-//        modelo.addAttribute("clientes", clientes);
-//        modelo.addAttribute("vendedores", vendedores);
-//        modelo.addAttribute("items", items);
-//        return "nuevo_pedido_form";
-//    }
-
     @GetMapping("/pedidos/nuevo")
     public String newPedidoForm(@RequestParam(value = "vendedorId", required = false) Integer vendedorId, Model modelo) {
         PedidoDTO pedidoDTO = new PedidoDTO();
         List<Cliente> clientes = clienteService.getAllClientes();
         List<Vendedor> vendedores = vendedorService.getAllVendedores();
-        List<ItemMenu> items = (vendedorId != null)
-                ? vendedorService.getItemsMenuByVendedor(vendedorId)
-                : List.of();
+        List<ItemMenu> items = vendedorService.getItemsMenuByVendedor(vendedorId);
 
         modelo.addAttribute("pedidoDTO", pedidoDTO);
         modelo.addAttribute("clientes", clientes);
@@ -64,15 +48,14 @@ public class PedidoController {
         return "nuevo_pedido_form";
     }
 
-
     @PostMapping("/pedidos")
     public String savePedido(@ModelAttribute PedidoDTO pedidoDTO) throws VendedoresDistintosException {
         Pedido pedido = new Pedido();
         pedido.setCliente(pedidoDTO.getCliente());
         pedido.setVendedor(pedidoDTO.getVendedor());
-        if (pedidoDTO.getItems().isEmpty()) {
-            return "redirect:/menu";
-        }
+            if (pedidoDTO.getItems().isEmpty()) {
+                return "redirect:/menu";
+            }
         pedido.setItems(pedidoDTO.getItems());
         pedido.setPrecio(pedidoDTO.getItems().stream()
                 .mapToDouble(item -> item.getItem().getPrecio() * item.getCantidad())
