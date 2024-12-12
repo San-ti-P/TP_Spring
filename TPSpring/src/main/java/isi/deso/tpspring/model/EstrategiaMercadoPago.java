@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package isi.deso.tpspring.model;
 
 import jakarta.persistence.Column;
@@ -12,25 +8,20 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
-/**
- *
- * @author santi
- */
-
 @Data
-@EqualsAndHashCode(callSuper=false)
+@EqualsAndHashCode(callSuper = false)
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
 @Table(name = "estrategia_mercado_pago")
-public class EstrategiaMercadoPago extends EstrategiaDePago{
-    
-    @Column(name = "alias")
+public class EstrategiaMercadoPago extends EstrategiaDePago {
+
+    @Column(name = "alias", nullable = false, unique = true)
     private String alias;
     private static final double RECARGO = 1.04;
 
     @Override
     public double precioFinal(double monto) {
-        return monto*RECARGO;
+        return monto * RECARGO;
     }
 }

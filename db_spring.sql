@@ -346,7 +346,55 @@ INSERT INTO plato (id, apto_celiaco, calorias, peso) VALUES
 (14, 0, 700, 400.0), -- Bife de Chorizo
 (15, 1, 200, 150.0); -- Helado de Vainilla
 
--- Insert Data for Estrategias de Mercado Pago
+-- -- Insert Data for Estrategias de Mercado Pago
+-- INSERT INTO estrategia_mercado_pago (id, alias) VALUES 
+-- (1, 'mercadopago_roberto'),
+-- (2, 'mercadopago_laura'),
+-- (3, 'mercadopago_miguel'),
+-- (4, 'mercadopago_sofia'),
+-- (5, 'mercadopago_diego'),
+-- (6, 'mercadopago_elena'),
+-- (7, 'mercadopago_fernando'),
+-- (8, 'mercadopago_patricia'),
+-- (9, 'mercadopago_andres'),
+-- (10, 'mercadopago_claudia');
+
+-- -- Insert Data for Estrategias de Transferencia
+-- INSERT INTO estrategia_transferencia (id, cbu, cuit) VALUES 
+-- (1, '8901234567890123456789', '20-98765432-1'), -- María González
+-- (2, '9012345678901234567890', '27-87654321-2'), -- Juan Pérez
+-- (3, '0123456789012345678901', '20-76543210-3'), -- Ana Rodríguez
+-- (4, '1234567890123456789013', '27-65432109-4'), -- Carlos Fernández
+-- (5, '2345678901234567890124', '20-54321098-5'), -- Lucía Martínez
+-- (6, '3456789012345678901235', '20-43210987-6'), -- Pedro Sánchez
+-- (7, '4567890123456789012346', '27-32109876-7'), -- Laura Gómez
+-- (8, '5678901234567890123457', '20-21098765-8'), -- Jorge Díaz
+-- (9, '6789012345678901234568', '27-10987654-9'), -- Sofía Sanchez
+-- (10, '7890123456789012345679', '20-09876543-0'); -- Diego Rios
+
+INSERT INTO estrategia_de_pago (id) VALUES 
+(1),
+(2),
+(3),
+(4),
+(5),
+(6),
+(7),
+(8),
+(9),
+(10),
+(11),
+(12),
+(13),
+(14),
+(15),
+(16),
+(17),
+(18),
+(19),
+(20);
+
+
 INSERT INTO estrategia_mercado_pago (id, alias) VALUES 
 (1, 'mercadopago_roberto'),
 (2, 'mercadopago_laura'),
@@ -359,18 +407,18 @@ INSERT INTO estrategia_mercado_pago (id, alias) VALUES
 (9, 'mercadopago_andres'),
 (10, 'mercadopago_claudia');
 
--- Insert Data for Estrategias de Transferencia
+
 INSERT INTO estrategia_transferencia (id, cbu, cuit) VALUES 
-(1, '8901234567890123456789', '20-98765432-1'), -- María González
-(2, '9012345678901234567890', '27-87654321-2'), -- Juan Pérez
-(3, '0123456789012345678901', '20-76543210-3'), -- Ana Rodríguez
-(4, '1234567890123456789013', '27-65432109-4'), -- Carlos Fernández
-(5, '2345678901234567890124', '20-54321098-5'), -- Lucía Martínez
-(6, '3456789012345678901235', '20-43210987-6'), -- Pedro Sánchez
-(7, '4567890123456789012346', '27-32109876-7'), -- Laura Gómez
-(8, '5678901234567890123457', '20-21098765-8'), -- Jorge Díaz
-(9, '6789012345678901234568', '27-10987654-9'), -- Sofía Sanchez
-(10, '7890123456789012345679', '20-09876543-0'); -- Diego Rios
+(11, '8901234567890123456789', '20-98765432-1'), 
+(12, '9012345678901234567890', '27-87654321-2'), 
+(13, '0123456789012345678901', '20-76543210-3'), 
+(14, '1234567890123456789013', '27-65432109-4'), 
+(15, '2345678901234567890124', '20-54321098-5'), 
+(16, '3456789012345678901235', '20-43210987-6'), 
+(17, '4567890123456789012346', '27-32109876-7'), 
+(18, '5678901234567890123457', '20-21098765-8'), 
+(19, '6789012345678901234568', '27-10987654-9'), 
+(20, '7890123456789012345679', '20-09876543-0');
 
 
 -- Insert Data for Pedidos without pago_id

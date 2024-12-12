@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Interface.java to edit this template
- */
 package isi.deso.tpspring.model;
 
 import jakarta.persistence.Entity;
@@ -12,16 +8,13 @@ import jakarta.persistence.Inheritance;
 import jakarta.persistence.InheritanceType;
 import lombok.Data;
 
-/**
- *
- * @author santi
- */
 @Data
 @Entity
-@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
+@Inheritance(strategy = InheritanceType.JOINED)
 public abstract class EstrategiaDePago {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     public abstract double precioFinal(double monto);
 }
+
