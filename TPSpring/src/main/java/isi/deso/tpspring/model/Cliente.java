@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package isi.deso.tpspring.model;
 
 import jakarta.persistence.CascadeType;
@@ -21,10 +17,6 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-/**
- *
- * @author santi
- */
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -35,24 +27,27 @@ public class Cliente implements PedidoObserver {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+
     @Column(name = "nombre")
     private String nombre;
+
     @Column(name = "cuit")
     private String cuit;
+
     @Column(name = "email")
     private String email;
+
     @Column(name = "direccion")
     private String direccion;
+
     @OneToOne
     private Coordenada coordenadas;
+
     @OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Pedido> pedidos = new ArrayList<>();
+
     @Column(name = "activo")
     private boolean activo;
-    
-//    public Cliente(){
-//        this.pedidos = new ArrayList<Pedido>(); 
-//    }
 
     public Cliente(int id, String nombre, String cuit, String email, String direccion, Coordenada coordenadas) {
         this.id = id;
@@ -79,63 +74,6 @@ public class Cliente implements PedidoObserver {
     public void eliminarPedido(Pedido pedido){
         pedidos.remove(pedido);
     }
-    
-//    public int getId() {
-//        return id;
-//    }
-//
-//    public String getNombre(){
-//        return nombre;
-//    }
-//    
-//    public String getCuit() {
-//        return cuit;
-//    }
-//    
-//    public String getEmail() {
-//        return email;
-//    }
-//    
-//    public String getDireccion() {
-//        return direccion;
-//    }
-//    
-//    public Coordenada getCoordenadas() {
-//        return coordenadas;
-//    }
-//
-//    public boolean getActivo() {
-//        return this.activo;
-//    }
-//
-//    public void setActivo(boolean b) {
-//        this.activo = true;
-//    }
-//
-//    public void setId(int id) {
-//        this.id = id;
-//    }
-//
-//    public void setNombre(String nombre){
-//        this.nombre = nombre;
-//    }
-//
-//    public void setCuit(String cuit) {
-//        this.cuit = cuit;
-//    }
-//
-//    public void setEmail(String email) {
-//        this.email = email;
-//    }
-//
-//    public void setDireccion(String direccion) {
-//        this.direccion = direccion;
-//    }
-//
-//    public void setCoordenadas(Coordenada coordenadas) {
-//        this.coordenadas = coordenadas;
-//    }
-
 
 
     @Override

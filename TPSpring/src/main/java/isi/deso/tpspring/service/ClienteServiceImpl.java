@@ -7,6 +7,8 @@ import isi.deso.tpspring.model.Coordenada;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -55,6 +57,7 @@ public class ClienteServiceImpl implements ClienteService{
         return repositorioCliente.save(cliente);
     }
 
+    @Transactional
     @Override
     public void deleteCliente(Integer id) {
         repositorioCliente.deleteById(id);

@@ -31,8 +31,12 @@ public class Pedido implements Observable, Comparable<Pedido> {
     @JoinColumn(name = "vendedor_id")
     private Vendedor vendedor;
 
-    @OneToOne
-    @JoinColumn(name = "pago_id")
+//    @OneToOne
+//    @JoinColumn(name = "pago_id")
+//    private Pago pago;
+
+    @OneToOne(optional = true, cascade = {CascadeType.REMOVE}, orphanRemoval = true)
+    @JoinColumn(name = "pago_id", nullable = true, foreignKey = @ForeignKey(value = ConstraintMode.NO_CONSTRAINT))
     private Pago pago;
 
     @Enumerated(EnumType.STRING)
