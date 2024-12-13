@@ -35,7 +35,7 @@ public class Vendedor {
     @OneToMany(mappedBy = "vendedor", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ItemMenu> menu = new ArrayList<>();
 
-    @OneToMany(mappedBy = "vendedor")
+    @OneToMany(mappedBy = "vendedor", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Pedido> pedidos = new ArrayList<>();
 
 
