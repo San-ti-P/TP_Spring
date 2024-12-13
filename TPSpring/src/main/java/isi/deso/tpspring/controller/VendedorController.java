@@ -72,5 +72,4 @@ public class VendedorController {
         servicio.deleteVendedor(id);
         return "redirect:/vendedores";
     }
-
 }

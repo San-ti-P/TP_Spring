@@ -59,4 +59,6 @@ public class VendedorServiceImpl implements VendedorService{
                 .orElseThrow(() -> new RuntimeException("Vendedor no encontrado"));
         return vendedor.getMenu();
     }
+
+
 }
