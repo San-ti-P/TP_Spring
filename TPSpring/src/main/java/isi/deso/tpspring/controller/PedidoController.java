@@ -7,10 +7,7 @@ import isi.deso.tpspring.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -124,6 +121,12 @@ public class PedidoController {
         }
 
         pedido.setItems(items);
+        return "redirect:/pedidos";
+    }
+
+    @GetMapping("/pedidos/{id}")
+    public String deletePedido(@PathVariable Integer id) {
+        pedidoService.deletePedido(id);
         return "redirect:/pedidos";
     }
 }
