@@ -47,7 +47,7 @@
             <td class="text-center" th:text="${cliente.cuit}"></td>
             <td class="text-center" th:text="${cliente.email}"></td>
             <td class="text-center">
-                <a class="btn btn-primary" th:href="@{/clientes/{id}/editar(id=${cliente.id})}">Editar</a>
+                <a class="btn btn-primary" th:href="@{/clientes/editar/{id}(id=${cliente.id})}">Editar</a>
                 <a class="btn btn-danger" th:href="@{/clientes/{id}(id=${cliente.id})}">Eliminar</a>
             </td>
         </tr>
