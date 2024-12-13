@@ -15,26 +15,37 @@
                 total += cantidad * precio;
             });
             document.getElementById('total').value = total.toFixed(2);
+            
         }
 
         function updateTotalWithPaymentMethod() {
             const subtotal = parseFloat(document.getElementById('total').value);
             const medioDePago = document.getElementById('medio-pago').value;
+            const mpFields = document.getElementById('mpFields');
+            const transfFields = document.getElementById('transfFields');
             let total = subtotal;
 
             if (medioDePago === 'TRANSFERENCIA') {
+                mpFields.style.display = 'none';
+                transfFields.style.display = 'block';
                 total = subtotal * 1.02;
             } else if (medioDePago === 'MERCADOPAGO') {
                 total = subtotal * 1.04;
+                mpFields.style.display = 'block';
+                transfFields.style.display = 'none';
+            } else {
+                mpFields.style.display = 'none';
+                transfFields.style.display = 'none';
             }
 
             document.getElementById('montofinal').value = total.toFixed(2);
         }
 
-        document.getElementById('pago').addEventListener('change', updateTotalWithPaymentMethod);
+
+        //document.getElementById('medio-pago').addEventListener('change', updateTotalWithPaymentMethod);
     </script>
 </head>
-<body>
+<body onload="updateTotalWithPaymentMethod()">
 <div th:replace="navbar :: navbar"></div>
 <div class="container">
     <h1 class="text-center my-4">Crear Pedido</h1>
@@ -69,6 +80,7 @@
 
                 <!-- Precio -->
                 <div class="col-md-2 text-end item-precio" th:text="${itemPedido.precio}"></div>
+                <input th:field="*{items[__${iterStat.index}__].precio}" th:value="${itemPedido.precio}" type="hidden">
 
                 <!-- Cantidad -->
                 <div class="col-md-3">
@@ -105,11 +117,26 @@
                 <option th:each="medioDePago : ${mediosdepago}" th:text="${medioDePago}" th:value="${medioDePago}"></option>
             </select>
         </div>
-
+        <div id="mpFields" style="display: none;">
+            <div class="form-group">
+                <label>Alias:</label>
+                <input type="text" name="alias" th:value="${pedidoDTO.alias}" class="form-control">
+            </div>
+        </div><!--
+-->        <div id="transfFields" style="display: none;">
+            <div class="form-group">
+                <label>CUIT: </label>
+                <input type="text" name="cuit" th:value="${pedidoDTO.cuit}" class="form-control">
+            </div>
+            <div class="form-group">
+                <label>CBU: </label>
+                <input type="text" name="cbu" th:value="${pedidoDTO.cbu}" class="form-control">
+            </div>
+        </div>
         <!-- MontoFinal -->
         <div class="mb-3">
             <label class="form-label" for="total">Total</label>
-            <input class="form-control" id="montofinal" name="montofinal" readonly th:value="${pedidoDTO.total}" type="text">
+            <input class="form-control" id="montofinal" name="montofinal" readonly value="0" type="text">
         </div>
 
         <button class="btn btn-primary" type="submit">Guardar</button>

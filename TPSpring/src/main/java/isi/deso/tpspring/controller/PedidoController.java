@@ -12,7 +12,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Controller
 public class PedidoController {
@@ -87,22 +89,27 @@ public class PedidoController {
         pedido.setVendedor(vendedorService.getByIdVendedor(pedidoDTO.getVendedor().getId()));
         pedido.setEstado(pedidoDTO.getEstado());
 
-        EstrategiaDePago estrategiaDePago;
-        if (pedidoDTO.getMedioDePago().equalsIgnoreCase("mercadopago")) {
-            estrategiaDePago = new EstrategiaMercadoPago();
-        } else {
-            estrategiaDePago = new EstrategiaTransferencia();
-        }
-        estrategiaDePago = estrategiaDePagoService.saveEstrategiaDePago(estrategiaDePago);
-        Pago p = new Pago(new Date(), pedido, estrategiaDePago);
-        pagoService.savePago(p);
-        pedido.setPago(p);
-
         List<ItemPedido> items = new ArrayList<>();
         double subtotal = 0.0;
         for (ItemPedidoDTO i : pedidoDTO.getItems()) subtotal += i.getCantidad() * i.getPrecio();
 
         pedido.setPrecio(subtotal);
+        
+        EstrategiaDePago estrategiaDePago;
+        if (pedidoDTO.getMedioDePago().equalsIgnoreCase("mercadopago")) {
+            EstrategiaMercadoPago nueva = new EstrategiaMercadoPago();
+            nueva.setAlias(pedidoDTO.getAlias());
+            estrategiaDePago = nueva;
+        } else {
+            EstrategiaTransferencia nueva = new EstrategiaTransferencia();
+            nueva.setCbu(pedidoDTO.getCbu());
+            nueva.setCuit(pedidoDTO.getCuit());
+            estrategiaDePago = nueva;
+        }
+        estrategiaDePago = estrategiaDePagoService.saveEstrategiaDePago(estrategiaDePago);
+        Pago p = new Pago(new Date(), pedido, estrategiaDePago);
+        pagoService.savePago(p);
+        pedido.setPago(p);
         pedido = pedidoService.savePedido(pedido);
 
         for (ItemPedidoDTO i : pedidoDTO.getItems()){

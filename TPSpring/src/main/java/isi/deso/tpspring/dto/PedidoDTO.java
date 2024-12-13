@@ -24,4 +24,7 @@ public class PedidoDTO {
     private BigDecimal total;
     private EstadoPedido estado;
     private String medioDePago;
+    private String alias;
+    private String cbu;
+    private String cuit;
 }

@@ -6,11 +6,13 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Inheritance;
 import jakarta.persistence.InheritanceType;
+import jakarta.persistence.Table;
 import lombok.Data;
 
 @Data
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
+@Table(name = "estrategia_de_pago")
 public abstract class EstrategiaDePago {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

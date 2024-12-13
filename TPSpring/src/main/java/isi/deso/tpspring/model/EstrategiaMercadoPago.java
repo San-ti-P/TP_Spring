@@ -16,7 +16,7 @@ import lombok.NoArgsConstructor;
 @Table(name = "estrategia_mercado_pago")
 public class EstrategiaMercadoPago extends EstrategiaDePago {
 
-    @Column(name = "alias", nullable = false, unique = true)
+    @Column(name = "alias", nullable = false)
     private String alias;
     private static final double RECARGO = 1.04;
 
