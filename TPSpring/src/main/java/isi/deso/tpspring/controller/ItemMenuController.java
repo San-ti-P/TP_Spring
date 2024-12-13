@@ -15,6 +15,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Controller
 public class ItemMenuController {
 
@@ -29,7 +32,12 @@ public class ItemMenuController {
 
     @GetMapping("/items-menu")
     public String listItemsMenu(Model model) {
-        model.addAttribute("items", itemMenuService.getAllItemMenu());
+        List<ItemMenu> items = itemMenuService.getAllItemMenu();
+        // Sort items by id
+        List<ItemMenu> sortedItems = items.stream()
+                .sorted((item1, item2) -> Integer.compare(item1.getId(), item2.getId()))
+                .collect(Collectors.toList());
+        model.addAttribute("items", sortedItems);
         return "items-menu";
     }
 
