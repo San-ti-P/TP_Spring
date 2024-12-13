@@ -3,7 +3,6 @@ package isi.deso.tpspring.dto;
 import isi.deso.tpspring.model.Cliente;
 import isi.deso.tpspring.model.EstadoPedido;
 import isi.deso.tpspring.model.Vendedor;
-import java.math.BigDecimal;
 
 import lombok.*;
 
@@ -21,7 +20,6 @@ public class PedidoDTO {
     private Vendedor vendedor;
     private Cliente cliente;
     private List<ItemPedidoDTO> items = new ArrayList<>();
-    private BigDecimal total;
     private EstadoPedido estado;
     private String medioDePago;
     private String alias;

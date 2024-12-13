@@ -3,6 +3,7 @@ package isi.deso.tpspring.controller;
 import isi.deso.tpspring.dto.ClienteDTO;
 import isi.deso.tpspring.model.Cliente;
 import isi.deso.tpspring.model.Coordenada;
+import isi.deso.tpspring.model.Vendedor;
 import isi.deso.tpspring.service.ClienteService;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -29,6 +30,13 @@ public class ClienteController {
         modelo.addAttribute("clientes", servicio.getAllClientes());
         return "clientes";
     }
+
+    @GetMapping("/clientes/nuevo")
+    public String newClienteForm(Model modelo){
+        ClienteDTO clienteDTO = new ClienteDTO();
+        modelo.addAttribute("clienteDTO", clienteDTO);
+        return "nuevo_cliente_form";
+    }
     
     @PostMapping("/clientes")
     public String saveCliente(@ModelAttribute("cliente") ClienteDTO clienteDTO){
@@ -47,46 +55,65 @@ public class ClienteController {
 
         return "redirect:/clientes";
     }
-    
-    @PutMapping("/clientes/{id}")
-    public String updateCliente(@PathVariable Integer id, @ModelAttribute("cliente") Cliente cliente, Model modelo){
-        Cliente c_existente = servicio.getByIdCliente(id);
-        c_existente.setId(id);
-        c_existente.setNombre(cliente.getNombre());
-        c_existente.setDireccion(cliente.getDireccion());
 
-        Coordenada coordenadas = c_existente.getCoordenadas();
-        coordenadas.setLat(cliente.getCoordenadas().getLat());
-        coordenadas.setLng(cliente.getCoordenadas().getLng());
+//    @GetMapping("/clientes/editar/{id}")
+//    public String formularioEditar(@PathVariable Integer id, Model modelo) {
+//        modelo.addAttribute("cliente", servicio.getByIdCliente(id));
+//        return "editar_cliente";
+//    }
 
-        c_existente.setCoordenadas(coordenadas);
+//    @PostMapping("/vendedores/{id}")
+//    public String updateVendedor(@PathVariable Integer id, @ModelAttribute("vendedor") Vendedor vendedor, Model modelo) {
+//        Vendedor v_existente = servicio.getByIdVendedor(id);
+//        v_existente.setId(id);
+//        v_existente.setNombre(vendedor.getNombre());
+//        v_existente.setDireccion(vendedor.getDireccion());
+//
+//        Coordenada coordenadas = v_existente.getCoordenadas();
+//        coordenadas.setLat(vendedor.getCoordenadas().getLat());
+//        coordenadas.setLng(vendedor.getCoordenadas().getLng());
+//
+//        v_existente.setCoordenadas(coordenadas);
+//
+//        servicio.updateVendedor(v_existente);
+//        return "redirect:/vendedores";
+//    }
 
-        servicio.updateCliente(c_existente);
-        return "redirect:/clientes";
-    }
-    
-    @DeleteMapping("/clientes/{id}")
-    public String deleteCliente(@PathVariable Integer id){
+    @GetMapping("/clientes/{id}")
+    public String deleteVendedor(@PathVariable Integer id) {
         servicio.deleteCliente(id);
         return "redirect:/clientes";
     }
 
-    
-    //Obtención de formularios
-    @GetMapping("/clientes/nuevo")
-    public String newClienteForm(Model modelo){
-        ClienteDTO clienteDTO = new ClienteDTO();
-        modelo.addAttribute("clienteDTO", clienteDTO);
-        //modelo.addAttribute("coordenadas", coordenadas);
-        return "nuevo_cliente_form";
-    }
-    
-    @GetMapping("/clientes/{id}")
-    public ResponseEntity<Cliente> getByIdCliente(@PathVariable Integer id) {
-        Cliente c = servicio.getByIdCliente(id);
-        if (c == null) {
-            return ResponseEntity.notFound().build();
-        }
-        return ResponseEntity.ok(c);
-    }
+//    @PutMapping("/clientes/{id}")
+//    public String updateCliente(@PathVariable Integer id, @ModelAttribute("cliente") Cliente cliente, Model modelo){
+//        Cliente c_existente = servicio.getByIdCliente(id);
+//        c_existente.setId(id);
+//        c_existente.setNombre(cliente.getNombre());
+//        c_existente.setDireccion(cliente.getDireccion());
+//
+//        Coordenada coordenadas = c_existente.getCoordenadas();
+//        coordenadas.setLat(cliente.getCoordenadas().getLat());
+//        coordenadas.setLng(cliente.getCoordenadas().getLng());
+//
+//        c_existente.setCoordenadas(coordenadas);
+//
+//        servicio.updateCliente(c_existente);
+//        return "redirect:/clientes";
+//    }
+//
+//    @DeleteMapping("/clientes/{id}")
+//    public String deleteCliente(@PathVariable Integer id){
+//        servicio.deleteCliente(id);
+//        return "redirect:/clientes";
+//    }
+//
+//    @GetMapping("/clientes/{id}")
+//    public ResponseEntity<Cliente> getByIdCliente(@PathVariable Integer id) {
+//        Cliente c = servicio.getByIdCliente(id);
+//        if (c == null) {
+//            return ResponseEntity.notFound().build();
+//        }
+//        return ResponseEntity.ok(c);
+//    }
 }

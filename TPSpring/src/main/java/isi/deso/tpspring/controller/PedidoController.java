@@ -4,17 +4,17 @@ import isi.deso.tpspring.dto.ItemPedidoDTO;
 import isi.deso.tpspring.dto.PedidoDTO;
 import isi.deso.tpspring.model.*;
 import isi.deso.tpspring.service.*;
-
-import java.util.ArrayList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 @Controller
 public class PedidoController {
@@ -29,7 +29,7 @@ public class PedidoController {
 
     @Autowired
     private ItemMenuService itemMenuService;
-    
+
     @Autowired
     private ItemPedidoService itemPedidoService;
 
@@ -54,23 +54,23 @@ public class PedidoController {
         List<Vendedor> vendedores = vendedorService.getAllVendedores();
         List<ItemPedidoDTO> itemPedidoDTOs = new ArrayList<>();
         List<String> mediosDePago = new ArrayList<>();
-        mediosDePago.add("MERCADOPAGO"); mediosDePago.add("TRANSFERENCIA");
+        mediosDePago.add("MERCADOPAGO");
+        mediosDePago.add("TRANSFERENCIA");
 
         if (vendedorId != null) {
             List<ItemMenu> items = vendedorService.getItemsMenuByVendedor(vendedorId);
             for (ItemMenu item : items) {
                 ItemPedidoDTO itemPedidoDTO = new ItemPedidoDTO();
-                itemPedidoDTO.setItem(item.getId()); // Inicializar con el objeto ItemMenu
+                itemPedidoDTO.setItem(item.getId());
                 itemPedidoDTO.setNombre(item.getNombre());
                 itemPedidoDTO.setPrecio(item.getPrecio());
-                itemPedidoDTO.setCantidad(0); // Valor predeterminado para cantidad
+                itemPedidoDTO.setCantidad(0);
                 itemPedidoDTOs.add(itemPedidoDTO);
             }
-        }
-        else System.out.println("VENDEDOR ID ES NULL");
+        } else System.out.println("VENDEDOR ID ES NULL");
 
         pedidoDTO.setItems(itemPedidoDTOs);
-        System.out.println("LISTA DE ITEMS ENVIADA: "+pedidoDTO.getItems());
+        System.out.println("LISTA DE ITEMS ENVIADA: " + pedidoDTO.getItems());
 
         modelo.addAttribute("pedidoDTO", pedidoDTO);
         modelo.addAttribute("clientes", clientes);
@@ -94,7 +94,7 @@ public class PedidoController {
         for (ItemPedidoDTO i : pedidoDTO.getItems()) subtotal += i.getCantidad() * i.getPrecio();
 
         pedido.setPrecio(subtotal);
-        
+
         EstrategiaDePago estrategiaDePago;
         if (pedidoDTO.getMedioDePago().equalsIgnoreCase("mercadopago")) {
             EstrategiaMercadoPago nueva = new EstrategiaMercadoPago();
@@ -112,7 +112,7 @@ public class PedidoController {
         pedido.setPago(p);
         pedido = pedidoService.savePedido(pedido);
 
-        for (ItemPedidoDTO i : pedidoDTO.getItems()){
+        for (ItemPedidoDTO i : pedidoDTO.getItems()) {
             if (i.getCantidad() != 0) {
                 ItemPedido nuevo = new ItemPedido();
                 nuevo.setItem(itemMenuService.getItemMenuById(i.getItem()));
