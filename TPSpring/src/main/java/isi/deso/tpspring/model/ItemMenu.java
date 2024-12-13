@@ -35,10 +35,15 @@ public abstract class ItemMenu implements Comparable<ItemMenu>{
     @Column(name = "apto_vegano")
     protected boolean aptoVegano;
 
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "vendedor_id", nullable = true, foreignKey = @ForeignKey(value = ConstraintMode.NO_CONSTRAINT))
+    protected Vendedor vendedor;
+
+    /*
     @ManyToOne
     @JoinColumn(name = "vendedor_id")
     protected Vendedor vendedor;
-
+*/
     @OneToMany(mappedBy = "item", cascade = CascadeType.REMOVE, orphanRemoval = true)
     private List<ItemPedido> itemPedidos;
     

@@ -27,9 +27,13 @@ public class Pedido implements Observable, Comparable<Pedido> {
     @OneToMany(mappedBy = "pedido", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     private List<ItemPedido> items = new ArrayList<>();
 
-    @ManyToOne
-    @JoinColumn(name = "vendedor_id")
+    @ManyToOne(cascade = CascadeType.REMOVE, optional = true)
+    @JoinColumn(name = "vendedor_id", nullable = true, foreignKey = @ForeignKey(value = ConstraintMode.NO_CONSTRAINT))
     private Vendedor vendedor;
+
+    //@ManyToOne
+    //@JoinColumn(name = "vendedor_id")
+    //private Vendedor vendedor;
 
 //    @OneToOne
 //    @JoinColumn(name = "pago_id")

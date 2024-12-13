@@ -1,13 +1,6 @@
 package isi.deso.tpspring.model;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.OneToOne;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -39,7 +32,7 @@ public class Vendedor {
     @OneToOne
     private Coordenada coordenadas;
 
-    @OneToMany(mappedBy = "vendedor")
+    @OneToMany(mappedBy = "vendedor", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ItemMenu> menu = new ArrayList<>();
 
     @OneToMany(mappedBy = "vendedor")
