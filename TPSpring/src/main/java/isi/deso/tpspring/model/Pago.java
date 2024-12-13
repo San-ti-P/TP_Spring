@@ -27,13 +27,17 @@ public class Pago {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id; 
+
     @Column(name = "fecha")
     private Date fecha;
+
     @Column(name = "monto_final")
     private double montoFinal;
+
     @OneToOne
     @JoinColumn(name = "pedido_id")
     private Pedido pedido;
+
     @OneToOne
     @JoinColumn(name = "estrategia_de_pago_id")    
     private EstrategiaDePago estrategia;
@@ -43,6 +47,7 @@ public class Pago {
         this.fecha = fecha;
         this.estrategia = estrategia;
         this.setPedido(pedido);
+        this.montoFinal = estrategia.precioFinal(pedido.getPrecio());
     }
     
  /*   public Date getFecha() {
