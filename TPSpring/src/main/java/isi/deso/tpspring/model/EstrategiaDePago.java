@@ -22,5 +22,7 @@ public abstract class EstrategiaDePago {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     public abstract double precioFinal(double monto);
+    public abstract boolean esMercadoPago();
+    public abstract boolean esTransferencia();
 }
 

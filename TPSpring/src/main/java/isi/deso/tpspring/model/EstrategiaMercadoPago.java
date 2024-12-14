@@ -24,4 +24,14 @@ public class EstrategiaMercadoPago extends EstrategiaDePago {
     public double precioFinal(double monto) {
         return monto * RECARGO;
     }
+
+    @Override
+    public boolean esMercadoPago() {
+        return true;
+    }
+
+    @Override
+    public boolean esTransferencia() {
+        return false;
+    }
 }
