@@ -10,6 +10,6 @@ public class TpspringApplication {
 		SpringApplication.run(TpspringApplication.class, args);
 		System.out.println("http://localhost:8080/login");
 		System.out.println("username: tpdesarrollo");
-		System.out.print("password: contra123");
+		System.out.println("password: contra123");
 	}
 }
