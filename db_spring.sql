@@ -1,208 +1,5 @@
--- Hibernate: 
---     create table bebida (
---         graduacion_alcoholica float(23),
---         tamaño integer,
---         id integer not null,
---         primary key (id)
---     ) engine=InnoDB
--- Hibernate: 
---     create table categoria (
---         id integer not null auto_increment,
---         descripcion varchar(255),
---         tipo_item enum ('BEBIDA','PLATO'),
---         primary key (id)
---     ) engine=InnoDB
--- Hibernate: 
---     create table cliente (
---         id integer not null auto_increment,
---         activo bit,
---         cuit varchar(255),
---         direccion varchar(255),
---         email varchar(255),
---         nombre varchar(255),
---         coordenadas_id integer,
---         primary key (id)
---     ) engine=InnoDB
--- Hibernate: 
---     create table coordenada (
---         id integer not null auto_increment,
---         lat float(53),
---         lng float(53),
---         primary key (id)
---     ) engine=InnoDB
--- Hibernate: 
---     create table estrategia_de_pago_seq (
---         next_val bigint
---     ) engine=InnoDB
--- Hibernate: 
---     insert into estrategia_de_pago_seq values ( 1 )
--- Hibernate: 
---     create table estrategia_mercado_pago (
---         id integer not null,
---         alias varchar(255),
---         primary key (id)
---     ) engine=InnoDB
--- Hibernate: 
---     create table estrategia_transferencia (
---         id integer not null,
---         cbu varchar(255),
---         cuit varchar(255),
---         primary key (id)
---     ) engine=InnoDB
--- Hibernate: 
---     create table item_menu (
---         id integer not null auto_increment,
---         apto_vegano bit,
---         descripcion varchar(255),
---         nombre varchar(255),
---         precio float(23),
---         categoria_id integer,
---         vendedor_id integer,
---         primary key (id)
---     ) engine=InnoDB
--- Hibernate: 
---     create table item_pedido (
---         id integer not null auto_increment,
---         cantidad integer,
---         item_id integer,
---         pedido_id integer,
---         primary key (id)
---     ) engine=InnoDB
--- Hibernate: 
---     create table pago (
---         id integer not null auto_increment,
---         fecha datetime(6),
---         monto_final float(53),
---         estrategia_de_pago_id integer,
---         pedido_id integer,
---         primary key (id)
---     ) engine=InnoDB
--- Hibernate: 
---     create table pedido (
---         id integer not null auto_increment,
---         estado enum ('ENTREGADO','EN_ENVIO','EN_PREPARACION','RECIBIDO'),
---         observadores varbinary(255),
---         precio float(53),
---         cliente_id integer,
---         pago_id integer,
---         vendedor_id integer,
---         primary key (id)
---     ) engine=InnoDB
--- Hibernate: 
---     create table plato (
---         apto_celiaco bit,
---         calorias integer,
---         peso float(23),
---         id integer not null,
---         primary key (id)
---     ) engine=InnoDB
--- Hibernate: 
---     create table vendedor (
---         id integer not null auto_increment,
---         direccion varchar(255),
---         nombre varchar(255),
---         coordenadas_id integer,
---         primary key (id)
---     ) engine=InnoDB
--- Hibernate: 
---     alter table cliente 
---        drop index UKs7flyba3q35u2d8o7upiusi71
--- Hibernate: 
---     alter table cliente 
---        add constraint UKs7flyba3q35u2d8o7upiusi71 unique (coordenadas_id)
--- Hibernate: 
---     alter table pago 
---        drop index UKjs1u45p5haof5s2es63sp96yd
--- Hibernate: 
---     alter table pago 
---        add constraint UKjs1u45p5haof5s2es63sp96yd unique (estrategia_de_pago_id)
--- Hibernate: 
---     alter table pago 
---        drop index UKcjukh0gqou26iq8ro20j829ug
--- Hibernate: 
---     alter table pago 
---        add constraint UKcjukh0gqou26iq8ro20j829ug unique (pedido_id)
--- Hibernate: 
---     alter table pedido 
---        drop index UKfibo078ch1xjrp3bcq4piov4e
--- Hibernate: 
---     alter table pedido 
---        add constraint UKfibo078ch1xjrp3bcq4piov4e unique (pago_id)
--- Hibernate: 
---     alter table vendedor 
---        drop index UK1wdejfi9beapwmnffahee3oba
--- Hibernate: 
---     alter table vendedor 
---        add constraint UK1wdejfi9beapwmnffahee3oba unique (coordenadas_id)
--- Hibernate: 
---     alter table bebida 
---        add constraint FKf6a5syliy588ajkg19x3im9b1 
---        foreign key (id) 
---        references item_menu (id)
--- Hibernate: 
---     alter table cliente 
---        add constraint FKhyw3ha2srp9oo42relj3eidwe 
---        foreign key (coordenadas_id) 
---        references coordenada (id)
--- Hibernate: 
---     alter table item_menu 
---        add constraint FKpbnpjo9l39h63eqw6xw1ce44h 
---        foreign key (categoria_id) 
---        references categoria (id)
--- Hibernate: 
---     alter table item_menu 
---        add constraint FK894qmcfjjvmfl9u98c4pr8xgg 
---        foreign key (vendedor_id) 
---        references vendedor (id)
--- Hibernate: 
---     alter table item_pedido 
---        add constraint FKm4tfi0613ph7jnelurx3svgn6 
---        foreign key (item_id) 
---        references item_menu (id)
--- Hibernate: 
---     alter table item_pedido 
---        add constraint FK60ym08cfoysa17wrn1swyiuda 
---        foreign key (pedido_id) 
---        references pedido (id)
--- Hibernate: 
---     alter table pago 
---        add constraint FK8fojprqy7kv7k3d192m91e027 
---        foreign key (pedido_id) 
---        references pedido (id)
--- Hibernate: 
---     alter table pedido 
---        add constraint FK30s8j2ktpay6of18lbyqn3632 
---        foreign key (cliente_id) 
---        references cliente (id)
--- Hibernate: 
---     alter table pedido 
---        add constraint FKkcpitr7lxw3ky3oaqmlqit7d1 
---        foreign key (pago_id) 
---        references pago (id)
--- Hibernate: 
---     alter table pedido 
---        add constraint FKi6y72r3lhf410eb1mqbr41bwv 
---        foreign key (vendedor_id) 
---        references vendedor (id)
--- Hibernate: 
---     alter table plato 
---        add constraint FK1ptfgl94ejfdtjsdokef2ijja 
---        foreign key (id) 
---        references item_menu (id)
--- Hibernate: 
---     alter table vendedor 
---        add constraint FKb38jjduf0t9kqk5ye22n4iama 
---        foreign key (coordenadas_id) 
---        references coordenada (id)
-
-
-
-
-
-
 -- ========================================= EJECUTAR EN LA HERRAMIENTA SQL, PARADO EN LA BD (NO EN ALGUNA TABLA ESPECIFICA) =========================================
 
--- Insert Data for Coordenadas
 INSERT INTO coordenada (id, lat, lng) VALUES 
 (1, -34.6037, -58.3816), -- 1
 (2, -34.6132, -58.3794), -- 2
@@ -235,7 +32,6 @@ INSERT INTO coordenada (id, lat, lng) VALUES
 (29, -34.6300, -58.3940), -- 29
 (30, -34.6310, -58.3950); -- 30
 
--- Insert Data for Clientes
 INSERT INTO cliente (id, coordenadas_id, nombre, direccion, email, cuit, activo) VALUES 
 (1, 11, 'Roberto Sánchez', 'Calle 7 N°1234', 'roberto@email.com', '20-12345678-9', 1),
 (2, 12, 'Laura Díaz', 'Avenida 9 N°5678', 'laura@email.com', '27-87654321-0', 1),
@@ -258,7 +54,6 @@ INSERT INTO cliente (id, coordenadas_id, nombre, direccion, email, cuit, activo)
 (19, 29, 'Sofía Sanchez', 'Pasaje 35 N°2122', 'sofiasan@email.com', '27-10987654-9', 1),
 (20, 30, 'Diego Rios', 'Ruta 36 N°2324', 'diegorios@email.com', '20-09876543-0', 1);
 
--- Insert Data for Vendedores
 INSERT INTO vendedor (id, nombre, direccion, coordenadas_id) VALUES 
 (1, 'El Buen Sabor', 'Calle 1 N°123', 1),
 (2, 'Sabor a Hogar', 'Avenida 2 N°456', 2),
@@ -271,7 +66,6 @@ INSERT INTO vendedor (id, nombre, direccion, coordenadas_id) VALUES
 (9, 'El Sabor de Casa', 'Pasaje 9 N°1112', 9),
 (10, 'Gusto y Tradición', 'Ruta 10 N°1314', 10);
 
--- Insert Data for Categorias
 INSERT INTO categoria (id, descripcion, tipo_item) VALUES
 (1, 'Platos Principales', 'PLATO'),    
 (2, 'Bebidas Alcoholicas', 'BEBIDA'),   
@@ -287,7 +81,6 @@ INSERT INTO categoria (id, descripcion, tipo_item) VALUES
 (12, 'Harinas', 'PLATO'),              
 (13, 'Cervezas', 'BEBIDA');             
 
--- Insert Data for Items de Menú
 INSERT INTO item_menu (id, nombre, descripcion, precio, categoria_id, vendedor_id, apto_vegano) VALUES 
 (1, 'Hamburguesa Clásica', 'Hamburguesa de carne con queso', 1200.00, 6, 1, 0),     -- El Buen Sabor, Plato
 (2, 'Pizza Margherita', 'Pizza tradicional con albahaca', 1500.00, 1, 2, 1),        -- Sabor a Hogar, Plato
@@ -315,7 +108,6 @@ INSERT INTO item_menu (id, nombre, descripcion, precio, categoria_id, vendedor_i
 (24, 'Batido de Frutas', 'Batido de frutas frescas', 180.00, 4, 9, 1),              -- El Sabor de Casa, Bebida
 (25, 'Mojito', 'Cóctel de ron con menta', 250.00, 2, 10, 0);                        -- Gusto y Tradición, Bebida
 
--- Insert Data for Bebidas
 INSERT INTO bebida (id, graduacion_alcoholica, tamaño) VALUES 
 (16, 5.5, 330), -- Cerveza Artesanal
 (17, 0.0, 250), -- Jugo de Naranja
@@ -328,7 +120,6 @@ INSERT INTO bebida (id, graduacion_alcoholica, tamaño) VALUES
 (24, 0.0, 450), -- Batido de Frutas
 (25, 10.0, 300); -- Mojito
 
--- Insert Data for Platos
 INSERT INTO plato (id, apto_celiaco, calorias, peso) VALUES 
 (1, 0, 450, 250.5), -- Hamburguesa Clásica
 (2, 1, 320, 180.0), -- Pizza Margherita
@@ -345,32 +136,6 @@ INSERT INTO plato (id, apto_celiaco, calorias, peso) VALUES
 (13, 0, 200, 150.0), -- Ceviche
 (14, 0, 700, 400.0), -- Bife de Chorizo
 (15, 1, 200, 150.0); -- Helado de Vainilla
-
--- -- Insert Data for Estrategias de Mercado Pago
--- INSERT INTO estrategia_mercado_pago (id, alias) VALUES 
--- (1, 'mercadopago_roberto'),
--- (2, 'mercadopago_laura'),
--- (3, 'mercadopago_miguel'),
--- (4, 'mercadopago_sofia'),
--- (5, 'mercadopago_diego'),
--- (6, 'mercadopago_elena'),
--- (7, 'mercadopago_fernando'),
--- (8, 'mercadopago_patricia'),
--- (9, 'mercadopago_andres'),
--- (10, 'mercadopago_claudia');
-
--- -- Insert Data for Estrategias de Transferencia
--- INSERT INTO estrategia_transferencia (id, cbu, cuit) VALUES 
--- (1, '8901234567890123456789', '20-98765432-1'), -- María González
--- (2, '9012345678901234567890', '27-87654321-2'), -- Juan Pérez
--- (3, '0123456789012345678901', '20-76543210-3'), -- Ana Rodríguez
--- (4, '1234567890123456789013', '27-65432109-4'), -- Carlos Fernández
--- (5, '2345678901234567890124', '20-54321098-5'), -- Lucía Martínez
--- (6, '3456789012345678901235', '20-43210987-6'), -- Pedro Sánchez
--- (7, '4567890123456789012346', '27-32109876-7'), -- Laura Gómez
--- (8, '5678901234567890123457', '20-21098765-8'), -- Jorge Díaz
--- (9, '6789012345678901234568', '27-10987654-9'), -- Sofía Sanchez
--- (10, '7890123456789012345679', '20-09876543-0'); -- Diego Rios
 
 INSERT INTO estrategia_de_pago (id) VALUES 
 (1),
@@ -394,7 +159,6 @@ INSERT INTO estrategia_de_pago (id) VALUES
 (19),
 (20);
 
-
 INSERT INTO estrategia_mercado_pago (id, alias) VALUES 
 (1, 'mercadopago_roberto'),
 (2, 'mercadopago_laura'),
@@ -406,7 +170,6 @@ INSERT INTO estrategia_mercado_pago (id, alias) VALUES
 (8, 'mercadopago_patricia'),
 (9, 'mercadopago_andres'),
 (10, 'mercadopago_claudia');
-
 
 INSERT INTO estrategia_transferencia (id, cbu, cuit) VALUES 
 (11, '8901234567890123456789', '20-98765432-1'), 
@@ -420,8 +183,6 @@ INSERT INTO estrategia_transferencia (id, cbu, cuit) VALUES
 (19, '6789012345678901234568', '27-10987654-9'), 
 (20, '7890123456789012345679', '20-09876543-0');
 
-
--- Insert Data for Pedidos without pago_id
 INSERT INTO pedido (id, cliente_id, vendedor_id, precio, estado) VALUES 
 (1, 1, 1, 3200.00, 'EN_PREPARACION'), -- Roberto Sánchez, El Buen Sabor
 (2, 2, 2, 2700.00, 'ENTREGADO'), -- Laura Díaz, Sabor a Hogar
@@ -444,7 +205,6 @@ INSERT INTO pedido (id, cliente_id, vendedor_id, precio, estado) VALUES
 (19, 19, 9, 2900.00, 'ENTREGADO'), -- Sofía Sanchez, El Sabor de Casa
 (20, 20, 10, 3300.00, 'RECIBIDO'); -- Diego Rios, Gusto y Tradición
 
--- Insert Data for Pagos
 INSERT INTO pago (id, pedido_id, monto_final, fecha, estrategia_de_pago_id) VALUES 
 (1, 1, 3200.00, '2024-02-15 19:30:00', 1), -- Pedido 1, Estrategia de Pago 1
 (2, 2, 2700.00, '2024-02-16 20:15:00', 2), -- Pedido 2, Estrategia de Pago 2
@@ -467,7 +227,6 @@ INSERT INTO pago (id, pedido_id, monto_final, fecha, estrategia_de_pago_id) VALU
 (19, 19, 2900.00, '2024-03-05 18:45:00', 19), -- Pedido 19, Estrategia de Pago 19
 (20, 20, 3300.00, '2024-03-06 20:30:00', 20); -- Pedido 20, Estrategia de Pago 20
 
--- Update Pedidos to set pago_id
 UPDATE pedido SET pago_id = 1 WHERE id = 1;
 UPDATE pedido SET pago_id = 2 WHERE id = 2;
 UPDATE pedido SET pago_id = 3 WHERE id = 3;
@@ -489,7 +248,6 @@ UPDATE pedido SET pago_id = 18 WHERE id = 18;
 UPDATE pedido SET pago_id = 19 WHERE id = 19;
 UPDATE pedido SET pago_id = 20 WHERE id = 20;
 
--- Insert Data for Items de Pedidos ensuring same vendedor_id
 INSERT INTO item_pedido (id, pedido_id, item_id, cantidad) VALUES 
 (1, 1, 1, 2), -- Pedido 1, Hamburguesa Clásica (El Buen Sabor)
 (2, 1, 11, 1), -- Pedido 1, Tacos de Pollo (El Buen Sabor)

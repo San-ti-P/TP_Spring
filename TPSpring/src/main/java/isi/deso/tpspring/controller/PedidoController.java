@@ -164,12 +164,12 @@ public class PedidoController {
 
         if (pedido.getPago() != null) {
             EstrategiaDePago estrategia = pedido.getPago().getEstrategia();
-            if (estrategia instanceof EstrategiaMercadoPago) {
+            if (estrategia.esMercadoPago()) {
                 EstrategiaMercadoPago mercadoPago = (EstrategiaMercadoPago) estrategia;
                 pedidoDTO.setMedioDePago("MERCADOPAGO");
                 pedidoDTO.setAlias(mercadoPago.getAlias());
                 pedidoDTO.setTotal(subtotal * 1.04);
-            } else if (estrategia instanceof EstrategiaTransferencia) {
+            } else if (estrategia.esTransferencia()) {
                 EstrategiaTransferencia transferencia = (EstrategiaTransferencia) estrategia;
                 pedidoDTO.setMedioDePago("TRANSFERENCIA");
                 pedidoDTO.setCbu(transferencia.getCbu());
@@ -231,7 +231,7 @@ public class PedidoController {
         Pago existingPago = pedidoExistente.getPago();
 
         if (pedidoDTO.getMedioDePago().equalsIgnoreCase("MERCADOPAGO")) {
-            if (existingPago != null && existingPago.getEstrategia() instanceof EstrategiaMercadoPago) {
+            if (existingPago != null && existingPago.getEstrategia().esMercadoPago()) {
                 EstrategiaMercadoPago mercadoPago = (EstrategiaMercadoPago) existingPago.getEstrategia();
                 mercadoPago.setAlias(pedidoDTO.getAlias());
                 estrategia = estrategiaDePagoService.saveEstrategiaDePago(mercadoPago);
@@ -241,7 +241,7 @@ public class PedidoController {
                 estrategia = estrategiaDePagoService.saveEstrategiaDePago(mercadoPago);
             }
         } else {
-            if (existingPago != null && existingPago.getEstrategia() instanceof EstrategiaTransferencia) {
+            if (existingPago != null && existingPago.getEstrategia().esTransferencia()) {
                 EstrategiaTransferencia transferencia = (EstrategiaTransferencia) existingPago.getEstrategia();
                 transferencia.setCbu(pedidoDTO.getCbu());
                 transferencia.setCuit(pedidoDTO.getCuit());
