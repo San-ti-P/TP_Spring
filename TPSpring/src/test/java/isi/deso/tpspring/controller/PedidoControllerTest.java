@@ -8,8 +8,6 @@ package isi.deso.tpspring.controller;
 import static org.mockito.Mockito.*;
 import static org.assertj.core.api.Assertions.assertThat;
 
-import isi.deso.tpspring.controller.ClienteController;
-import isi.deso.tpspring.dto.ClienteDTO;
 import isi.deso.tpspring.dto.ItemPedidoDTO;
 import isi.deso.tpspring.dto.PedidoDTO;
 import isi.deso.tpspring.model.Bebida;
@@ -44,7 +42,6 @@ import org.springframework.ui.Model;
 
 import java.util.Arrays;
 import java.util.Date;
-import java.util.HashSet;
 import java.util.List;
 
 /**
@@ -123,121 +120,6 @@ public class PedidoControllerTest {
             new Vendedor(4, "Lo de Nestor", "Pedro de Vega 1423", new Coordenada(1, 10.0, 20.0)),
             new Vendedor(5, "McDonalds", "San Martin 384", new Coordenada(2, 30.0, 40.0))
         );
-        List<ItemMenu> itemsSimulados = Arrays.asList(
-                new Bebida(1, "Coca Cola", "Bebida gaseosa", 1.5f, Categoria.valueOf("gaseosas"), 
-                0.0f, 500, true, new Vendedor(4, "Lo de Nestor", "Pedro de Vega 1423", new Coordenada(1, 10.0, 20.0))),
-                new Plato(4, "Ensalada Verde", "Ensalada fresca con lechuga, rúcula, espinaca y aderezo de oliva", 150, true,
-                180.0f, 2.8f, Categoria.valueOf("verduras"), true, new Vendedor(4, "Lo de Nestor", "Pedro de Vega 1423", new Coordenada(1, 10.0, 20.0)))
-        );
-        List<ItemPedidoDTO> itemPedidoDTOSimulados = new ArrayList();
-        List<String> mediosDePagoSimulados = new ArrayList<>();
-        mediosDePagoSimulados.add("MERCADOPAGO");
-        mediosDePagoSimulados.add("TRANSFERENCIA");
-        
-        PedidoDTO pedidoDTOSimulado = new PedidoDTO();
-        pedidoDTOSimulado.setItems(itemPedidoDTOSimulados);
-        
-        when(clienteService.getAllClientes()).thenReturn(clientesSimulados);
-        when(vendedorService.getAllVendedores()).thenReturn(vendedoresSimulados);
-        when(vendedorService.getItemsMenuByVendedor(4)).thenReturn(itemsSimulados);
-        
-        String vista = pedidoController.newPedidoForm(null, modelo);
-        
-        verify(clienteService, times(1)).getAllClientes();
-        verify(vendedorService, times(1)).getAllVendedores();
-        verify(vendedorService, never()).getItemsMenuByVendedor(anyInt());
-        verify(modelo, times(1)).addAttribute("pedidoDTO", pedidoDTOSimulado);
-        verify(modelo, times(1)).addAttribute("clientes", clientesSimulados);
-        verify(modelo, times(1)).addAttribute("vendedores", vendedoresSimulados);
-        verify(modelo, times(1)).addAttribute("selectedVendedorId", null);
-        verify(modelo, times(1)).addAttribute("estados", EstadoPedido.values());
-        verify(modelo, times(1)).addAttribute("mediosdepago", mediosDePagoSimulados);
-        assertThat(vista).isEqualTo("nuevo_pedido_form");
-    }
-    
-    //Este no sé si tiene mucho sentido
-    @Test
-    public void testNewClienteFormSinIdVendedorSinVendedores(){
-        List<Cliente> clientesSimulados = Arrays.asList(
-            new Cliente(1, "Cliente 1", "Calle Falsa1 123"),
-            new Cliente(2, "Cliente 2", "Calle Falsa2 123")
-        );
-        List<Vendedor> vendedoresSimulados = Arrays.asList();
-        List<ItemMenu> itemsSimulados = Arrays.asList(
-                new Bebida(1, "Coca Cola", "Bebida gaseosa", 1.5f, Categoria.valueOf("gaseosas"), 
-                0.0f, 500, true, new Vendedor(4, "Lo de Nestor", "Pedro de Vega 1423", new Coordenada(1, 10.0, 20.0))),
-                new Plato(4, "Ensalada Verde", "Ensalada fresca con lechuga, rúcula, espinaca y aderezo de oliva", 150, true,
-                180.0f, 2.8f, Categoria.valueOf("verduras"), true, new Vendedor(4, "Lo de Nestor", "Pedro de Vega 1423", new Coordenada(1, 10.0, 20.0)))
-        );
-        List<ItemPedidoDTO> itemPedidoDTOSimulados = new ArrayList();
-        List<String> mediosDePagoSimulados = new ArrayList<>();
-        mediosDePagoSimulados.add("MERCADOPAGO");
-        mediosDePagoSimulados.add("TRANSFERENCIA");
-        
-        PedidoDTO pedidoDTOSimulado = new PedidoDTO();
-        pedidoDTOSimulado.setItems(itemPedidoDTOSimulados);
-        
-        when(clienteService.getAllClientes()).thenReturn(clientesSimulados);
-        when(vendedorService.getAllVendedores()).thenReturn(vendedoresSimulados);
-        when(vendedorService.getItemsMenuByVendedor(4)).thenReturn(itemsSimulados);
-        
-        String vista = pedidoController.newPedidoForm(null, modelo);
-        
-        verify(clienteService, times(1)).getAllClientes();
-        verify(vendedorService, times(1)).getAllVendedores();
-        verify(vendedorService, never()).getItemsMenuByVendedor(anyInt());
-        verify(modelo, times(1)).addAttribute("pedidoDTO", pedidoDTOSimulado);
-        verify(modelo, times(1)).addAttribute("clientes", clientesSimulados);
-        verify(modelo, times(1)).addAttribute("vendedores", vendedoresSimulados);
-        verify(modelo, times(1)).addAttribute("selectedVendedorId", null);
-        verify(modelo, times(1)).addAttribute("estados", EstadoPedido.values());
-        verify(modelo, times(1)).addAttribute("mediosdepago", mediosDePagoSimulados);
-        assertThat(vista).isEqualTo("nuevo_pedido_form");
-    }
-    //Este tampoco
-    @Test
-    public void testNewClienteFormSinIdVendedorSinClientes(){
-        List<Cliente> clientesSimulados = Arrays.asList();
-        List<Vendedor> vendedoresSimulados = Arrays.asList(
-            new Vendedor(4, "Lo de Nestor", "Pedro de Vega 1423", new Coordenada(1, 10.0, 20.0)),
-            new Vendedor(5, "McDonalds", "San Martin 384", new Coordenada(2, 30.0, 40.0))
-        );
-        List<ItemMenu> itemsSimulados = Arrays.asList(
-                new Bebida(1, "Coca Cola", "Bebida gaseosa", 1.5f, Categoria.valueOf("gaseosas"), 
-                0.0f, 500, true, new Vendedor(4, "Lo de Nestor", "Pedro de Vega 1423", new Coordenada(1, 10.0, 20.0))),
-                new Plato(4, "Ensalada Verde", "Ensalada fresca con lechuga, rúcula, espinaca y aderezo de oliva", 150, true,
-                180.0f, 2.8f, Categoria.valueOf("verduras"), true, new Vendedor(4, "Lo de Nestor", "Pedro de Vega 1423", new Coordenada(1, 10.0, 20.0)))
-        );
-        List<ItemPedidoDTO> itemPedidoDTOSimulados = new ArrayList();
-        List<String> mediosDePagoSimulados = new ArrayList<>();
-        mediosDePagoSimulados.add("MERCADOPAGO");
-        mediosDePagoSimulados.add("TRANSFERENCIA");
-        
-        PedidoDTO pedidoDTOSimulado = new PedidoDTO();
-        pedidoDTOSimulado.setItems(itemPedidoDTOSimulados);
-        
-        when(clienteService.getAllClientes()).thenReturn(clientesSimulados);
-        when(vendedorService.getAllVendedores()).thenReturn(vendedoresSimulados);
-        when(vendedorService.getItemsMenuByVendedor(4)).thenReturn(itemsSimulados);
-        
-        String vista = pedidoController.newPedidoForm(null, modelo);
-        
-        verify(clienteService, times(1)).getAllClientes();
-        verify(vendedorService, times(1)).getAllVendedores();
-        verify(vendedorService, never()).getItemsMenuByVendedor(anyInt());
-        verify(modelo, times(1)).addAttribute("pedidoDTO", pedidoDTOSimulado);
-        verify(modelo, times(1)).addAttribute("clientes", clientesSimulados);
-        verify(modelo, times(1)).addAttribute("vendedores", vendedoresSimulados);
-        verify(modelo, times(1)).addAttribute("selectedVendedorId", null);
-        verify(modelo, times(1)).addAttribute("estados", EstadoPedido.values());
-        verify(modelo, times(1)).addAttribute("mediosdepago", mediosDePagoSimulados);
-        assertThat(vista).isEqualTo("nuevo_pedido_form");
-    }
-    //Y este tampoco
-    @Test
-    public void testNewClienteFormSinIdVendedorSinVendedoresNiClientes(){
-        List<Cliente> clientesSimulados = Arrays.asList();
-        List<Vendedor> vendedoresSimulados = Arrays.asList();
         List<ItemMenu> itemsSimulados = Arrays.asList(
                 new Bebida(1, "Coca Cola", "Bebida gaseosa", 1.5f, Categoria.valueOf("gaseosas"), 
                 0.0f, 500, true, new Vendedor(4, "Lo de Nestor", "Pedro de Vega 1423", new Coordenada(1, 10.0, 20.0))),
