@@ -465,7 +465,7 @@ public class ItemMenuControllerTest {
     
     @Test
     public void testDeleteItemMenuFromVendedor(){
-         String vista = itemMenuController.deleteItemMenuFromVendedor(5, 2);
+        String vista = itemMenuController.deleteItemMenuFromVendedor(5, 2);
         
         verify(itemMenuService, times(1)).deleteItemMenu(2);
         assertThat(vista).isEqualTo("redirect:/vendedor/5/menu");

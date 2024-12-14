@@ -5,7 +5,10 @@
 package isi.deso.tpspring.controller;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.InjectMocks;
+import org.mockito.MockitoAnnotations;
 
 
 /**
@@ -14,8 +17,13 @@ import org.junit.jupiter.api.Test;
  */
 public class MenuControllerTest {
 
-    
+    @InjectMocks
     private MenuController menuController;
+    
+    @BeforeEach
+    public void setup() {
+        MockitoAnnotations.openMocks(this);
+    }
     
     @Test
     public void testMenu(){
