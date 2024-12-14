@@ -11,7 +11,7 @@
             let total = 0;
             items.forEach(row => {
                 const cantidad = row.querySelector('.item-cantidad').value;
-                const precio = parseFloat(row.querySelector('.prueba').value);
+                const precio = parseFloat(row.querySelector('.item-precio').value);
                 total += cantidad * precio;
             });
             document.getElementById('total').value = total.toFixed(2);
@@ -38,6 +38,12 @@
             }
             document.getElementById('montofinal').value = total.toFixed(2);
         }
+        function limpiarCampos() {
+            document.getElementById('total').value = 0.00;
+            document.getElementById('montofinal').value = 0.00;
+            document.getElementById('mpFields').style.display = 'none';
+            document.getElementById('transfFields').style.display = 'none';
+        }
     </script>
     <style> .mb-3 { font-weight: bold; } </style>
 </head>
@@ -51,33 +57,49 @@
             <br>
             <h1 class="text-center">Editar Pedido</h1>
             <div class="card-body">
-                <form method="post" th:action="@{/pedidos/{id}(id=${pedido.id})}" th:object="${pedidoDTO}">
+                <form method="post" th:action="@{/pedidos/{id}(id=${pedidoDTO.id})}" th:object="${pedidoDTO}">
+
+                    <!-- Vendedor -->
                     <div class="mb-3">
                         <label for="vendedor" class="form-label">Vendedor</label>
-                        <select id="vendedor" name="vendedorId" class="form-select" required>
+                        <select id="vendedor" name="vendedorId" class="form-select" required onchange="limpiarCampos()">
                             <option th:each="vendedor : ${vendedores}" th:value="${vendedor.id}"
                                     th:text="${vendedor.nombre}" th:selected="${vendedor.id == pedidoDTO.vendedor.id}"></option>
                         </select>
                     </div>
 
+                    <!-- Cliente -->
                     <div class="mb-3">
                         <label for="cliente" class="form-label">Cliente</label>
-                        <select id="cliente" name="clienteId" class="form-select" required>
+                        <select id="cliente" name="cliente.id" class="form-select" required>
                             <option th:each="cliente : ${clientes}" th:value="${cliente.id}"
                                     th:text="${cliente.nombre}" th:selected="${cliente.id == pedidoDTO.cliente.id}"></option>
                         </select>
                     </div>
 
+                    <!-- Lista de Items -->
                     <div class="mb-3">
                         <label class="form-label">Items</label>
-                        <div th:each="item : ${pedidoDTO.items}" class="item-row">
-                            <input type="hidden" th:field="*{items[__${item.index}__].id}">
-                            <span th:text="${item.nombre}"></span>
-                            <input type="number" min="1" class="item-cantidad" th:field="*{items[__${item.index}__].cantidad}" onchange="actualizarSubTotal()">
-                            <input type="hidden" th:field="*{items[__${item.index}__].precio}">
+
+                        <div style="background-color: #f0f4f8; font-weight: normal; padding: 5px; border-radius: 5px;">
+                            <div th:each="item, iterStat : ${pedidoDTO.items}" class="row mb-2 item-row" style="background-color: #ffffff; margin: 10px 10px; padding: 5px; display: flex; justify-content: space-between; align-items: center;">
+
+                                <input type="hidden" th:field="*{items[__${iterStat.index}__].id}">
+
+                                <div class="col-md-5" th:text="${item.nombre}"></div>
+
+                                <div class="col-md-2 text-end item-precio" th:text="'$' + ${item.precio}"></div>
+
+                                <div class="col-md-3 d-flex align-items-center">
+                                    <span>Cantidad:</span>
+                                    <input type="number" min="1" class="item-cantidad form-control ms-2" th:field="*{items[__${iterStat.index}__].cantidad}" onchange="actualizarSubTotal()">
+                                </div>
+                                <input type="hidden" class="item-precio" th:field="*{items[__${iterStat.index}__].precio}">
+                            </div>
                         </div>
                     </div>
 
+                    <!-- EstadoPedido -->
                     <div class="mb-3">
                         <label for="estado" class="form-label">Estado</label>
                         <select id="estado" name="estado" class="form-select">
@@ -86,6 +108,13 @@
                         </select>
                     </div>
 
+                    <!-- Subtotal -->
+                    <div class="mb-3">
+                        <label for="total" class="form-label">Subtotal</label>
+                        <input type="text" id="total" class="form-control" readonly th:value="${pedidoDTO.subtotal}">
+                    </div>
+
+                    <!-- MediosDePago -->
                     <div class="mb-3">
                         <label for="medio-pago" class="form-label">Medio de Pago</label>
                         <select id="medio-pago" name="medioDePago" class="form-select" onchange="actualizarTotalMedioPago()">
@@ -94,16 +123,28 @@
                         </select>
                     </div>
 
+                    <!-- Pago -->
                     <div id="mpFields" th:if="${pedidoDTO.medioDePago == 'MERCADOPAGO'}">
-                        <input type="text" name="alias" th:value="${pedidoDTO.alias}" placeholder="Alias">
+                        <label>Alias</label>
+                        <input type="text" name="alias" th:value="${pedidoDTO.alias}" placeholder="Alias" class="form-control">
                     </div>
                     <div id="transfFields" th:if="${pedidoDTO.medioDePago == 'TRANSFERENCIA'}">
-                        <input type="text" name="cbu" th:value="${pedidoDTO.cbu}" placeholder="CBU">
-                        <input type="text" name="cuit" th:value="${pedidoDTO.cuit}" placeholder="CUIT">
+                        <label>CUIT</label>
+                        <input type="text" name="cuit" th:value="${pedidoDTO.cuit}" placeholder="CUIT" class="form-control">
+                        <label>CBU</label>
+                        <input type="text" name="cbu" th:value="${pedidoDTO.cbu}" placeholder="CBU" class="form-control">
+                    </div>
+                    <br>
+
+                    <!-- Total -->
+                    <div class="mb-3">
+                        <label for="montofinal" class="form-label">Total</label>
+                        <input type="text" id="montofinal" class="form-control" readonly th:value="${pedidoDTO.total}">
                     </div>
 
-                    <div class="mb-3">
-                        <button type="submit" class="btn btn-primary">Guardar</button>
+                    <!-- Botones -->
+                    <div class="box-footer d-flex justify-content-end">
+                        <button type="submit" class="btn btn-primary me-2">Guardar</button>
                         <a th:href="@{/pedidos}" class="btn btn-danger">Cancelar</a>
                     </div>
                 </form>

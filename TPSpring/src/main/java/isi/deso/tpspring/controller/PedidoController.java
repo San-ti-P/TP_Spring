@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Controller
 public class PedidoController {
@@ -127,77 +128,113 @@ public class PedidoController {
     @GetMapping("/pedidos/editar/{id}")
     public String formularioEditar(@PathVariable Integer id, Model modelo) {
         Pedido pedido = pedidoService.getByIdPedido(id);
-//        PedidoDTO pedidoDTO = new PedidoDTO();
-//
-//        pedidoDTO.setId(pedido.getId());
-//        pedidoDTO.setVendedor(pedido.getVendedor());
-//        pedidoDTO.setCliente(pedido.getCliente());
-//        pedidoDTO.setItems(new ArrayList<>());
-//        pedidoDTO.setEstado(pedido.getEstado());
-//        pedidoDTO.setMedioDePago("MERCADOPAGO");
-//        pedidoDTO.setAlias("ALIAS DEL CUMPA");
-//        pedidoDTO.setCbu("CBU DEL CUMPA");
-//        pedidoDTO.setCuit("CUIT DEL CUMPA");
-//
-//        modelo.addAttribute("pedido", pedidoDTO);
+        PedidoDTO pedidoDTO = new PedidoDTO();
 
-        modelo.addAttribute("pedido", pedido);
+        pedidoDTO.setId(pedido.getId());
+        pedidoDTO.setCliente(pedido.getCliente());
+        pedidoDTO.setVendedor(pedido.getVendedor());
+        pedidoDTO.setEstado(pedido.getEstado());
+        pedidoDTO.setItems(
+                pedido.getItems().stream()
+                        .map(item -> new ItemPedidoDTO(
+                                item.getId(),
+                                item.getItem().getId(),
+                                item.getItem().getNombre(),
+                                item.getItem().getPrecio(),
+                                item.getCantidad()
+                        ))
+                        .collect(Collectors.toList())
+        );
+
+        double total = 0.0;
+        double subtotal = 0.0;
+        for (ItemPedidoDTO i : pedidoDTO.getItems()) subtotal += i.getPrecio() * i.getCantidad();
+        pedidoDTO.setSubtotal(subtotal);
+
+        if (pedido.getPago() != null) {
+            EstrategiaDePago estrategia = pedido.getPago().getEstrategia();
+            if (estrategia instanceof EstrategiaMercadoPago) {
+                EstrategiaMercadoPago mercadoPago = (EstrategiaMercadoPago) estrategia;
+                pedidoDTO.setMedioDePago("MERCADOPAGO");
+                pedidoDTO.setAlias(mercadoPago.getAlias());
+                pedidoDTO.setTotal(subtotal * 1.04);
+            } else if (estrategia instanceof EstrategiaTransferencia) {
+                EstrategiaTransferencia transferencia = (EstrategiaTransferencia) estrategia;
+                pedidoDTO.setMedioDePago("TRANSFERENCIA");
+                pedidoDTO.setCbu(transferencia.getCbu());
+                pedidoDTO.setCuit(transferencia.getCuit());
+                pedidoDTO.setTotal(subtotal * 1.02);
+            }
+            else System.out.println("Estamos en problemas");
+        }
+
+        List<Cliente> clientes = clienteService.getAllClientes();
+        List<Vendedor> vendedores = vendedorService.getAllVendedores();
+        List<String> mediosDePago = List.of("MERCADOPAGO", "TRANSFERENCIA");
+
+
+        modelo.addAttribute("clientes", clientes);
+        modelo.addAttribute("vendedores", vendedores);
+        modelo.addAttribute("selectedVendedorId", pedidoDTO.getVendedor().getId());
+        modelo.addAttribute("estados", EstadoPedido.values());
+        modelo.addAttribute("mediosdepago", mediosDePago);
+        modelo.addAttribute("pedidoDTO", pedidoDTO);
 
         return "editar_pedido";
     }
 
-    @PostMapping("/pedidos/{id}")
-    public String updatePedido(@ModelAttribute PedidoDTO pedidoDTO) throws VendedoresDistintosException {
-        Pedido pedidoExistente = pedidoService.getByIdPedido( (Integer) pedidoDTO.getId());
-
-        pedidoExistente.setCliente(clienteService.getByIdCliente(pedidoDTO.getCliente().getId()));
-        pedidoExistente.setVendedor(vendedorService.getByIdVendedor(pedidoDTO.getVendedor().getId()));
-
-        pedidoExistente.setEstado(pedidoDTO.getEstado());
-
-        List<ItemPedido> items = new ArrayList<>();
-        double subtotal = 0.0;
-
-        for (ItemPedidoDTO itemDTO : pedidoDTO.getItems()) {
-            ItemPedido item;
-            if (itemPedidoService.getByIdItemPedido(itemDTO.getItem()) == null) {
-                item = new ItemPedido();
-            } else {
-                item = itemPedidoService.getByIdItemPedido(itemDTO.getItem());
-            }
-
-            item.setCantidad(itemDTO.getCantidad());
-            item.setItem(itemMenuService.getItemMenuById(itemDTO.getItem()));
-            item.setPedido(pedidoExistente);
-            subtotal += itemDTO.getCantidad() * itemDTO.getPrecio();
-            itemPedidoService.saveItemPedido(item);
-            items.add(item);
-        }
-
-        pedidoExistente.setItems(items);
-        pedidoExistente.setPrecio(subtotal);
-
-        EstrategiaDePago estrategia;
-        if (pedidoDTO.getMedioDePago().equalsIgnoreCase("MERCADOPAGO")) {
-            EstrategiaMercadoPago mercadoPago = new EstrategiaMercadoPago();
-            mercadoPago.setAlias(pedidoDTO.getAlias());
-            estrategia = mercadoPago;
-        } else {
-            EstrategiaTransferencia transferencia = new EstrategiaTransferencia();
-            transferencia.setCbu(pedidoDTO.getCbu());
-            transferencia.setCuit(pedidoDTO.getCuit());
-            estrategia = transferencia;
-        }
-
-        estrategia = estrategiaDePagoService.saveEstrategiaDePago(estrategia);
-        Pago pago = new Pago(new Date(), pedidoExistente, estrategia);
-        pagoService.savePago(pago);
-        pedidoExistente.setPago(pago);
-
-        pedidoService.savePedido(pedidoExistente);
-
-        return "redirect:/pedidos";
-    }
+//    @PostMapping("/pedidos/{id}")
+//    public String updatePedido(@ModelAttribute PedidoDTO pedidoDTO) throws VendedoresDistintosException {
+//        Pedido pedidoExistente = pedidoService.getByIdPedido( (Integer) pedidoDTO.getId());
+//
+//        pedidoExistente.setCliente(clienteService.getByIdCliente(pedidoDTO.getCliente().getId()));
+//        pedidoExistente.setVendedor(vendedorService.getByIdVendedor(pedidoDTO.getVendedor().getId()));
+//
+//        pedidoExistente.setEstado(pedidoDTO.getEstado());
+//
+//        List<ItemPedido> items = new ArrayList<>();
+//        double subtotal = 0.0;
+//
+//        for (ItemPedidoDTO itemDTO : pedidoDTO.getItems()) {
+//            ItemPedido item;
+//            if (itemPedidoService.getByIdItemPedido(itemDTO.getItem()) == null) {
+//                item = new ItemPedido();
+//            } else {
+//                item = itemPedidoService.getByIdItemPedido(itemDTO.getItem());
+//            }
+//
+//            item.setCantidad(itemDTO.getCantidad());
+//            item.setItem(itemMenuService.getItemMenuById(itemDTO.getItem()));
+//            item.setPedido(pedidoExistente);
+//            subtotal += itemDTO.getCantidad() * itemDTO.getPrecio();
+//            itemPedidoService.saveItemPedido(item);
+//            items.add(item);
+//        }
+//
+//        pedidoExistente.setItems(items);
+//        pedidoExistente.setPrecio(subtotal);
+//
+//        EstrategiaDePago estrategia;
+//        if (pedidoDTO.getMedioDePago().equalsIgnoreCase("MERCADOPAGO")) {
+//            EstrategiaMercadoPago mercadoPago = new EstrategiaMercadoPago();
+//            mercadoPago.setAlias(pedidoDTO.getAlias());
+//            estrategia = mercadoPago;
+//        } else {
+//            EstrategiaTransferencia transferencia = new EstrategiaTransferencia();
+//            transferencia.setCbu(pedidoDTO.getCbu());
+//            transferencia.setCuit(pedidoDTO.getCuit());
+//            estrategia = transferencia;
+//        }
+//
+//        estrategia = estrategiaDePagoService.saveEstrategiaDePago(estrategia);
+//        Pago pago = new Pago(new Date(), pedidoExistente, estrategia);
+//        pagoService.savePago(pago);
+//        pedidoExistente.setPago(pago);
+//
+//        pedidoService.savePedido(pedidoExistente);
+//
+//        return "redirect:/pedidos";
+//    }
 
 
     @GetMapping("/pedidos/{id}")

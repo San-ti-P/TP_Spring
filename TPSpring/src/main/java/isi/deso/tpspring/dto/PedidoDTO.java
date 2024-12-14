@@ -25,4 +25,6 @@ public class PedidoDTO {
     private String alias;
     private String cbu;
     private String cuit;
+    private Double total;
+    private Double subtotal;
 }
