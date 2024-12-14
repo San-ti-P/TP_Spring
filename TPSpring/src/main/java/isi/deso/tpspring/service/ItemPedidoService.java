@@ -9,4 +9,5 @@ public interface ItemPedidoService {
     List<ItemPedido> getItemsByVendedor(Integer vendedorId);
     ItemPedido getItemById(Integer id);
     public ItemPedido saveItemPedido(ItemPedido ip);
+    public void deleteItemPedido(Integer id);
 }

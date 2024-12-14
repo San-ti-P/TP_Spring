@@ -108,7 +108,7 @@ public class PedidoController {
         pagoService.savePago(p);
         pedido.setPago(p);
         pedido = pedidoService.savePedido(pedido);
-        
+
         for (ItemPedidoDTO i : pedidoDTO.getItems()) {
             if (i.getCantidad() != 0) {
                 ItemPedido nuevo = new ItemPedido();
@@ -145,9 +145,9 @@ public class PedidoController {
                         .collect(Collectors.toList())
         );
 
-        double total = 0.0;
-        double subtotal = 0.0;
-        for (ItemPedidoDTO i : pedidoDTO.getItems()) subtotal += i.getPrecio() * i.getCantidad();
+        double subtotal = pedido.getItems().stream()
+                .mapToDouble(item -> item.getCantidad() * item.getItem().getPrecio())
+                .sum();
         pedidoDTO.setSubtotal(subtotal);
 
         if (pedido.getPago() != null) {
@@ -164,17 +164,14 @@ public class PedidoController {
                 pedidoDTO.setCuit(transferencia.getCuit());
                 pedidoDTO.setTotal(subtotal * 1.02);
             }
-            else System.out.println("Estamos en problemas");
         }
 
         List<Cliente> clientes = clienteService.getAllClientes();
         List<Vendedor> vendedores = vendedorService.getAllVendedores();
         List<String> mediosDePago = List.of("MERCADOPAGO", "TRANSFERENCIA");
 
-
         modelo.addAttribute("clientes", clientes);
         modelo.addAttribute("vendedores", vendedores);
-        modelo.addAttribute("selectedVendedorId", pedidoDTO.getVendedor().getId());
         modelo.addAttribute("estados", EstadoPedido.values());
         modelo.addAttribute("mediosdepago", mediosDePago);
         modelo.addAttribute("pedidoDTO", pedidoDTO);
@@ -182,63 +179,66 @@ public class PedidoController {
         return "editar_pedido";
     }
 
-//    @PostMapping("/pedidos/{id}")
-//    public String updatePedido(@ModelAttribute PedidoDTO pedidoDTO) throws VendedoresDistintosException {
-//        Pedido pedidoExistente = pedidoService.getByIdPedido( (Integer) pedidoDTO.getId());
-//
-//        pedidoExistente.setCliente(clienteService.getByIdCliente(pedidoDTO.getCliente().getId()));
-//        pedidoExistente.setVendedor(vendedorService.getByIdVendedor(pedidoDTO.getVendedor().getId()));
-//
-//        pedidoExistente.setEstado(pedidoDTO.getEstado());
-//
-//        List<ItemPedido> items = new ArrayList<>();
-//        double subtotal = 0.0;
-//
-//        for (ItemPedidoDTO itemDTO : pedidoDTO.getItems()) {
-//            ItemPedido item;
-//            if (itemPedidoService.getByIdItemPedido(itemDTO.getItem()) == null) {
-//                item = new ItemPedido();
-//            } else {
-//                item = itemPedidoService.getByIdItemPedido(itemDTO.getItem());
-//            }
-//
-//            item.setCantidad(itemDTO.getCantidad());
-//            item.setItem(itemMenuService.getItemMenuById(itemDTO.getItem()));
-//            item.setPedido(pedidoExistente);
-//            subtotal += itemDTO.getCantidad() * itemDTO.getPrecio();
-//            itemPedidoService.saveItemPedido(item);
-//            items.add(item);
-//        }
-//
-//        pedidoExistente.setItems(items);
-//        pedidoExistente.setPrecio(subtotal);
-//
-//        EstrategiaDePago estrategia;
-//        if (pedidoDTO.getMedioDePago().equalsIgnoreCase("MERCADOPAGO")) {
-//            EstrategiaMercadoPago mercadoPago = new EstrategiaMercadoPago();
-//            mercadoPago.setAlias(pedidoDTO.getAlias());
-//            estrategia = mercadoPago;
-//        } else {
-//            EstrategiaTransferencia transferencia = new EstrategiaTransferencia();
-//            transferencia.setCbu(pedidoDTO.getCbu());
-//            transferencia.setCuit(pedidoDTO.getCuit());
-//            estrategia = transferencia;
-//        }
-//
-//        estrategia = estrategiaDePagoService.saveEstrategiaDePago(estrategia);
-//        Pago pago = new Pago(new Date(), pedidoExistente, estrategia);
-//        pagoService.savePago(pago);
-//        pedidoExistente.setPago(pago);
-//
-//        pedidoService.savePedido(pedidoExistente);
-//
-//        return "redirect:/pedidos";
-//    }
+    @PostMapping("/pedidos/{id}")
+    public String updatePedido(@PathVariable Integer id, @ModelAttribute PedidoDTO pedidoDTO) throws VendedoresDistintosException {
+        Pedido pedidoExistente = pedidoService.getByIdPedido(id);
+
+        pedidoExistente.setCliente(clienteService.getByIdCliente(pedidoDTO.getCliente().getId()));
+        pedidoExistente.setVendedor(vendedorService.getByIdVendedor(pedidoDTO.getVendedor().getId()));
+        pedidoExistente.setEstado(pedidoDTO.getEstado());
+
+        List<ItemPedido> items = new ArrayList<>();
+        double subtotal = 0.0;
+
+        for (ItemPedidoDTO itemDTO : pedidoDTO.getItems()) {
+            if (itemDTO.getCantidad() > 0) {
+                ItemPedido item = new ItemPedido();
+                item.setItem(itemMenuService.getItemMenuById(itemDTO.getItem()));
+                item.setCantidad(itemDTO.getCantidad());
+                item.setPedido(pedidoExistente);
+                subtotal += itemDTO.getCantidad() * item.getItem().getPrecio();
+                items.add(item);
+            }
+        }
+
+        pedidoExistente.setItems(items);
+        pedidoExistente.setPrecio(subtotal);
+
+        EstrategiaDePago estrategia;
+        if (pedidoDTO.getMedioDePago().equalsIgnoreCase("MERCADOPAGO")) {
+            EstrategiaMercadoPago mercadoPago = new EstrategiaMercadoPago();
+            mercadoPago.setAlias(pedidoDTO.getAlias());
+            estrategia = mercadoPago;
+        } else {
+            EstrategiaTransferencia transferencia = new EstrategiaTransferencia();
+            transferencia.setCbu(pedidoDTO.getCbu());
+            transferencia.setCuit(pedidoDTO.getCuit());
+            estrategia = transferencia;
+        }
+
+        estrategia = estrategiaDePagoService.saveEstrategiaDePago(estrategia);
+        Pago pago = new Pago(new Date(), pedidoExistente, estrategia);
+        pagoService.savePago(pago);
+        pedidoExistente.setPago(pago);
+
+        pedidoService.savePedido(pedidoExistente);
+
+        return "redirect:/pedidos";
+    }
 
 
     @GetMapping("/pedidos/{id}")
     public String deletePedido(@PathVariable Integer id) {
         pedidoService.deletePedido(id);
         return "redirect:/pedidos";
+    }
+
+    @GetMapping("/pedidos/items/{vendedorId}")
+    @ResponseBody
+    public List<ItemPedidoDTO> getItemsVendedor(@PathVariable Integer vendedorId) {
+        List<ItemMenu> items = vendedorService.getItemsMenuByVendedor(vendedorId);
+        return items.stream()
+                .map(item -> new ItemPedidoDTO(null, item.getId(), item.getNombre(), item.getPrecio(), 0))
+                .collect(Collectors.toList());
     }
 }

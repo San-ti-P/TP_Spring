@@ -37,4 +37,9 @@ public class ItemPedidoServiceImpl implements ItemPedidoService{
     public ItemPedido saveItemPedido(ItemPedido ip) {
         return repositorio.save(ip);
     }
+
+    @Override
+    public void deleteItemPedido(Integer id) {
+        repositorio.deleteById(id);
+    }
 }
