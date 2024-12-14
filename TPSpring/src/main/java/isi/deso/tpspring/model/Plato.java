@@ -56,14 +56,17 @@ public class Plato extends ItemMenu{
     public float peso(){
         return (float)(peso*FACTOR_ENVASE);
     }
+
     @Override
     public boolean esComida(){
         return true;
     }
+
     @Override
     public boolean esBebida(){
         return false;
     }
+
     @Override
     public boolean aptoVegano(){
         return aptoVegano;

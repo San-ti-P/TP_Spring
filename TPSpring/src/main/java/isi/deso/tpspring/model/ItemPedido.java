@@ -18,15 +18,13 @@ public class ItemPedido {
     @Column(name = "cantidad")
     private int cantidad;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "item_id")
     private ItemMenu item;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "pedido_id")
     private Pedido pedido;
-
-//    La relación @ManyToOne con fetch = FetchType.LAZY significa que la entidad ItemPedido no cargará la entidad Pedido asociada hasta que se acceda explícitamente a ella.
 
     @Override
     public String toString() {

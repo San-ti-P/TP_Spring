@@ -1,6 +1,5 @@
 package isi.deso.tpspring.service;
 
-import isi.deso.tpspring.dao.EstrategiaDePagoRepository;
 import isi.deso.tpspring.dao.EstrategiaMercadoPagoRepository;
 import isi.deso.tpspring.dao.EstrategiaTransferenciaRepository;
 import isi.deso.tpspring.model.EstrategiaDePago;
@@ -13,17 +12,27 @@ import org.springframework.stereotype.Service;
 public class EstrategiaDePagoImpl implements EstrategiaDePagoService{
 
     @Autowired
-    private EstrategiaMercadoPagoRepository estMPRepository;
+    private EstrategiaMercadoPagoRepository mercadoPagoRepositorio;
     
     @Autowired
-    private EstrategiaTransferenciaRepository estTransferenciaRepository;
+    private EstrategiaTransferenciaRepository transferenciaRepositorio;
 
     @Override
     public EstrategiaDePago saveEstrategiaDePago(EstrategiaDePago e) {
         if (e instanceof EstrategiaMercadoPago) {
-            return estMPRepository.save((EstrategiaMercadoPago) e);
+            return mercadoPagoRepositorio.save((EstrategiaMercadoPago) e);
         } else if (e instanceof EstrategiaTransferencia) {
-            return estTransferenciaRepository.save((EstrategiaTransferencia) e);
+            return transferenciaRepositorio.save((EstrategiaTransferencia) e);
+        }
+        return null;
+    }
+
+    @Override
+    public EstrategiaDePago updateEstrategiaDePago(EstrategiaDePago e) {
+        if (e instanceof EstrategiaMercadoPago) {
+            return mercadoPagoRepositorio.save((EstrategiaMercadoPago) e);
+        } else if (e instanceof EstrategiaTransferencia) {
+            return transferenciaRepositorio.save((EstrategiaTransferencia) e);
         }
         return null;
     }

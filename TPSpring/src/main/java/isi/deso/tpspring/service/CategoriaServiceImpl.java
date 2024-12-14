@@ -1,11 +1,9 @@
-package isi.deso.tpspring.service.impl;
+package isi.deso.tpspring.service;
 
 import isi.deso.tpspring.dao.CategoriaRepository;
 import isi.deso.tpspring.model.Categoria;
-import isi.deso.tpspring.service.CategoriaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
 import java.util.Optional;
 

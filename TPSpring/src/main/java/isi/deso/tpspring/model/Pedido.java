@@ -14,7 +14,7 @@ import java.util.List;
 @AllArgsConstructor
 @Entity
 @Table(name = "pedido")
-public class Pedido implements Observable/*, Comparable<Pedido>*/ {
+public class Pedido {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -41,10 +41,6 @@ public class Pedido implements Observable/*, Comparable<Pedido>*/ {
 
     @Column(name = "precio")
     private double precio = 0;
-
-    // No se almacena en la BD
-    @Transient
-    private List<PedidoObserver> observadores = new ArrayList<>();
 
     public Pedido(int id, Cliente cliente, List<ItemPedido> items, Vendedor vendedor, EstadoPedido estado) {
         this.id = id;
@@ -83,34 +79,20 @@ public class Pedido implements Observable/*, Comparable<Pedido>*/ {
         }
     }
 
+
     @Override
     public String toString() {
-        return "Pedido{" + "id=" + id + ", cliente=" + cliente.toString() + ", items=" + items + ", vendedor=" + vendedor.toString() + '}';
+        return "Pedido{" +
+                "id=" + id +
+                ", cliente=" + cliente +
+                ", items=" + items +
+                ", vendedor=" + vendedor +
+                ", pago=" + pago +
+                ", estado=" + estado +
+                ", precio=" + precio +
+                '}';
     }
 
-    @Override
-    public void addObserver(PedidoObserver o) {
-        this.observadores.add(o);
-    }
-
-    @Override
-    public void removeObserver(PedidoObserver o) {
-        this.observadores.remove(o);
-    }
-
-    @Override
-    public void notifyObservers() {
-        Iterator<PedidoObserver> i = observadores.iterator();
-        while (i.hasNext()) {
-            i.next().update(this);
-        }
-    }
-
-//    @Override
-//    public int compareTo(Pedido p) {
-//        return this.id - p.getId();
-//    }
-    
     @Override
     public boolean equals(Object o){
         return id==(((Pedido) o).getId());

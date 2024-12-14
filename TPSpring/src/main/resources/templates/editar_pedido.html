@@ -57,7 +57,9 @@
                     items.forEach((item, index) => {
                         const itemHtml = `
                     <div class="row mb-2 item-row" style="background-color: #ffffff; margin: 10px 10px; padding: 5px; display: flex; justify-content: space-between; align-items: center;">
-                        <input name="items[${index}].item" value="${item.id}" type="hidden">
+                        <input name="items[${index}].item" value="${item.item}" type="hidden">
+                        <input name="items[${index}].id" value="${item.id}" type="hidden">
+
                         <div class="col-md-5">${item.nombre}</div>
                         <div class="col-md-2 text-end item-precio">$${item.precio}</div>
                         <input class="prueba" name="items[${index}].precio" value="${item.precio}" type="hidden">
@@ -119,13 +121,19 @@
                                  style="background-color: #ffffff; margin: 10px 10px; padding: 5px; display: flex; justify-content: space-between; align-items: center;"
                                  th:each="itemPedido, iterStat : ${pedidoDTO.items}">
 
+                                <!-- Campos ocultos para el DTO -->
                                 <input th:field="*{items[__${iterStat.index}__].item}" th:value="${itemPedido.item}" type="hidden">
+                                <input th:field="*{items[__${iterStat.index}__].id}" th:value="${itemPedido.id}" type="hidden">
+                                <input th:field="*{items[__${iterStat.index}__].nombre}" th:value="${itemPedido.nombre}" type="hidden">
 
+                                <!-- Nombre del item -->
                                 <div class="col-md-5" th:text="${itemPedido.nombre}"></div>
 
+                                <!-- Precio del item -->
                                 <div class="col-md-2 text-end item-precio" th:text="'$' + ${itemPedido.precio}"></div>
                                 <input class="prueba" th:field="*{items[__${iterStat.index}__].precio}" th:value="${itemPedido.precio}" type="hidden">
 
+                                <!-- Input para cantidad -->
                                 <div class="col-md-3 d-flex align-items-center">
                                     <span>Cantidad:</span>
                                     <input class="form-control item-cantidad ms-2"
@@ -138,7 +146,6 @@
                                 </div>
                             </div>
                         </div>
-
                     </div>
 
                     <!-- EstadoPedido -->
@@ -153,7 +160,7 @@
                     <!-- Subtotal -->
                     <div class="mb-3">
                         <label class="form-label" for="total">Subtotal</label>
-                        <input class="form-control" id="total" name="total" readonly th:value="${pedidoDTO.subtotal}" type="text">
+                        <input class="form-control" id="total" name="subtotal" readonly th:value="${pedidoDTO.subtotal}" type="text">
                     </div>
 
                     <!-- MediosDePago -->
@@ -188,7 +195,7 @@
                     <!-- Total -->
                     <div class="mb-3">
                         <label class="form-label" for="montofinal">Total</label>
-                        <input class="form-control" id="montofinal" name="montofinal" readonly th:value="${pedidoDTO.total}" type="text">
+                        <input class="form-control" id="montofinal" name="total" readonly th:value="${pedidoDTO.total}" type="text">
                     </div>
 
                     <!-- Botones -->

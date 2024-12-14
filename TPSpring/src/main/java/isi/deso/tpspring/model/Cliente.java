@@ -22,7 +22,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Entity
 @Table(name = "cliente")
-public class Cliente implements PedidoObserver {
+public class Cliente {
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -75,58 +75,19 @@ public class Cliente implements PedidoObserver {
         pedidos.remove(pedido);
     }
 
-
     @Override
-    public void update(Pedido p){
-        if(p.getEstado() == EstadoPedido.EN_ENVIO){
-        
-            Scanner scanner = new Scanner(System.in); 
-            System.out.println("Cliente 1: Como le gustaria pagar?: ");
-            System.out.println("Las opciones son: TRANSFERENCIA (2% de recargo), MERCADOPAGO (4% de recargo)");
-            String entradaMetodoPago = scanner.nextLine().toLowerCase().strip();
-            EstrategiaDePago e; 
-            
-            if (entradaMetodoPago.equalsIgnoreCase("transferencia")) {
-                EstrategiaTransferencia transferencia = new EstrategiaTransferencia(); 
-                System.out.println("Ingrese cuit: ");
-                String entradaCuit = scanner.nextLine().toLowerCase().strip();
-                System.out.println("Ingrese cbu: ");
-                String entradaCbu= scanner.nextLine().toLowerCase().strip();
-                transferencia.setCuit(entradaCuit);
-                transferencia.setCbu(entradaCbu); 
-                e = transferencia;
-            }
-            else if (entradaMetodoPago.equalsIgnoreCase("mercadopago")) {
-                EstrategiaMercadoPago mp = new EstrategiaMercadoPago(); 
-                System.out.println("Ingrese alias: ");
-                String entradaAlias = scanner.nextLine().toLowerCase().strip();
-                mp.setAlias(entradaAlias);
-                e = mp; 
-            }
-            else {
-                System.out.println("Método de pago no soportado");
-                return; 
-            }
-            Pago pago = new Pago(new Date(), p, e);
-            //(new PagoSQL()).agregarPago(pago, entradaMetodoPago);
-            p.setPago(pago);
-        }
+    public String toString() {
+        return "Cliente{" +
+                "id=" + id +
+                ", nombre='" + nombre + '\'' +
+                ", cuit='" + cuit + '\'' +
+                ", email='" + email + '\'' +
+                ", direccion='" + direccion + '\'' +
+                ", coordenadas=" + coordenadas +
+                ", pedidos=" + pedidos +
+                ", activo=" + activo +
+                '}';
     }
-//    @Override
-//    public String toString() {
-//        return this.nombre;
-//    }
 
-//    @Override
-//    public boolean equals(Object o){
-//        Cliente otro = (Cliente) o;
-//        return id == otro.getId() &&
-//                nombre.equals(otro.getNombre()) &&
-//                cuit.equals(otro.getCuit()) &&
-//                email.equals(otro.getEmail()) &&
-//                direccion.equals((otro.getDireccion())) &&
-//                coordenadas.getLat() == otro.getCoordenadas().getLat() &&
-//                coordenadas.getLng() == otro.getCoordenadas().getLng();
-//    }
 }
 
