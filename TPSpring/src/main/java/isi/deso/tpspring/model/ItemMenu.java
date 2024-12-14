@@ -35,19 +35,10 @@ public abstract class ItemMenu implements Comparable<ItemMenu>{
     @Column(name = "apto_vegano")
     protected boolean aptoVegano;
 
-//    @ManyToOne(cascade = CascadeType.ALL)
-//    @JoinColumn(name = "vendedor_id", nullable = true, foreignKey = @ForeignKey(value = ConstraintMode.NO_CONSTRAINT))
-//    protected Vendedor vendedor;
-
     @ManyToOne
     @JoinColumn(name = "vendedor_id", nullable = true, foreignKey = @ForeignKey(value = ConstraintMode.NO_CONSTRAINT))
     protected Vendedor vendedor;
 
-    /*
-    @ManyToOne
-    @JoinColumn(name = "vendedor_id")
-    protected Vendedor vendedor;
-*/
     @OneToMany(mappedBy = "item", cascade = CascadeType.REMOVE, orphanRemoval = true)
     private List<ItemPedido> itemPedidos;
     
@@ -73,19 +64,5 @@ public abstract class ItemMenu implements Comparable<ItemMenu>{
     public int compareTo(ItemMenu item) {
         return this.id - item.getId();
     }
-//    public abstract int getId();    
-//    public abstract String getNombre();
-//    public abstract String getDescripcion();
-      public abstract float getPrecio();
-//    public abstract Categoria getCategoria();
-//    public abstract boolean getAptoVegano();
-//    public abstract Vendedor getVendedor();
-//    public abstract void setId(int id);
-//    public abstract void setNombre(String nombre);
-//    public abstract void setDescripcion(String descripcion);
-//    public abstract void setPrecio(float precio);
-//    public abstract void setCategoria(Categoria categoria);
-//    public abstract void setAptoVegano(boolean aptoVegano);
-//    public abstract void setVendedor(Vendedor vendedor);
 }
 
