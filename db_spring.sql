@@ -489,45 +489,45 @@ UPDATE pedido SET pago_id = 18 WHERE id = 18;
 UPDATE pedido SET pago_id = 19 WHERE id = 19;
 UPDATE pedido SET pago_id = 20 WHERE id = 20;
 
-
+-- Insert Data for Items de Pedidos ensuring same vendedor_id
 INSERT INTO item_pedido (id, pedido_id, item_id, cantidad) VALUES 
-(1, 1, 1, 2), -- Pedido 1, Hamburguesa Clásica
-(2, 1, 3, 1), -- Pedido 1, Ensalada Verde
-(3, 2, 2, 1), -- Pedido 2, Pizza Margherita
-(4, 2, 7, 2), -- Pedido 2, Brownie de Chocolate
-(5, 3, 5, 1), -- Pedido 3, Tarta de Verduras
-(6, 3, 8, 1), -- Pedido 3, Empanadas Mix
-(7, 4, 4, 2), -- Pedido 4, Pollo al Horno
-(8, 4, 9, 1), -- Pedido 4, Cesar Vegano
-(9, 5, 6, 1), -- Pedido 5, Sushi Variado
-(10, 5, 10, 1), -- Pedido 5, Lasaña
-(11, 6, 11, 2), -- Pedido 6, Tacos de Pollo
-(12, 6, 12, 1), -- Pedido 6, Sopa de Tomate
-(13, 7, 13, 1), -- Pedido 7, Ceviche
-(14, 7, 14, 2), -- Pedido 7, Bife de Chorizo
-(15, 8, 15, 1), -- Pedido 8, Helado de Vainilla
-(16, 8, 1, 1), -- Pedido 8, Hamburguesa Clásica
-(17, 9, 2, 2), -- Pedido 9, Pizza Margherita
-(18, 9, 3, 1), -- Pedido 9, Ensalada Verde
-(19, 10, 4, 1), -- Pedido 10, Pollo al Horno
-(20, 10, 5, 2), -- Pedido 10, Tarta de Verduras
-(21, 11, 6, 1), -- Pedido 11, Sushi Variado
-(22, 11, 7, 1), -- Pedido 11, Brownie de Chocolate
-(23, 12, 8, 2), -- Pedido 12, Empanadas Mix
-(24, 12, 9, 1), -- Pedido 12, Cesar Vegano
-(25, 13, 10, 1), -- Pedido 13, Lasaña
-(26, 13, 11, 2), -- Pedido 13, Tacos de Pollo
-(27, 14, 12, 1), -- Pedido 14, Sopa de Tomate
-(28, 14, 13, 1), -- Pedido 14, Ceviche
-(29, 15, 14, 2), -- Pedido 15, Bife de Chorizo
-(30, 15, 15, 1), -- Pedido 15, Helado de Vainilla
-(31, 16, 1, 1), -- Pedido 16, Hamburguesa Clásica
-(32, 16, 2, 1), -- Pedido 16, Pizza Margherita
-(33, 17, 3, 2), -- Pedido 17, Ensalada Verde
-(34, 17, 4, 1), -- Pedido 17, Pollo al Horno
-(35, 18, 5, 1), -- Pedido 18, Tarta de Verduras
-(36, 18, 6, 1), -- Pedido 18, Sushi Variado
-(37, 19, 7, 2), -- Pedido 19, Brownie de Chocolate
-(38, 19, 8, 1), -- Pedido 19, Empanadas Mix
-(39, 20, 9, 1), -- Pedido 20, Cesar Vegano
-(40, 20, 10, 2); -- Pedido 20, Lasaña
+(1, 1, 1, 2), -- Pedido 1, Hamburguesa Clásica (El Buen Sabor)
+(2, 1, 11, 1), -- Pedido 1, Tacos de Pollo (El Buen Sabor)
+(3, 2, 2, 1), -- Pedido 2, Pizza Margherita (Sabor a Hogar)
+(4, 2, 12, 2), -- Pedido 2, Sopa de Tomate (Sabor a Hogar)
+(5, 3, 3, 1), -- Pedido 3, Ensalada Verde (Delicias del Chef)
+(6, 3, 13, 1), -- Pedido 3, Ceviche (Delicias del Chef)
+(7, 4, 4, 2), -- Pedido 4, Pollo al Horno (La Cocina de Abuela)
+(8, 4, 14, 1), -- Pedido 4, Bife de Chorizo (La Cocina de Abuela)
+(9, 5, 5, 1), -- Pedido 5, Tarta de Verduras (Sabores del Mundo)
+(10, 5, 15, 1), -- Pedido 5, Helado de Vainilla (Sabores del Mundo)
+(11, 6, 6, 2), -- Pedido 6, Sushi Variado (El Rincón Gourmet)
+(12, 6, 21, 1), -- Pedido 6, Limonada (El Rincón Gourmet)
+(13, 7, 7, 1), -- Pedido 7, Brownie de Chocolate (Fusión de Sabores)
+(14, 7, 22, 2), -- Pedido 7, Café Expreso (Fusión de Sabores)
+(15, 8, 8, 1), -- Pedido 8, Empanadas Mix (La Esquina del Sabor)
+(16, 8, 23, 1), -- Pedido 8, Té Verde (La Esquina del Sabor)
+(17, 9, 9, 2), -- Pedido 9, Cesar Vegano (El Sabor de Casa)
+(18, 9, 24, 1), -- Pedido 9, Batido de Frutas (El Sabor de Casa)
+(19, 10, 10, 1), -- Pedido 10, Lasaña (Gusto y Tradición)
+(20, 10, 25, 2), -- Pedido 10, Mojito (Gusto y Tradición)
+(21, 11, 1, 1), -- Pedido 11, Hamburguesa Clásica (El Buen Sabor)
+(22, 11, 11, 1), -- Pedido 11, Tacos de Pollo (El Buen Sabor)
+(23, 12, 2, 2), -- Pedido 12, Pizza Margherita (Sabor a Hogar)
+(24, 12, 12, 1), -- Pedido 12, Sopa de Tomate (Sabor a Hogar)
+(25, 13, 3, 1), -- Pedido 13, Ensalada Verde (Delicias del Chef)
+(26, 13, 13, 2), -- Pedido 13, Ceviche (Delicias del Chef)
+(27, 14, 4, 1), -- Pedido 14, Pollo al Horno (La Cocina de Abuela)
+(28, 14, 14, 1), -- Pedido 14, Bife de Chorizo (La Cocina de Abuela)
+(29, 15, 5, 2), -- Pedido 15, Tarta de Verduras (Sabores del Mundo)
+(30, 15, 15, 1), -- Pedido 15, Helado de Vainilla (Sabores del Mundo)
+(31, 16, 6, 1), -- Pedido 16, Sushi Variado (El Rincón Gourmet)
+(32, 16, 21, 1), -- Pedido 16, Limonada (El Rincón Gourmet)
+(33, 17, 7, 2), -- Pedido 17, Brownie de Chocolate (Fusión de Sabores)
+(34, 17, 22, 1), -- Pedido 17, Café Expreso (Fusión de Sabores)
+(35, 18, 8, 1), -- Pedido 18, Empanadas Mix (La Esquina del Sabor)
+(36, 18, 23, 1), -- Pedido 18, Té Verde (La Esquina del Sabor)
+(37, 19, 9, 2), -- Pedido 19, Cesar Vegano (El Sabor de Casa)
+(38, 19, 24, 1), -- Pedido 19, Batido de Frutas (El Sabor de Casa)
+(39, 20, 10, 1), -- Pedido 20, Lasaña (Gusto y Tradición)
+(40, 20, 25, 2); -- Pedido 20, Mojito (Gusto y Tradición)

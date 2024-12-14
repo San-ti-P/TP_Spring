@@ -13,7 +13,7 @@ import java.util.List;
 @Entity
 @Table(name = "item_menu")
 @Inheritance(strategy = InheritanceType.JOINED)
-public abstract class ItemMenu implements Comparable<ItemMenu>{
+public abstract class ItemMenu {
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -60,9 +60,5 @@ public abstract class ItemMenu implements Comparable<ItemMenu>{
                 '}';
     }
 
-    @Override
-    public int compareTo(ItemMenu item) {
-        return this.id - item.getId();
-    }
 }
 

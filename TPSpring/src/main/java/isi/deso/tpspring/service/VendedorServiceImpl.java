@@ -55,8 +55,7 @@ public class VendedorServiceImpl implements VendedorService{
 
 
     public List<ItemMenu> getItemsMenuByVendedor(Integer vendedorId) {
-        Vendedor vendedor = repositorio.findById(vendedorId)
-                .orElseThrow(() -> new RuntimeException("Vendedor no encontrado"));
+        Vendedor vendedor = repositorio.findById(vendedorId).orElseThrow(() -> new RuntimeException("No se encontro vendedor"));
         return vendedor.getMenu();
     }
 
