@@ -12,6 +12,7 @@
         }
         .form-group {
             margin-bottom: 1rem;
+            font-weight: bold;
         }
     </style>
     <script>
@@ -32,12 +33,12 @@
         }
     </script>
 </head>
-<body onload="toggleFields()">
+<body onload="toggleFields()" style="background-color: #f0f4f8;">
 <div th:replace="navbar :: navbar"></div>
 <br>
 <div class="container">
     <div class="row">
-        <div class="col-lg-6 col-md-6 col-sm-6 container justify-content-center card">
+        <div class="col-lg-6 col-md-6 col-sm-6 container justify-content-center card" style="background-color: #ffffff;">
             <form th:action="@{/items-menu/{id}(id=${itemMenu.id})}" th:object="${itemMenu}" method="POST">
                 <div class="card-body">
                     <h1 class="text-center">Editar Item del Menú</h1>
@@ -46,66 +47,67 @@
                         <input type="text" name="nombre" th:field="*{nombre}" class="form-control" required>
                     </div>
                     <div class="form-group">
-                        <label>Descripción:</label>
+                        <label>Descripción</label>
                         <input type="text" name="descripcion" th:field="*{descripcion}" class="form-control" required>
                     </div>
                     <div class="form-group">
-                        <label>Precio:</label>
+                        <label>Precio</label>
                         <input type="number" step="1" name="precio" th:field="*{precio}" class="form-control" min="0" value="0" required>
                     </div>
                     <div class="form-group">
-                        <label>Apto Vegano:</label>
+                        <label>Apto Vegano</label>
                         <input type="checkbox" name="aptoVegano" th:field="*{aptoVegano}" class="form-check-input">
                     </div>
                     <div class="form-group">
-                        <label>Tipo de Item:</label>
+                        <label>Tipo de Item</label>
                         <input type="text" id="tipo" name="tipo" th:field="*{tipo}" class="form-control readonly-input" readonly tabindex="-1">
                     </div>
                     <div class="form-group">
-                        <label>Categoria:</label>
+                        <label>Categoria</label>
                         <select name="categoriaId" th:field="*{categoriaId}" class="form-control">
                             <option th:each="categoria : ${categorias}" th:value="${categoria.id}" th:text="${categoria.descripcion}"></option>
                         </select>
                     </div>
                     <div class="form-group">
-                        <label>Vendedor:</label>
+                        <label>Vendedor</label>
                         <select name="vendedorId" th:field="*{vendedorId}" class="form-control">
                             <option th:each="vendedor : ${vendedores}" th:value="${vendedor.id}" th:text="${vendedor.nombre}"></option>
                         </select>
                     </div>
                     <div id="platoFields" style="display: none;">
                         <div class="form-group">
-                            <label>Calorías:</label>
+                            <label>Calorías</label>
                             <input type="number" name="calorias" th:field="*{calorias}" class="form-control" min="0" step="1" value="0">
                         </div>
                         <div class="form-group">
-                            <label>Apto Celíaco:</label>
+                            <label>Apto Celíaco</label>
                             <input type="checkbox" name="aptoCeliaco" th:field="*{aptoCeliaco}" class="form-check-input">
                         </div>
                         <div class="form-group">
-                            <label>Peso (g):</label>
+                            <label>Peso (g)</label>
                             <input type="number" name="peso" th:field="*{peso}" class="form-control" min="0" step="1" value="0">
                         </div>
                     </div>
                     <div id="bebidaFields" style="display: none;">
                         <div class="form-group">
-                            <label>Graduación Alcohólica (%):</label>
+                            <label>Graduación Alcohólica (%)</label>
                             <input type="number" name="graduacionAlcoholica" th:field="*{graduacionAlcoholica}" class="form-control" min="0" max="100" step="1" value="0">
                         </div>
                         <div class="form-group">
-                            <label>Tamaño (ml):</label>
+                            <label>Tamaño (ml)</label>
                             <input type="number" name="tamanio" th:field="*{tamanio}" class="form-control" min="0" step="1" value="0">
                         </div>
                     </div>
                 </div>
-                <br>
                 <div class="box-footer d-flex justify-content-end">
-                    <button type="submit" class="btn btn-info me-2">Guardar</button>
+                    <button type="submit" class="btn btn-primary me-2">Guardar</button>
                     <a th:href="@{/items-menu}" class="btn btn-danger">Cancelar</a>
                 </div>
+                <br>
             </form>
         </div>
     </div>
 </div>
+<br>
 </body>
 </html>

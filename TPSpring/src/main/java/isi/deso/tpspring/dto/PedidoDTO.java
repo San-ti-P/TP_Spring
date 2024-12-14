@@ -16,7 +16,7 @@ import java.util.List;
 @AllArgsConstructor
 
 public class PedidoDTO {
-    private Long id;
+    private Integer id;
     private Vendedor vendedor;
     private Cliente cliente;
     private List<ItemPedidoDTO> items = new ArrayList<>();

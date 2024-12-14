@@ -7,10 +7,7 @@ import isi.deso.tpspring.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -123,6 +120,88 @@ public class PedidoController {
         }
 
         pedido.setItems(items);
+        return "redirect:/pedidos";
+    }
+
+    @GetMapping("/pedidos/editar/{id}")
+    public String formularioEditar(@PathVariable Integer id, Model modelo) {
+        Pedido pedido = pedidoService.getByIdPedido(id);
+//        PedidoDTO pedidoDTO = new PedidoDTO();
+//
+//        pedidoDTO.setId(pedido.getId());
+//        pedidoDTO.setVendedor(pedido.getVendedor());
+//        pedidoDTO.setCliente(pedido.getCliente());
+//        pedidoDTO.setItems(new ArrayList<>());
+//        pedidoDTO.setEstado(pedido.getEstado());
+//        pedidoDTO.setMedioDePago("MERCADOPAGO");
+//        pedidoDTO.setAlias("ALIAS DEL CUMPA");
+//        pedidoDTO.setCbu("CBU DEL CUMPA");
+//        pedidoDTO.setCuit("CUIT DEL CUMPA");
+//
+//        modelo.addAttribute("pedido", pedidoDTO);
+
+        modelo.addAttribute("pedido", pedido);
+
+        return "editar_pedido";
+    }
+
+    @PostMapping("/pedidos/{id}")
+    public String updatePedido(@ModelAttribute PedidoDTO pedidoDTO) throws VendedoresDistintosException {
+        Pedido pedidoExistente = pedidoService.getByIdPedido( (Integer) pedidoDTO.getId());
+
+        pedidoExistente.setCliente(clienteService.getByIdCliente(pedidoDTO.getCliente().getId()));
+        pedidoExistente.setVendedor(vendedorService.getByIdVendedor(pedidoDTO.getVendedor().getId()));
+
+        pedidoExistente.setEstado(pedidoDTO.getEstado());
+
+        List<ItemPedido> items = new ArrayList<>();
+        double subtotal = 0.0;
+
+        for (ItemPedidoDTO itemDTO : pedidoDTO.getItems()) {
+            ItemPedido item;
+            if (itemPedidoService.getByIdItemPedido(itemDTO.getItem()) == null) {
+                item = new ItemPedido();
+            } else {
+                item = itemPedidoService.getByIdItemPedido(itemDTO.getItem());
+            }
+
+            item.setCantidad(itemDTO.getCantidad());
+            item.setItem(itemMenuService.getItemMenuById(itemDTO.getItem()));
+            item.setPedido(pedidoExistente);
+            subtotal += itemDTO.getCantidad() * itemDTO.getPrecio();
+            itemPedidoService.saveItemPedido(item);
+            items.add(item);
+        }
+
+        pedidoExistente.setItems(items);
+        pedidoExistente.setPrecio(subtotal);
+
+        EstrategiaDePago estrategia;
+        if (pedidoDTO.getMedioDePago().equalsIgnoreCase("MERCADOPAGO")) {
+            EstrategiaMercadoPago mercadoPago = new EstrategiaMercadoPago();
+            mercadoPago.setAlias(pedidoDTO.getAlias());
+            estrategia = mercadoPago;
+        } else {
+            EstrategiaTransferencia transferencia = new EstrategiaTransferencia();
+            transferencia.setCbu(pedidoDTO.getCbu());
+            transferencia.setCuit(pedidoDTO.getCuit());
+            estrategia = transferencia;
+        }
+
+        estrategia = estrategiaDePagoService.saveEstrategiaDePago(estrategia);
+        Pago pago = new Pago(new Date(), pedidoExistente, estrategia);
+        pagoService.savePago(pago);
+        pedidoExistente.setPago(pago);
+
+        pedidoService.savePedido(pedidoExistente);
+
+        return "redirect:/pedidos";
+    }
+
+
+    @GetMapping("/pedidos/{id}")
+    public String deletePedido(@PathVariable Integer id) {
+        pedidoService.deletePedido(id);
         return "redirect:/pedidos";
     }
 }
