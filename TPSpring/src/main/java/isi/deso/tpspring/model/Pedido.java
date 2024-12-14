@@ -14,7 +14,7 @@ import java.util.List;
 @AllArgsConstructor
 @Entity
 @Table(name = "pedido")
-public class Pedido implements Observable, Comparable<Pedido> {
+public class Pedido implements Observable/*, Comparable<Pedido>*/ {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -65,13 +65,12 @@ public class Pedido implements Observable, Comparable<Pedido> {
     }
 
     private boolean validarVendedorUnico(List<ItemPedido> items) {
-        Integer primer_id = items.getFirst().getItem().getVendedor().getId();
-        System.out.println("PRIMER ID item: "+items.getFirst().getItem().getId());
-        System.out.println("PRIMER ID: "+primer_id);
-        for (ItemPedido item : items) {
-            System.out.println("ID VENDEDOR: "+item.getItem().getVendedor().getId());
-            if (!(primer_id.equals(item.getItem().getVendedor().getId()))) {
-                return false;
+        if(items.size()>0){
+            Integer primer_id = items.getFirst().getItem().getVendedor().getId();
+            for (ItemPedido item : items) {
+                if (!(primer_id.equals(item.getItem().getVendedor().getId()))) {
+                    return false;
+                }
             }
         }
         return true;
@@ -86,7 +85,7 @@ public class Pedido implements Observable, Comparable<Pedido> {
 
     @Override
     public String toString() {
-        return "Pedido{" + "id=" + id + ", cliente=" + cliente.getNombre() + ", items=" + items + ", vendedor=" + vendedor.getNombre() + '}';
+        return "Pedido{" + "id=" + id + ", cliente=" + cliente.toString() + ", items=" + items + ", vendedor=" + vendedor.toString() + '}';
     }
 
     @Override
@@ -107,8 +106,13 @@ public class Pedido implements Observable, Comparable<Pedido> {
         }
     }
 
+//    @Override
+//    public int compareTo(Pedido p) {
+//        return this.id - p.getId();
+//    }
+    
     @Override
-    public int compareTo(Pedido p) {
-        return this.id - p.getId();
+    public boolean equals(Object o){
+        return id==(((Pedido) o).getId());
     }
 }
