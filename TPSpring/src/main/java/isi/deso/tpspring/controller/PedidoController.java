@@ -94,7 +94,6 @@ public class PedidoController {
         for (ItemPedidoDTO i : pedidoDTO.getItems()) subtotal += i.getCantidad() * i.getPrecio();
 
         pedido.setPrecio(subtotal);
-
         EstrategiaDePago estrategiaDePago;
         if (pedidoDTO.getMedioDePago().equalsIgnoreCase("mercadopago")) {
             EstrategiaMercadoPago nueva = new EstrategiaMercadoPago();
@@ -111,7 +110,7 @@ public class PedidoController {
         pagoService.savePago(p);
         pedido.setPago(p);
         pedido = pedidoService.savePedido(pedido);
-
+        
         for (ItemPedidoDTO i : pedidoDTO.getItems()) {
             if (i.getCantidad() != 0) {
                 ItemPedido nuevo = new ItemPedido();

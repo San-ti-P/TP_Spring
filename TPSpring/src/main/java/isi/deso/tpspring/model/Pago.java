@@ -71,5 +71,8 @@ public class Pago {
 //    public void setEstrategia(EstrategiaDePago estrategia) {
 //        this.estrategia = estrategia;
 //    }
-    
+    @Override
+    public boolean equals(Object o){
+        return id==(((Pago) o).getId());
+    }
 }

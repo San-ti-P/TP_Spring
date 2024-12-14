@@ -35,17 +35,17 @@ public class Bebida extends ItemMenu{
     public float getPrecio() {
         return this.precio;
     }
-//    public Bebida(int id, String nombre, String descripcion, float precio, Categoria categoria, float graduacion, int tam, boolean aptoVegano, Vendedor vendedor){
-//        this.id = id;
-//        this.nombre = nombre;
-//        this.descripcion = descripcion;
-//        this.precio = precio;
-//        this.categoria = categoria;
-//        this.aptoVegano = aptoVegano;
-//        this.vendedor = vendedor;
-//        graduacionAlcoholica = graduacion;
-//        tamaño = tam;
-//    }
+    public Bebida(int id, String nombre, String descripcion, float precio, Categoria categoria, float graduacion, int tam, boolean aptoVegano, Vendedor vendedor){
+        this.id = id;
+        this.nombre = nombre;
+        this.descripcion = descripcion;
+        this.precio = precio;
+        this.categoria = categoria;
+        this.aptoVegano = aptoVegano;
+        this.vendedor = vendedor;
+        graduacionAlcoholica = graduacion;
+        tamanio = tam;
+    }
 
     //    @Override
 //    public int getId() {

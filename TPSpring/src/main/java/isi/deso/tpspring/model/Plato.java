@@ -27,6 +27,19 @@ public class Plato extends ItemMenu{
     @Column(name = "peso")
     private float peso;
 
+    public Plato(int id, String nombre, String descripcion, int calorias, boolean aptoCeliaco, float peso, float precio, Categoria categoria, boolean aptoVegano, Vendedor vendedor) {
+        this.id = id;
+        this.nombre = nombre;
+        this.descripcion = descripcion;
+        this.calorias = calorias;
+        this.aptoCeliaco = aptoCeliaco;
+        this.peso = peso;
+        this.precio = precio;
+        this.categoria = categoria;
+        this.aptoVegano = aptoVegano;
+        this.vendedor = vendedor;
+    }
+    
     @Override
     public String toString() {
         return "Plato{" +

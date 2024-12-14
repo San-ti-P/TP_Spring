@@ -9,7 +9,9 @@ import static org.mockito.Mockito.*;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import isi.deso.tpspring.controller.ClienteController;
+import isi.deso.tpspring.dto.ClienteDTO;
 import isi.deso.tpspring.model.Cliente;
+import isi.deso.tpspring.model.Coordenada;
 import isi.deso.tpspring.service.ClienteService;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -73,16 +75,48 @@ public class ClienteControllerTest {
     }
     
     @Test
+    public void testNewClienteForm(){
+        String vista = clienteController.newClienteForm(modelo);
+        verify(modelo, times(1)).addAttribute("clienteDTO", new ClienteDTO());
+        assertThat(vista).isEqualTo("nuevo_cliente_form");
+    }
+    
+    @Test
     public void testSaveCliente() {
-//        List<Cliente> clientesSimulados = Arrays.asList();
-//
-//        when(clienteService.getAllClientes()).thenReturn(clientesSimulados);
-//
-//        String vista = clienteController.listClientes(modelo);
-//
-//        verify(clienteService, times(1)).getAllClientes();
-//        verify(modelo, times(1)).addAttribute("clientes", clientesSimulados);
-//        assertThat(vista).isEqualTo("clientes");
+        ClienteDTO clienteDTO = new ClienteDTO();
+        clienteDTO.setNombre("Nombre Test");
+        clienteDTO.setDireccion("Dirección Test");
+        clienteDTO.setCuit("20-12345678-9");
+        clienteDTO.setEmail("email@test.com");
+        clienteDTO.setLat(123.45);
+        clienteDTO.setLng(67.89);
+
+        Cliente cliente = new Cliente();
+        cliente.setNombre(clienteDTO.getNombre());
+        cliente.setDireccion(clienteDTO.getDireccion());
+        cliente.setCuit(clienteDTO.getCuit());
+        cliente.setEmail(clienteDTO.getEmail());
+
+        Coordenada coordenadas = new Coordenada();
+        coordenadas.setLat(clienteDTO.getLat());
+        coordenadas.setLng(clienteDTO.getLng());
+
+        cliente.setCoordenadas(coordenadas);
+        
+        
+        String vista = clienteController.saveCliente(clienteDTO);
+
+        verify(clienteService, times(1)).saveCliente(cliente);
+        assertThat(vista).isEqualTo("redirect:/clientes");
+    }
+    
+    @Test
+    public void testDeleteVendedor(){
+
+        String vista = clienteController.deleteVendedor(1);
+        
+        verify(clienteService, times(1)).deleteCliente(1);
+        assertThat(vista).isEqualTo("redirect:/clientes");
     }
     
 }
