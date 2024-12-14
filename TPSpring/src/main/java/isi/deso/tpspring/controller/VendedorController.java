@@ -22,7 +22,7 @@ public class VendedorController {
     }
 
     @GetMapping("/vendedores/nuevo")
-    public String newClienteForm(Model modelo){
+    public String newVendedorForm(Model modelo){
         VendedorDTO vendedorDTO = new VendedorDTO();
         modelo.addAttribute("vendedorDTO", vendedorDTO);
         return "nuevo_vendedor_form";

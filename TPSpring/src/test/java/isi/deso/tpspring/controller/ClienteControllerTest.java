@@ -111,9 +111,45 @@ public class ClienteControllerTest {
     }
     
     @Test
-    public void testDeleteVendedor(){
+    public void testFormularioEditar(){
+        Cliente cliente = new Cliente(1, "Cliente 1", "Calle Falsa1 123");
+        
+        when(clienteService.getByIdCliente(1)).thenReturn(cliente);
+        
+        String vista = clienteController.formularioEditar(1, modelo);
+        verify(modelo, times(1)).addAttribute("cliente", cliente);
+        assertThat(vista).isEqualTo("editar_cliente");
+    }
+    
+    @Test
+    public void testUpdateCliente() {
+        Coordenada coordenadas = new Coordenada();
+        coordenadas.setLat(123.45);
+        coordenadas.setLng(67.89);
 
-        String vista = clienteController.deleteVendedor(1);
+        Cliente cliente_existente = new Cliente(1, "Nombre Test", "20-12345678-9", "email@test.com", "Dirección Test", coordenadas);
+
+        Cliente cliente = new Cliente();
+        cliente.setNombre("Cliente 1");
+        cliente.setDireccion("Calle Falsa1 123");
+        cliente.setCuit("20-12345678-9");
+        cliente.setEmail("email@test.com");
+        cliente.setCoordenadas(coordenadas);
+        
+        Cliente cliente_modificado = new Cliente(1, "Cliente 1", "20-12345678-9", "email@test.com", "Calle Falsa1 123", coordenadas);
+        
+        when(clienteService.getByIdCliente(1)).thenReturn(cliente_existente);
+        
+        String vista = clienteController.updateCliente(1, cliente, modelo);
+
+        verify(clienteService, times(1)).updateCliente(cliente_modificado);
+        assertThat(vista).isEqualTo("redirect:/clientes");
+    }
+    
+    @Test
+    public void testDeleteCliente(){
+
+        String vista = clienteController.deleteCliente(1);
         
         verify(clienteService, times(1)).deleteCliente(1);
         assertThat(vista).isEqualTo("redirect:/clientes");
