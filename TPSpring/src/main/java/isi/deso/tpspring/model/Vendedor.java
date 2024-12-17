@@ -1,5 +1,7 @@
 package isi.deso.tpspring.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -29,9 +31,11 @@ public class Vendedor {
     private Coordenada coordenadas;
 
     @OneToMany(mappedBy = "vendedor", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference
     private List<ItemMenu> menu = new ArrayList<>();
 
     @OneToMany(mappedBy = "vendedor", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference
     private List<Pedido> pedidos = new ArrayList<>();
 
 

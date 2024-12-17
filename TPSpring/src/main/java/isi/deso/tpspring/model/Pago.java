@@ -1,5 +1,6 @@
 package isi.deso.tpspring.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 //import java.util.ArrayList;
 import java.util.Date;
@@ -27,6 +28,7 @@ public class Pago {
 
     @OneToOne
     @JoinColumn(name = "pedido_id")
+    @JsonBackReference
     private Pedido pedido;
 
     @OneToOne

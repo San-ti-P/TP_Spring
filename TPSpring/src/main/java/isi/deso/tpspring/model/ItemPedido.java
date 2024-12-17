@@ -1,5 +1,6 @@
 package isi.deso.tpspring.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -20,10 +21,12 @@ public class ItemPedido {
 
     @ManyToOne
     @JoinColumn(name = "item_id")
+    @JsonBackReference
     private ItemMenu item;
 
     @ManyToOne
     @JoinColumn(name = "pedido_id")
+    @JsonBackReference
     private Pedido pedido;
 
     @Override
