@@ -46,9 +46,6 @@ public class Cliente {
     @OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Pedido> pedidos = new ArrayList<>();
 
-    @Column(name = "activo")
-    private boolean activo;
-
     public Cliente(int id, String nombre, String cuit, String email, String direccion, Coordenada coordenadas) {
         this.id = id;
         this.nombre = nombre;
@@ -57,14 +54,12 @@ public class Cliente {
         this.direccion = direccion;
         this.coordenadas = coordenadas;
         this.pedidos = new ArrayList<>();
-        this.activo = true;
     }
 
     public Cliente(int id, String nombre, String direccion) {
         this.id = id;
         this.nombre = nombre;
         this.direccion = direccion;
-        this.activo = true;
     }
 
     public void agregarPedido(Pedido pedido){
@@ -85,7 +80,6 @@ public class Cliente {
                 ", direccion='" + direccion + '\'' +
                 ", coordenadas=" + coordenadas +
                 ", pedidos=" + pedidos +
-                ", activo=" + activo +
                 '}';
     }
 
