@@ -1,5 +1,7 @@
 package isi.deso.tpspring.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -22,17 +24,21 @@ public class Pedido {
 
     @ManyToOne
     @JoinColumn(name = "cliente_id")
+    @JsonBackReference
     private Cliente cliente;
 
     @OneToMany(mappedBy = "pedido", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    @JsonManagedReference
     private List<ItemPedido> items = new ArrayList<>();
 
     @ManyToOne
     @JoinColumn(name = "vendedor_id", nullable = true, foreignKey = @ForeignKey(value = ConstraintMode.NO_CONSTRAINT))
+    @JsonBackReference
     private Vendedor vendedor;
 
     @OneToOne(optional = true, cascade = {CascadeType.REMOVE}, orphanRemoval = true)
     @JoinColumn(name = "pago_id", nullable = true, foreignKey = @ForeignKey(value = ConstraintMode.NO_CONSTRAINT))
+    @JsonManagedReference
     private Pago pago;
 
     @Enumerated(EnumType.STRING)

@@ -1,5 +1,7 @@
 package isi.deso.tpspring.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -14,7 +16,7 @@ import java.util.List;
 @Table(name = "item_menu")
 @Inheritance(strategy = InheritanceType.JOINED)
 public abstract class ItemMenu {
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     protected Integer id;
@@ -37,9 +39,11 @@ public abstract class ItemMenu {
 
     @ManyToOne
     @JoinColumn(name = "vendedor_id", nullable = true, foreignKey = @ForeignKey(value = ConstraintMode.NO_CONSTRAINT))
+    @JsonBackReference
     protected Vendedor vendedor;
 
     @OneToMany(mappedBy = "item", cascade = CascadeType.REMOVE, orphanRemoval = true)
+    @JsonManagedReference
     private List<ItemPedido> itemPedidos;
     
     public abstract float peso();
