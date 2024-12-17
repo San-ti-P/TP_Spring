@@ -261,7 +261,7 @@ public class ItemMenuController {
     }
 
     @GetMapping("/vendedor/{id}/items-menu/{itemId}/eliminar")
-        public String deleteItemMenuFromVendedor(@PathVariable Integer id, @PathVariable Integer itemId) {
+    public String deleteItemMenuFromVendedor(@PathVariable Integer id, @PathVariable Integer itemId) {
         itemMenuService.deleteItemMenu(itemId);
         return "redirect:/vendedor/" + id + "/menu";
     }
