@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 public class ClienteController {
     @Autowired
     private ClienteService servicio;
-    
+
     @GetMapping("/clientes")
     public String listClientes(Model modelo){
         modelo.addAttribute("clientes", servicio.getAllClientes());
@@ -30,7 +30,7 @@ public class ClienteController {
         modelo.addAttribute("clienteDTO", clienteDTO);
         return "nuevo_cliente_form";
     }
-    
+
     @PostMapping("/clientes")
     public String saveCliente(@ModelAttribute("cliente") ClienteDTO clienteDTO){
         Cliente cliente = new Cliente();
