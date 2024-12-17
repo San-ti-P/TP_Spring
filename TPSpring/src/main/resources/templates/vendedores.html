@@ -18,7 +18,7 @@
                 let textoFila = "";
 
 
-                for (let j = 0; j < celdas.length; j++) textoFila += celdas[j].textContent.toLowerCase();
+                for (let j = 0; j < celdas.length-2; j++) textoFila += celdas[j].textContent.toLowerCase();
 
                 if (textoFila.includes(inputBusqueda)) filas[i].style.display = "";
                 else filas[i].style.display = "none";
