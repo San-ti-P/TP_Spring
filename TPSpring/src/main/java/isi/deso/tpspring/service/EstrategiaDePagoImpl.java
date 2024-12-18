@@ -36,4 +36,13 @@ public class EstrategiaDePagoImpl implements EstrategiaDePagoService{
         }
         return null;
     }
+    
+    @Override
+    public void deleteEstrategiaDePago(EstrategiaDePago e) {
+        if (e instanceof EstrategiaMercadoPago) {
+            mercadoPagoRepositorio.delete((EstrategiaMercadoPago) e);
+        } else if (e instanceof EstrategiaTransferencia) {
+            transferenciaRepositorio.delete((EstrategiaTransferencia) e);
+        }
+    }
 }

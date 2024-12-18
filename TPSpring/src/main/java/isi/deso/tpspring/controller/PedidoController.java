@@ -65,10 +65,9 @@ public class PedidoController {
                 itemPedidoDTO.setCantidad(0);
                 itemPedidoDTOs.add(itemPedidoDTO);
             }
-        } else System.out.println("VENDEDOR ID ES NULL");
+        }
 
         pedidoDTO.setItems(itemPedidoDTOs);
-        System.out.println("LISTA DE ITEMS ENVIADA: " + pedidoDTO.getItems());
 
         modelo.addAttribute("pedidoDTO", pedidoDTO);
         modelo.addAttribute("clientes", clientes);

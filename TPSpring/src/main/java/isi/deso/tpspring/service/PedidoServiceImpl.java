@@ -18,6 +18,10 @@ public class PedidoServiceImpl implements PedidoService{
     PagoRepository pagoRepositorio;
     @Autowired
     ClienteRepository clienteRepositorio;
+    @Autowired
+    ItemPedidoRepository itemPedidoRepositorio;
+    @Autowired
+    EstrategiaDePagoService estPagoServicio;
 
     @Override
     public List<Pedido> getAllPedidos() {
@@ -59,7 +63,15 @@ public class PedidoServiceImpl implements PedidoService{
 
     @Override
     public void deletePedido(Integer id) {
-        repositorio.deleteById(id);
+        Pedido p = repositorio.findById(id).orElse(null);
+        if(p!=null){
+            estPagoServicio.deleteEstrategiaDePago(p.getPago().getEstrategia());
+            pagoRepositorio.delete(p.getPago());
+            for (ItemPedido item : p.getItems()){
+                itemPedidoRepositorio.delete(item);
+            }
+            repositorio.deleteById(id);
+        }
     }
 
 }

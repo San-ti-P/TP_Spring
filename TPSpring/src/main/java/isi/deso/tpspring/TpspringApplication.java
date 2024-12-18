@@ -8,8 +8,6 @@ public class TpspringApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(TpspringApplication.class, args);
-		System.out.println("http://localhost:8080/login");
-		System.out.println("username: tpdesarrollo");
-		System.out.println("password: contra123");
+		System.out.println("http://localhost:8080/menu");
 	}
 }

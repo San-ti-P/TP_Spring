@@ -50,7 +50,12 @@ public class VendedorServiceImpl implements VendedorService{
 
     @Override
     public void deleteVendedor(Integer id) {
-        repositorio.deleteById(id);
+        Vendedor v = repositorio.findById(id).orElse(null);
+        if(v!=null){
+            coordenadaRepositorio.delete(v.getCoordenadas());
+            repositorio.deleteById(id);
+        }
+        
     }
 
 

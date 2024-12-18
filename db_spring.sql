@@ -89,7 +89,6 @@ INSERT INTO `categoria` (`id`, `descripcion`, `tipo_item`) VALUES
 --
 
 CREATE TABLE `cliente` (
-  `activo` bit(1) DEFAULT NULL,
   `coordenadas_id` int DEFAULT NULL,
   `id` int NOT NULL,
   `cuit` varchar(255) DEFAULT NULL,
@@ -102,27 +101,27 @@ CREATE TABLE `cliente` (
 -- Volcado de datos para la tabla `cliente`
 --
 
-INSERT INTO `cliente` (`activo`, `coordenadas_id`, `id`, `cuit`, `direccion`, `email`, `nombre`) VALUES
-(b'1', 11, 1, '20-12345678-9', 'Calle 7 N°1234', 'roberto@email.com', 'Roberto Sánchez'),
-(b'1', 12, 2, '27-87654321-0', 'Avenida 9 N°5678', 'laura@email.com', 'Laura Díaz'),
-(b'1', 13, 3, '20-45678912-3', 'Boulevard 11 N°910', 'miguel@email.com', 'Miguel Ruiz'),
-(b'1', 14, 4, '27-23456789-1', 'Pasaje 13 N°1112', 'sofia@email.com', 'Sofía López'),
-(b'1', 15, 5, '20-56789123-4', 'Ruta 15 N°1314', 'diego@email.com', 'Diego Morales'),
-(b'1', 16, 6, '20-67891234-5', 'Calle 17 N°1516', 'elena@email.com', 'Elena Pérez'),
-(b'1', 17, 7, '27-78912345-6', 'Avenida 19 N°1718', 'fernando@email.com', 'Fernando García'),
-(b'1', 18, 8, '20-89123456-7', 'Boulevard 21 N°1920', 'patricia@email.com', 'Patricia Torres'),
-(b'1', 19, 9, '27-91234567-8', 'Pasaje 23 N°2122', 'andres@email.com', 'Andrés Gómez'),
-(b'1', 20, 10, '20-12345678-9', 'Ruta 25 N°2324', 'claudia@email.com', 'Claudia Fernández'),
-(b'1', 21, 11, '20-98765432-1', 'Calle 27 N°1234', 'maria@email.com', 'María González'),
-(b'1', 22, 12, '27-87654321-2', 'Avenida 28 N°5678', 'juan@email.com', 'Juan Pérez'),
-(b'1', 23, 13, '20-76543210-3', 'Boulevard 29 N°910', 'ana@email.com', 'Ana Rodríguez'),
-(b'1', 24, 14, '27-65432109-4', 'Pasaje 30 N°1112', 'carlos@email.com', 'Carlos Fernández'),
-(b'1', 25, 15, '20-54321098-5', 'Ruta 31 N°1314', 'lucian@email.com', 'Lucía Martínez'),
-(b'1', 26, 16, '20-43210987-6', 'Calle 32 N°1516', 'pedros@email.com', 'Pedro Sánchez'),
-(b'1', 27, 17, '27-32109876-7', 'Avenida 33 N°1718', 'laurag@email.com', 'Laura Gómez'),
-(b'1', 28, 18, '20-21098765-8', 'Boulevard 34 N°1920', 'jorged@email.com', 'Jorge Díaz'),
-(b'1', 29, 19, '27-10987654-9', 'Pasaje 35 N°2122', 'sofiasan@email.com', 'Sofía Sanchez'),
-(b'1', 30, 20, '20-09876543-0', 'Ruta 36 N°2324', 'diegorios@email.com', 'Diego Rios');
+INSERT INTO `cliente` (`coordenadas_id`, `id`, `cuit`, `direccion`, `email`, `nombre`) VALUES
+(11, 1, '20-12345678-9', 'Calle 7 N°1234', 'roberto@email.com', 'Roberto Sánchez'),
+(12, 2, '27-87654321-0', 'Avenida 9 N°5678', 'laura@email.com', 'Laura Díaz'),
+(13, 3, '20-45678912-3', 'Boulevard 11 N°910', 'miguel@email.com', 'Miguel Ruiz'),
+(14, 4, '27-23456789-1', 'Pasaje 13 N°1112', 'sofia@email.com', 'Sofía López'),
+(15, 5, '20-56789123-4', 'Ruta 15 N°1314', 'diego@email.com', 'Diego Morales'),
+(16, 6, '20-67891234-5', 'Calle 17 N°1516', 'elena@email.com', 'Elena Pérez'),
+(17, 7, '27-78912345-6', 'Avenida 19 N°1718', 'fernando@email.com', 'Fernando García'),
+(18, 8, '20-89123456-7', 'Boulevard 21 N°1920', 'patricia@email.com', 'Patricia Torres'),
+(19, 9, '27-91234567-8', 'Pasaje 23 N°2122', 'andres@email.com', 'Andrés Gómez'),
+(20, 10, '20-12345678-9', 'Ruta 25 N°2324', 'claudia@email.com', 'Claudia Fernández'),
+(21, 11, '20-98765432-1', 'Calle 27 N°1234', 'maria@email.com', 'María González'),
+(22, 12, '27-87654321-2', 'Avenida 28 N°5678', 'juan@email.com', 'Juan Pérez'),
+(23, 13, '20-76543210-3', 'Boulevard 29 N°910', 'ana@email.com', 'Ana Rodríguez'),
+(24, 14, '27-65432109-4', 'Pasaje 30 N°1112', 'carlos@email.com', 'Carlos Fernández'),
+(25, 15, '20-54321098-5', 'Ruta 31 N°1314', 'lucian@email.com', 'Lucía Martínez'),
+(26, 16, '20-43210987-6', 'Calle 32 N°1516', 'pedros@email.com', 'Pedro Sánchez'),
+(27, 17, '27-32109876-7', 'Avenida 33 N°1718', 'laurag@email.com', 'Laura Gómez'),
+(28, 18, '20-21098765-8', 'Boulevard 34 N°1920', 'jorged@email.com', 'Jorge Díaz'),
+(29, 19, '27-10987654-9', 'Pasaje 35 N°2122', 'sofiasan@email.com', 'Sofía Sanchez'),
+(30, 20, '20-09876543-0', 'Ruta 36 N°2324', 'diegorios@email.com', 'Diego Rios');
 
 -- --------------------------------------------------------
 
