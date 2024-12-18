@@ -3,9 +3,10 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: localhost:3306
--- Tiempo de generación: 14-12-2024 a las 23:12:40
+-- Tiempo de generación: 18-12-2024 a las 01:19:23
 -- Versión del servidor: 8.0.30
 -- Versión de PHP: 8.1.10
+
 CREATE DATABASE db_spring;
 USE db_spring;
 
@@ -261,6 +262,7 @@ INSERT INTO `estrategia_transferencia` (`id`, `cbu`, `cuit`) VALUES
 (18, '5678901234567890123457', '20-21098765-8'),
 (19, '6789012345678901234568', '27-10987654-9'),
 (20, '7890123456789012345679', '20-09876543-0');
+
 
 -- --------------------------------------------------------
 

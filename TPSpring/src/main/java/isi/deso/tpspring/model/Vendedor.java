@@ -27,7 +27,7 @@ public class Vendedor {
     @Column(name = "direccion")
     private String direccion;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.REMOVE)
     private Coordenada coordenadas;
 
     @OneToMany(mappedBy = "vendedor", cascade = CascadeType.ALL, orphanRemoval = true)

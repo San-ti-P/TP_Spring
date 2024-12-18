@@ -50,15 +50,10 @@ public class VendedorServiceImpl implements VendedorService{
 
     @Override
     public void deleteVendedor(Integer id) {
-        Vendedor v = repositorio.findById(id).orElse(null);
-        if(v!=null){
-            coordenadaRepositorio.delete(v.getCoordenadas());
-            repositorio.deleteById(id);
-        }
-        
+        repositorio.deleteById(id);
     }
 
-
+    @Override
     public List<ItemMenu> getItemsMenuByVendedor(Integer vendedorId) {
         Vendedor vendedor = repositorio.findById(vendedorId).orElseThrow(() -> new RuntimeException("No se encontro vendedor"));
         return vendedor.getMenu();

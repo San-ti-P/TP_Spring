@@ -46,11 +46,7 @@ public class ClienteServiceImpl implements ClienteService{
     @Transactional
     @Override
     public void deleteCliente(Integer id) {
-        Cliente c = repositorioCliente.findById(id).orElse(null);
-        if(c!=null){
-            repositorioCoordenada.delete(c.getCoordenadas());
-            repositorioCliente.deleteById(id);
-        }
+        repositorioCliente.deleteById(id);
     }
     
 }

@@ -42,7 +42,7 @@ public class Cliente {
     @Column(name = "direccion")
     private String direccion;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.REMOVE)
     private Coordenada coordenadas;
 
     @OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL, orphanRemoval = true)
