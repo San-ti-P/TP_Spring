@@ -1,0 +1,182 @@
+Instrucciones POSTMAN:
+
+===========================================================================
+
+Crear Cliente (POST)
+http://localhost:8080/clientes/api
+
+{
+    "nombre": "Juan Pérez",
+    "direccion": "Defensa 6945",
+    "cuit": "20-11222333-4",
+    "email": "juanperez@gmail.com",
+    "lat": 99.99,
+    "lng": -99.99
+}
+
+Modificar Cliente (PUT)
+http://localhost:8080/clientes/api/5
+
+{
+    "nombre": "Diego Zampedri",
+    "direccion": "Nueva Calle 123456",
+    "cuit": "20-99999999",
+    "email": "diego_zampedri_nuevo@gmail.com",
+    "lat": 111.11,
+    "lng": 222.22
+}
+
+Buscar Clientes (GET)
+http://localhost:8080/clientes/api
+
+Buscar Cliente ID (GET)
+http://localhost:8080/clientes/api/1
+
+Eliminar Cliente (DELETE)
+http://localhost:8080/clientes/api/4
+
+===========================================================================
+
+Crear Vendedor (POST)
+http://localhost:8080/vendedores/api
+
+{
+    "nombre": "Gonzalo Gaitan",
+    "direccion": "Bv Galvez 599",
+    "lat": 50.50,
+    "lng": 49.49
+}
+
+Modificar Vendedor (PUT)
+http://localhost:8080/vendedores/api/5
+
+{
+    "nombre": "Nuevos Sabores del Mundo",
+    "direccion": "Calle Nueva 12345",
+    "lat": 999.99,
+    "lng": 111.11
+}
+
+Buscar Vendedores (GET)
+http://localhost:8080/vendedores/api
+
+Buscar Vendedores ID (GET)
+http://localhost:8080/vendedores/api/2
+
+Eliminar Vendedor (DELETE)
+http://localhost:8080/vendedores/api/7
+
+===========================================================================
+
+Crear ItemMenu (POST)
+http://localhost:8080/items-menu/api
+
+{
+    "tipo" : "PLATO",
+    "nombre" : "Pato a la naranja",
+    "descripcion" : "Pato cocido en reduccion de naranja",
+    "precio" : 5000,
+    "aptoVegano" : false,
+    "categoriaId" : 10,
+    "vendedorId" : 10,
+    "calorias" : 1300,
+    "aptoCeliaco" : true,
+    "peso" : 400,
+    "graduacionAlcoholica" : 0,
+    "tamanio" : 0
+}
+
+Modificar ItemMenu (PUT)
+http://localhost:8080/items-menu/api/17
+
+{
+    "tipo" : "BEBIDA",
+    "nombre" : "Limonada",
+    "descripcion" : "Limonada dulce, 100 por ciento natural",
+    "precio" : 450,
+    "aptoVegano" : true,
+    "categoriaId" : 4,
+    "vendedorId" : 10,
+    "calorias" : 45,
+    "aptoCeliaco" : true,
+    "peso" : 250,
+    "graduacionAlcoholica" : 0,
+    "tamanio" : 300
+}
+
+Buscar ItemsMenu (GET)
+http://localhost:8080/items-menu/api
+
+Buscar ItemMenu ID (GET)
+http://localhost:8080/items-menu/api/5
+
+Eliminar ItemMenu (DELETE)
+http://localhost:8080/items-menu/api/19
+
+===========================================================================
+
+Crear Pedido (POST)
+http://localhost:8080/pedidos/api
+
+{
+  "idVendedor": 1,
+  "idCliente": 1,
+  "items": [
+    {
+      "item": 1,
+      "nombre": "Hamburguesa Clásica",
+      "precio": 1200,
+      "cantidad": 3
+    }
+  ],
+  "estado": "RECIBIDO",
+  "medioDePago": "MERCADOPAGO",
+  "alias": "aliaspruebapostman",
+  "cbu": null,
+  "cuit": null,
+  "total": 1224,
+  "subtotal": 1200
+}
+
+Modificar Pedido (PUT)
+http://localhost:8080/pedidos/api/11
+
+{
+  "idVendedor": 3,
+  "idCliente": 9,
+  "items": [
+    {
+      "id": 17,
+      "item": 3,
+      "nombre": "Ensalada Verde",
+      "precio": 800,
+      "cantidad": 5
+    },
+    {
+      "id": 18,
+      "item": 18,
+      "nombre": "Whisky",
+      "precio": 500,
+      "cantidad": 5
+    }
+  ],
+  "estado": "RECIBIDO",
+  "medioDePago": "MERCADOPAGO",
+  "alias": "aliaspruebapostman",
+  "cbu": null,
+  "cuit": null,
+  "total": 1224,
+  "subtotal": 1200
+}
+
+Buscar Pedidos (GET)
+http://localhost:8080/pedidos/api
+
+Buscar Pedido ID (GET)
+http://localhost:8080/pedidos/api/13
+
+Eliminar Pedido (DELETE)
+http://localhost:8080/pedidos/api/1
+
+
+
