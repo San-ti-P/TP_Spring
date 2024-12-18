@@ -54,7 +54,7 @@
                 <form method="get" th:action="@{/pedidos/nuevo}">
                     <div class="mb-3">
                         <label class="form-label" for="vendedor">Vendedor</label>
-                        <select class="form-select" id="vendedor" name="vendedorId" onchange="this.form.submit()">
+                        <select class="form-select" id="vendedor" name="vendedorId" required onchange="this.form.submit()">
                             <option disabled selected value="">Seleccione un vendedor</option>
                             <option th:each="vendedor : ${vendedores}" th:selected="${vendedor.id == selectedVendedorId}" th:text="${vendedor.nombre}"
                                     th:value="${vendedor.id}"></option>
@@ -62,11 +62,11 @@
                     </div>
                 </form>
                 <form method="post" th:action="@{/pedidos}" th:object="${pedidoDTO}">
-                    <input id="vendedor2" name="vendedor" th:value="${selectedVendedorId}" type="hidden">
+                    <input id="vendedor2" name="idVendedor" th:value="${selectedVendedorId}" type="hidden">
 
                     <div class="mb-3">
                         <label class="form-label" for="cliente">Cliente</label>
-                        <select class="form-select" id="cliente" name="cliente.id">
+                        <select class="form-select" id="cliente" name="idCliente" required>
                             <option disabled selected value="">Seleccione un cliente</option>
                             <option th:each="cliente : ${clientes}" th:text="${cliente.nombre}" th:value="${cliente.id}"></option>
                         </select>

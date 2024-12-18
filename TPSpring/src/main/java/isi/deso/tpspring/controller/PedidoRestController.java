@@ -55,8 +55,8 @@ public class PedidoRestController {
     @ResponseBody
     public ResponseEntity<Pedido> savePedidoApi(@RequestBody PedidoDTO pedidoDTO) throws VendedoresDistintosException {
         Pedido pedido = new Pedido();
-        pedido.setCliente(clienteService.getByIdCliente(pedidoDTO.getCliente().getId()));
-        pedido.setVendedor(vendedorService.getByIdVendedor(pedidoDTO.getVendedor().getId()));
+        pedido.setCliente(clienteService.getByIdCliente(pedidoDTO.getIdCliente()));
+        pedido.setVendedor(vendedorService.getByIdVendedor(pedidoDTO.getIdVendedor()));
         pedido.setEstado(pedidoDTO.getEstado());
 
         List<ItemPedido> items = new ArrayList<>();
@@ -100,10 +100,10 @@ public class PedidoRestController {
     public ResponseEntity<Pedido> updatePedidoApi(@PathVariable Integer id, @RequestBody PedidoDTO pedidoDTO) throws VendedoresDistintosException {
         Pedido pedidoExistente = pedidoService.getByIdPedido(id);
 
-        Vendedor vendedorSeleccionado = vendedorService.getByIdVendedor(pedidoDTO.getVendedor().getId());
+        Vendedor vendedorSeleccionado = vendedorService.getByIdVendedor(pedidoDTO.getIdVendedor());
         pedidoExistente.setVendedor(vendedorSeleccionado);
 
-        pedidoExistente.setCliente(clienteService.getByIdCliente(pedidoDTO.getCliente().getId()));
+        pedidoExistente.setCliente(clienteService.getByIdCliente(pedidoDTO.getIdCliente()));
         pedidoExistente.setEstado(pedidoDTO.getEstado());
         pedidoExistente.setPrecio(pedidoDTO.getSubtotal());
 

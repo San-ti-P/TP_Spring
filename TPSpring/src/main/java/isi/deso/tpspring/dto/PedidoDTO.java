@@ -17,8 +17,10 @@ import java.util.List;
 
 public class PedidoDTO {
     private Integer id;
-    private Vendedor vendedor;
-    private Cliente cliente;
+//    private Vendedor vendedor;
+//    private Cliente cliente;
+    private Integer idVendedor;
+    private Integer idCliente;
     private List<ItemPedidoDTO> items = new ArrayList<>();
     private EstadoPedido estado;
     private String medioDePago;

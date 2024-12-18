@@ -82,8 +82,8 @@ public class PedidoController {
     @PostMapping("/pedidos")
     public String savePedido(@ModelAttribute PedidoDTO pedidoDTO) throws VendedoresDistintosException {
         Pedido pedido = new Pedido();
-        pedido.setCliente(clienteService.getByIdCliente(pedidoDTO.getCliente().getId()));
-        pedido.setVendedor(vendedorService.getByIdVendedor(pedidoDTO.getVendedor().getId()));
+        pedido.setCliente(clienteService.getByIdCliente(pedidoDTO.getIdCliente()));
+        pedido.setVendedor(vendedorService.getByIdVendedor(pedidoDTO.getIdVendedor()));
         pedido.setEstado(pedidoDTO.getEstado());
 
         List<ItemPedido> items = new ArrayList<>();
@@ -130,8 +130,8 @@ public class PedidoController {
         PedidoDTO pedidoDTO = new PedidoDTO();
 
         pedidoDTO.setId(pedido.getId());
-        pedidoDTO.setCliente(pedido.getCliente());
-        pedidoDTO.setVendedor(pedido.getVendedor());
+        pedidoDTO.setIdCliente(pedido.getCliente().getId());
+        pedidoDTO.setIdVendedor(pedido.getVendedor().getId());
         pedidoDTO.setEstado(pedido.getEstado());
 
         List<ItemPedidoDTO> itemsTodos = getItemsVendedor(pedido.getVendedor().getId());
@@ -192,12 +192,21 @@ public class PedidoController {
 
     @PostMapping("/pedidos/{id}")
     public String updatePedido(@PathVariable Integer id, @ModelAttribute PedidoDTO pedidoDTO) throws VendedoresDistintosException {
+
+        if (pedidoDTO.getIdVendedor() == null) {
+            throw new IllegalArgumentException("El ID del vendedor es null");
+        }
+        if (pedidoDTO.getIdCliente() == null) {
+            throw new IllegalArgumentException("El ID del vendedor es null");
+        }
+
+
         Pedido pedidoExistente = pedidoService.getByIdPedido(id);
 
-        Vendedor vendedorSeleccionado = vendedorService.getByIdVendedor(pedidoDTO.getVendedor().getId());
+        Vendedor vendedorSeleccionado = vendedorService.getByIdVendedor(pedidoDTO.getIdVendedor());
         pedidoExistente.setVendedor(vendedorSeleccionado);
 
-        pedidoExistente.setCliente(clienteService.getByIdCliente(pedidoDTO.getCliente().getId()));
+        pedidoExistente.setCliente(clienteService.getByIdCliente(pedidoDTO.getIdCliente()));
         pedidoExistente.setEstado(pedidoDTO.getEstado());
         pedidoExistente.setPrecio(pedidoDTO.getSubtotal());
 

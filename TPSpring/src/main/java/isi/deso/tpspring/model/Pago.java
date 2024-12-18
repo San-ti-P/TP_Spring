@@ -2,9 +2,7 @@ package isi.deso.tpspring.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
-//import java.util.ArrayList;
 import java.util.Date;
-//import java.util.Scanner;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -15,10 +13,10 @@ import lombok.NoArgsConstructor;
 @Entity
 @Table(name = "pago")
 public class Pago {
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id; 
+    private Integer id;
 
     @Column(name = "fecha")
     private Date fecha;
@@ -26,16 +24,15 @@ public class Pago {
     @Column(name = "monto_final")
     private double montoFinal;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "pedido_id")
     @JsonBackReference
     private Pedido pedido;
 
-    @OneToOne
-    @JoinColumn(name = "estrategia_de_pago_id")    
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "estrategia_de_pago_id")
     private EstrategiaDePago estrategia;
 
-    
     public Pago(Date fecha, Pedido pedido, EstrategiaDePago estrategia){
         this.fecha = fecha;
         this.estrategia = estrategia;
